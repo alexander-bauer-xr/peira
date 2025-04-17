@@ -1,12 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Peira Refactor</title>
-</head>
-<body>
-    <h1>Drupal API Content</h1>
+@extends('layouts.app')
 
-    <pre>{{ print_r($data, true) }}</pre>
-</body>
-</html>
+@section('content')
+    <div id="news" class="scrollbarstyle">
+        @foreach ($newsItems as $index => $item)
+            <hr>
+            <div id="news-{{ $index + 1 }}" class="newsitem body-text">
+                <div class="h3-news-container">
+                    <div class="headline">
+                        <h3 class="h3-text">{{ $item->localizedTitle($locale) }}</h3>
+                    </div>
+                    <img
+                        id="news-button-{{ $index + 1 }}"
+                        alt="NavOpen"
+                        src="{{ asset('img/nav/Arrow_open_red.png') }}"
+                        onclick="toggleNewsDetail({{ $index + 1 }})"
+                    >
+                </div>
+
+                <div id="news-detail-{{ $index + 1 }}" class="newsdetail out">
+                    @if ($item->showDate && $item->date)
+                        <div class="date">
+                            {{ \Carbon\Carbon::parse($item->date)->format($item->showTime ? 'd.m. H:i' : 'd.m.') }}
+                        </div>
+                    @endif
+                    <div>{!! $item->localizedBody($locale) !!}</div>
+                </div>
+            </div>
+        @endforeach
+        <hr>
+    </div>
+
+    @include('partials.social-icons')
+
+    <div class="bg">
+        <img id="webpPlayer" src="{{ asset('img/seq/000.webp') }}" alt="Peira Video" style="display: none;">
+        <img src="{{ asset('img/bg.jpg') }}" alt="background" id="bgimg" class="bgimg">
+    </div>
+@endsection
