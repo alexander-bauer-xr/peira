@@ -2385,6 +2385,7 @@ div#load_screen>div#loading {
 #news hr {
 	float: left;
 	width: calc(100% - 70px);
+	margin: 1rem 0;
 }
 
 #slogan {
@@ -2531,6 +2532,7 @@ iframe[src*="youtube.com"]:first-child {
 #news hr {
 	border: 0;
 	border-bottom: 2px solid #fff;
+    opacity: .25;
 }
 
 header {
