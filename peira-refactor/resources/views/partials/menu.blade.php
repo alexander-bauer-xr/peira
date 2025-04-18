@@ -1,4 +1,5 @@
 <div class="close_img">
+    <div id="menu-interaction" ></div>
     <img id="mobileMenu" class="close_img_mobile" src="{{ asset('img/burger-menu.svg') }}" alt="Peira Menu">
     <img id="webpPlayerMenu" class="close_img" src="{{ asset('img/burger-menu.svg') }}" alt="Peira Menu"
         style="display: none;">

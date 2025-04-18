@@ -6,7 +6,7 @@ export default function setupMenu() {
     const clickaway = document.getElementById('clickaway');
     const logoContainer = document.querySelector('.logocontainer');
     const newsSection = document.getElementById('news');
-    const menuToggles = [document.getElementById('mobileMenu'), document.getElementById('webpPlayerMenu')];
+    const menuToggles = [document.getElementById('mobileMenu'), document.getElementById('menu-interaction')];
 
     let isMenuOpen = false;
 

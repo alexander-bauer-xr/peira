@@ -1927,6 +1927,11 @@ div.keeptogether {
 	height: auto;
 }
 
+#menu-interaction {
+	width: 240px;
+    height: 180px;
+}
+
 .close_img_mobile {
 	width: 60px !important;
 	height: auto;
@@ -1937,7 +1942,7 @@ div.keeptogether {
 @media screen and (max-width: 500px) {
 
 	.close_img img,
-	.close_img video {
+	.close_img video, #menu-interaction {
 		display: none;
 	}
 
@@ -1950,7 +1955,7 @@ div.keeptogether {
 @media screen and (min-width: 501px) {
 
 	.close_img img,
-	.close_img video {
+	.close_img video, #menu-interaction {
 		display: block;
 	}
 
@@ -2691,6 +2696,11 @@ header {
 	.close_img video {
 		width: 160px;
 		height: auto;
+	}
+
+	#menu-interaction {
+		width: 160px;
+		height: 120px;
 	}
 
 	.vorangestellt {
