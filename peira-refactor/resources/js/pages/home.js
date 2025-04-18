@@ -1,4 +1,9 @@
+import initNewsletterForm from '../components/newsletter';
+import { insertTransparentVideo } from '../helpers/insertTransparentVideo';
+
+window.subscribenews = initNewsletterForm;
 document.addEventListener('DOMContentLoaded', () => {
+
     // --- News Toggle Logic ---
     document.querySelectorAll('.newsitem').forEach((item) => {
         item.addEventListener('click', () => {
@@ -25,8 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    insertTransparentVideo({
+        containerSelector: '.bg',
+        videoId: 'back_video',
+        videoClass: 'bg_video',
+        fallbackImageId: 'webpPlayer',
+        sources: [
+            { src: 'https://www.peira.space/img/seq/bg.mov', type: 'video/mp4; codecs=hvc1' },
+            { src: 'https://www.peira.space/img/seq/bg.webm', type: 'video/webm' },
+        ],
+    });
+
     // --- Transparent Video Background ---
-    let videoLoadedBG = false;
+    /*let videoLoadedBG = false;
     let videoElementExistsBG = true;
     const fallbackImage = document.getElementById("webpPlayer");
 
@@ -79,5 +95,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 8000);
     } else {
         fallbackImage.style.display = 'block';
-    }
+    }*/
 });

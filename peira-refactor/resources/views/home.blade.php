@@ -10,7 +10,7 @@
                 <hr>
                 <div id="slogan">
                     <h2 class="h3-text white-text">
-                        Kollaboration als machbare Utopie, Kunst als hinterfragende Praxis.
+                        {{ __('content.collaboration') }}
                     </h2>
                 </div>
             </div>
@@ -45,8 +45,7 @@
     </div>
 
     @include('partials.social-icons')
-
-
+    @include('partials.newsletter-form')
 
     <div id="overlay" class="bg">
     </div>
