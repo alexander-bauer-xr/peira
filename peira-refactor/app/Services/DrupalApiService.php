@@ -78,4 +78,14 @@ class DrupalApiService
     {
         return $this->cachedRequest('videos');
     }
+
+    public function getByEndpoint(string $endpoint): array
+    {
+        return $this->cachedRequest($endpoint);
+    }
+
+    public function getById(int $nid): array
+    {
+        return $this->cachedRequest("projekte?nid={$nid}", "api.projekte.nid.{$nid}");
+    }
 }
