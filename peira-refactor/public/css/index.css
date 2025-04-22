@@ -306,7 +306,7 @@ body {
 	color: #000;
 	max-width: 100%;
 	height: 100%;
-	overflow: hidden;
+	overflow-x: hidden;
 	-moz-hyphens: none;
 	-ms-hyphens: none;
 	-webkit-hyphens: none;
@@ -1029,13 +1029,12 @@ blockquote::before {
 	background-size: cover;
 	opacity: 1;
 	position: fixed;
-	z-index: 50;
 	top: 0px;
 	width: 100%;
 	height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
-	z-index: 100;
+	z-index: -1;
 }
 
 .loadingcontainer {
@@ -1405,9 +1404,12 @@ a:hover {
 .logosocialicons {
 	position: fixed;
 	left: 9px;
-	bottom: 264px;
+	bottom: 204px;
 	width: 25px;
-	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .logosocialicons div {
@@ -1456,17 +1458,13 @@ a:hover {
 	cursor: pointer
 }
 
-.logoicon {
-	left: -22px;
-	bottom: -55px;
-	-webkit-transform: rotate(-90deg);
-	-moz-transform: rotate(-90deg);
-	-ms-transform: rotate(-90deg);
-	-o-transform: rotate(-90deg);
-	transform: rotate(-90deg);
-	height: 25px;
-	position: absolute;
+#logo-social {
+	width: 60px;
 	cursor: pointer;
+}
+
+.logoicon {
+	transform: rotate(-90deg) translateX(-25px);
 }
 
 strong {
@@ -1929,7 +1927,7 @@ div.keeptogether {
 
 #menu-interaction {
 	width: 240px;
-    height: 180px;
+	height: 180px;
 }
 
 .close_img_mobile {
@@ -1942,7 +1940,8 @@ div.keeptogether {
 @media screen and (max-width: 500px) {
 
 	.close_img img,
-	.close_img video, #menu-interaction {
+	.close_img video,
+	#menu-interaction {
 		display: none;
 	}
 
@@ -1955,8 +1954,17 @@ div.keeptogether {
 @media screen and (min-width: 501px) {
 
 	.close_img img,
-	.close_img video, #menu-interaction {
+	.close_img video {
 		display: block;
+	}
+
+	#menu-interaction {
+		display: flex;
+		align-content: center;
+		justify-content: center;
+		align-items: center;
+		z-index: 90000;
+		position: relative;
 	}
 
 	.close_img_mobile {
@@ -2533,7 +2541,7 @@ iframe[src*="youtube.com"]:first-child {
 #news hr {
 	border: 0;
 	border-bottom: 2px solid #fff;
-    opacity: .25;
+	opacity: .25;
 }
 
 header {
@@ -2685,7 +2693,7 @@ header {
 		right: 0px;
 		top: 0px;
 		z-index: 180;
-		width: 60px;
+		width: 160px;
 	}
 
 	.close_img img {
@@ -3024,4 +3032,8 @@ header {
 
 .d-none {
 	display: none !important
+}
+
+.bottom-spacer {
+	height:1rem;
 }

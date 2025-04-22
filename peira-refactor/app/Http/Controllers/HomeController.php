@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index(DrupalApiService $drupal, $locale = 'de')
     {
-        app()->setLocale($locale); // sets current app locale
+        app()->setLocale($locale);
 
         $newsRaw = $drupal->getNews();
 
