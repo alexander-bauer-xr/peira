@@ -1,5 +1,5 @@
 <div class="close_img">
-    <div id="menu-interaction" ></div>
+    <div id="menu-interaction"><h4>Menu</h4></div>
     <img id="mobileMenu" class="close_img_mobile" src="{{ asset('img/burger-menu.svg') }}" alt="Peira Menu">
     <img id="webpPlayerMenu" class="close_img" src="{{ asset('img/burger-menu.svg') }}" alt="Peira Menu"
         style="display: none;">
@@ -15,30 +15,38 @@
     </svg>
 </div>
 
+@php
+    $locale = app()->getLocale();
+    $currentPath = request()->path();
+    $strippedPath = Str::after($currentPath, $locale . '/');
+@endphp
+
 <div id="menu" class="menucontainer">
     <div id="menuitem1" class="menuitem">
-        <a href="{{ url('/projekte') }}">{{ __('navigation.projekte') }}</a>
+        <a href="/{{ $locale }}/projekte">{{ __('navigation.projekte') }}</a>
     </div>
 
     <div id="menuitem2" class="menuitem">
-        <a href="{{ url('/über-uns') }}">{{ __('navigation.ueber_uns') }}</a>
+        <a href="/{{ $locale }}/über-uns">{{ __('navigation.ueber_uns') }}</a>
     </div>
 
     <div id="menuitem3" class="menuitem">
-        <a href="{{ url('/über-uns?sinfo=2') }}">{{ __('navigation.kontakt') }}</a>
+        <a href="/{{ $locale }}/über-uns?sinfo=2">{{ __('navigation.kontakt') }}</a>
     </div>
 
-    @php $locale = app()->getLocale(); @endphp
-
+    {{-- Language switch --}}
     <div id="menuitem4" class="menuitem {{ $locale === 'de' ? 'activelink' : '' }}">
-        <a href="{{ route('home', ['locale' => 'de']) }}">DE</a>
+        <a href="/de/{{ $strippedPath }}">{{ __('DE') }}</a>
     </div>
     <div id="menuitem5" class="menuitem {{ $locale === 'en' ? 'activelink' : '' }}">
-        <a href="{{ route('home', ['locale' => 'en']) }}">EN</a>
+        <a href="/en/{{ $strippedPath }}">{{ __('EN') }}</a>
+    </div>
+    <div id="menuitemclose" class="menuitem">
+            <img id="close_img" src="{{ asset('img/nav/close.svg') }}" alt="Peira Close Menu">
     </div>
 
     <div id="menuitem6" class="menuitem">
-        <a href="{{ url('/') }}">
+        <a href="/{{ $locale }}">
             <img id="logo" src="{{ asset('img/peira-w.svg') }}" alt="logo" class="logo">
         </a>
     </div>

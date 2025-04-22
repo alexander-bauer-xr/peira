@@ -4,11 +4,36 @@ export default function setupMenu() {
     const menu = document.getElementById('menu');
     const menuSvg = document.getElementById('menusvg');
     const clickaway = document.getElementById('clickaway');
+    const mobileCloseMenu = document.getElementById('menuitemclose');
     const logoContainer = document.querySelector('.logocontainer');
     const newsSection = document.getElementById('news');
     const menuToggles = [document.getElementById('mobileMenu'), document.getElementById('menu-interaction')];
 
     let isMenuOpen = false;
+
+    function toggleSvgAnimation(isOpening) {
+        const isBigScreen = window.innerWidth > 500;
+
+        const classes = isBigScreen
+            ? ['appear', 'disappear']
+            : ['appear-small', 'disappear-small'];
+
+        menuSvg.classList.remove(classes[isOpening ? 1 : 0]);
+        menuSvg.classList.add(classes[isOpening ? 0 : 1]);
+    }
+
+    function resetSvgAnimationClasses() {
+        if (menuSvg && menu) {
+            menuSvg.classList.remove('appear', 'disappear', 'appear-small', 'disappear-small');
+            menuSvg.classList.remove('appeardelayed');
+        }
+    }
+
+    function toggleContentVisibility(hide) {
+        const displayValue = hide ? 'none' : '';
+        if (logoContainer) logoContainer.style.display = displayValue;
+        if (newsSection) newsSection.style.display = displayValue;
+    }
 
     function openMenu(event) {
         event.preventDefault();
@@ -19,12 +44,10 @@ export default function setupMenu() {
         menu.classList.remove('disappeardelayed');
         menu.classList.add('appeardelayed');
 
-        menuSvg.classList.remove('disappear');
-        menuSvg.classList.add('appear');
+        toggleSvgAnimation(true);
 
         if (window.innerHeight < 700 && window.innerWidth < 800) {
-            if (logoContainer) logoContainer.style.display = 'none';
-            if (newsSection) newsSection.style.display = 'none';
+            toggleContentVisibility(true);
         }
 
         if (clickaway) clickaway.style.display = 'block';
@@ -36,12 +59,10 @@ export default function setupMenu() {
         menu.classList.remove('appeardelayed');
         menu.classList.add('disappeardelayed');
 
-        menuSvg.classList.remove('appear');
-        menuSvg.classList.add('disappear');
+        toggleSvgAnimation(false);
 
         if (clickaway) clickaway.style.display = 'none';
-        if (logoContainer) logoContainer.style.display = '';
-        if (newsSection) newsSection.style.display = '';
+        toggleContentVisibility(false);
     }
 
     menuToggles.forEach(button => {
@@ -49,6 +70,27 @@ export default function setupMenu() {
     });
 
     if (clickaway) clickaway.addEventListener('click', closeMenu);
+    if (mobileCloseMenu) mobileCloseMenu.addEventListener('click', closeMenu);
+
+    let svgResetTimeout;
+
+    window.addEventListener('resize', () => {
+        if (menuSvg && menu) {
+            menuSvg.classList.add('hidden');
+            menu.classList.add('hidden');
+        }
+
+        if (isMenuOpen) closeMenu();
+        resetSvgAnimationClasses();
+
+        clearTimeout(svgResetTimeout);
+        svgResetTimeout = setTimeout(() => {
+            if (menuSvg && menu) {
+                menuSvg.classList.remove('hidden');
+                menu.classList.remove('hidden', 'disappeardelayed');
+            }
+        }, 1500);
+    });
 
     insertTransparentVideo({
         containerSelector: '.close_img',
