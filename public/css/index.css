@@ -711,6 +711,7 @@ blockquote::before {
 	grid-auto-flow: dense;
 	float: left;
 	margin-top: 15px;
+	margin-bottom: 2rem;
 	min-height: 400px;
 }
 

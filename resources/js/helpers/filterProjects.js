@@ -3,6 +3,8 @@ let tagIndex = new Map();
 let tagMap = new Map();
 let isLoading = false;
 let abortController = new AbortController();
+let htmlContent = "";
+const totalFilterNumber = document.querySelectorAll('.buttonsinfofilter').length - 1;
 
 const locale = document.documentElement.lang || 'de';
 
@@ -31,7 +33,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     });
 
-    renderPlaceholder();
+    htmlContent = document.getElementById("projectgrid")?.innerHTML || "";
+    totalFilterNumber = document.querySelectorAll('.buttonsinfofilter').length - 1;
   } catch (err) {
     console.error("Failed to load data:", err);
   }
@@ -63,8 +66,13 @@ function handleButtonClick(event) {
   if (selectedIds.length === 0) {
     renderPlaceholder();
   } else {
-    showLoadingCard();
-    filterAndRender(selectedIds);
+    if (selectedIds.length === totalFilterNumber) {
+      document.getElementById("projectgrid").innerHTML = htmlContent;
+    } else {
+      showLoadingCard();
+      filterAndRender(selectedIds);
+    }
+
   }
 }
 
@@ -78,16 +86,30 @@ function showLoadingCard() {
 }
 
 function filterAndRender(tagIds) {
-  const matched = new Set();
+  const matchedIds = new Set();
 
   tagIds.forEach(id => {
     const matches = tagIndex.get(parseInt(id)) || [];
-    matches.forEach(p => matched.add(p));
+    matches.forEach(p => {
+      if (p.nid?.[0]?.value) {
+        matchedIds.add(p.nid[0].value);
+      }
+    });
   });
 
-  const filteredProjects = Array.from(matched);
+  const filteredProjects = allProjects
+    .filter(p => matchedIds.has(p.nid?.[0]?.value));
 
-  const sorted = filteredProjects.sort((a, b) => {
+  // Remove duplicates by nid
+  const seen = new Set();
+  const uniqueProjects = filteredProjects.filter(p => {
+    const nid = p.nid?.[0]?.value;
+    if (seen.has(nid)) return false;
+    seen.add(nid);
+    return true;
+  });
+
+  const sorted = uniqueProjects.sort((a, b) => {
     const yA = new Date(a.field_jahr_der_?.[0]?.value || 0);
     const yB = new Date(b.field_jahr_der_?.[0]?.value || 0);
     return yB - yA;
@@ -141,3 +163,24 @@ function renderProjects(projects) {
 document.querySelectorAll('.marked').forEach(btn => {
   btn.addEventListener("click", handleButtonClick);
 });
+
+function toggleFilterList() {
+  const filterButton = document.getElementById('filterbtn');
+  const filterList = document.getElementById('listoffilters');
+  const arrowImg = document.getElementById('arrowimg');
+
+  filterList.classList.toggle('hidden');
+
+  if (filterList.classList.contains('hidden')) {
+    arrowImg.src = '/img/rotpfeil.png';
+    filterButton.classList.add('notactiveb');
+    filterButton.classList.remove('activeb');
+  } else {
+    arrowImg.src = '/img/weisspfeil.png';
+    filterButton.classList.remove('notactiveb');
+    filterButton.classList.add('activeb');
+  }
+}
+
+const filterBtn = document.getElementById('filterbtn');
+filterBtn?.addEventListener('click', toggleFilterList);
