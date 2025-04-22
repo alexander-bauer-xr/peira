@@ -17,13 +17,13 @@
 
 @php
     $locale = app()->getLocale();
-    $currentPath = request()->path();
-    $strippedPath = Str::after($currentPath, $locale . '/');
+    $currentRoute = Route::currentRouteName();
+    $currentParams = request()->route()->parameters();
 @endphp
 
 <div id="menu" class="menucontainer">
     <div id="menuitem1" class="menuitem">
-        <a href="/{{ $locale }}/projekte">{{ __('navigation.projekte') }}</a>
+        <a href="{{ route('projects.index', ['locale' => $locale]) }}">{{ __('navigation.projekte') }}</a>
     </div>
 
     <div id="menuitem2" class="menuitem">
@@ -34,19 +34,20 @@
         <a href="/{{ $locale }}/über-uns?sinfo=2">{{ __('navigation.kontakt') }}</a>
     </div>
 
-    {{-- Language switch --}}
+    {{-- Language Switch --}}
     <div id="menuitem4" class="menuitem {{ $locale === 'de' ? 'activelink' : '' }}">
-        <a href="/de/{{ $strippedPath }}">{{ __('DE') }}</a>
+        <a href="{{ route($currentRoute, ['locale' => 'de'] + $currentParams) }}">DE</a>
     </div>
+
     <div id="menuitem5" class="menuitem {{ $locale === 'en' ? 'activelink' : '' }}">
-        <a href="/en/{{ $strippedPath }}">{{ __('EN') }}</a>
+        <a href="{{ route($currentRoute, ['locale' => 'en'] + $currentParams) }}">EN</a>
     </div>
     <div id="menuitemclose" class="menuitem">
             <img id="close_img" src="{{ asset('img/nav/close.svg') }}" alt="Peira Close Menu">
     </div>
 
     <div id="menuitem6" class="menuitem">
-        <a href="/{{ $locale }}">
+        <a href="{{ route('home', ['locale' => $locale]) }}">
             <img id="logo" src="{{ asset('img/peira-w.svg') }}" alt="logo" class="logo">
         </a>
     </div>
