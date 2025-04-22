@@ -4,7 +4,7 @@ let tagMap = new Map();
 let isLoading = false;
 let abortController = new AbortController();
 let htmlContent = "";
-const totalFilterNumber = document.querySelectorAll('.buttonsinfofilter').length - 1;
+let totalFilterNumber = 0;
 
 const locale = document.documentElement.lang || 'de';
 
@@ -100,7 +100,6 @@ function filterAndRender(tagIds) {
   const filteredProjects = allProjects
     .filter(p => matchedIds.has(p.nid?.[0]?.value));
 
-  // Remove duplicates by nid
   const seen = new Set();
   const uniqueProjects = filteredProjects.filter(p => {
     const nid = p.nid?.[0]?.value;
@@ -125,7 +124,10 @@ function renderProjects(projects) {
   container.innerHTML = "";
 
   projects.forEach(project => {
-    const title = project.title?.[0]?.value || "Untitled";
+    const title = locale === 'en'
+  ? project.field_titel_projekt_en?.[0]?.value || project.title?.[0]?.value || "Untitled"
+  : project.title?.[0]?.value || "Untitled";
+
     const year = project.field_jahr_der_?.[0]?.value ? new Date(project.field_jahr_der_[0].value).getFullYear() : "";
     const image = project.field_titel?.[0]?.url || "/img/default.jpg";
     const tags = (project.field_tags || [])
