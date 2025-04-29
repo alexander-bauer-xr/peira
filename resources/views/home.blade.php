@@ -15,6 +15,7 @@
                 </div>
             </div>
 
+            <div id="newslink">News</div>
 
             {{-- News Section --}}
             <div id="news" class="scrollbarstyle">
@@ -40,6 +41,7 @@
                     </div>
                 @endforeach
             </div>
+            <a href="/{{ $locale }}/news-archive" class="archive_link">{{ __('content.archiv_link') }}</a>
         </div>
     </div>
 
