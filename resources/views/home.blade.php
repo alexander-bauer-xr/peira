@@ -41,7 +41,7 @@
                     </div>
                 @endforeach
             </div>
-            <a href="/{{ $locale }}/news-archive" class="archive_link">{{ __('content.archiv_link') }}</a>
+            <a href="/{{ $locale }}/news-archiv" class="archive_link">{{ __('content.archiv_link') }}</a>
         </div>
     </div>
 
