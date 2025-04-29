@@ -62,10 +62,10 @@ export default function subscribenews() {
         }
     };
 
-    fetch('/web/session/token')
+    fetch('https://peira.space/web/session/token')
         .then(res => res.text())
         .then(token => {
-            return fetch('/web/api/json/node/newsletteranmeldung', {
+            return fetch('https://peira.space/web/api/json/node/newsletteranmeldung', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/vnd.api+json',
