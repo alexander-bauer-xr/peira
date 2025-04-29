@@ -27,4 +27,5 @@ return [
     'projects_in_series' => 'Projects in this series:',
     'contributors' => 'Contributors',
     'more' => 'more',
+    'archiv_link' => 'click here for the archive',
 ];

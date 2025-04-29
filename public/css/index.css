@@ -176,10 +176,11 @@ table {
 	height: 450px;
 	width: 400px;
 	z-index: 199;
+	right: 0;
 }
 
 .beginright {
-	right: -100%;
+	transform: translateX(100%);
 }
 
 #arrowforw:hover .arrowforw {
@@ -292,26 +293,27 @@ table {
 	font-style: lighter;
 	font-display: swap;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
 
 body {
-	font-family: 'davidlight';
-	font-size: 16px;
-	-moz-font-feature-settings: "liga", "kern";
-	font-feature-settings: "liga", "kern";
-	text-rendering: optimizelegibility;
-	-webkit-text-size-adjust: 100%;
-	width: 100%;
-	margin: 0px;
-	padding: 0px;
-	color: #000;
-	max-width: 100%;
-	height: 100%;
-	overflow-x: hidden;
-	-moz-hyphens: none;
-	-ms-hyphens: none;
-	-webkit-hyphens: none;
-	hyphens: none;
-	background: #fff;
+    font-family: 'davidlight';
+    font-size: 16px;
+    -moz-font-feature-settings: "liga", "kern";
+    font-feature-settings: "liga", "kern";
+    text-rendering: optimizelegibility;
+    -webkit-text-size-adjust: 100%;
+    color: #000;
+    background: #fff;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    -webkit-hyphens: none;
+    hyphens: none;
 }
 
 /*Beginn Projektansicht*/
@@ -967,7 +969,7 @@ blockquote::before {
 
 	.appear-small {
 		animation: scaleup 0.8s forwards, appear 0.8s !important;
-		right: 0;
+		transform: translateX(0%);
 	}
 
 	.disappear-small {
@@ -2300,7 +2302,7 @@ div#load_screen>div#loading {
 
 .appear {
 	animation: appear 0.8s;
-	right: 0%;
+	transform: translateX(0%);
 }
 
 .disappeardelayed {
@@ -2326,11 +2328,11 @@ div#load_screen>div#loading {
 
 @keyframes appear {
 	0% {
-		right: -100%;
+		transform: translateX(100%);
 	}
 
 	100% {
-		right: 0%;
+		transform: translateX(0%);
 	}
 }
 
@@ -2356,11 +2358,11 @@ div#load_screen>div#loading {
 
 @keyframes disappear {
 	0% {
-		right: 0%;
+		transform: translateX(0%);
 	}
 
 	100% {
-		right: -100%;
+		transform: translateX(100%);
 	}
 }
 
@@ -2430,13 +2432,24 @@ div#load_screen>div#loading {
 #news {
 	position: fixed;
 	left: calc(50% - 240px);
-	bottom: 2rem;
+	bottom: calc(2rem + 40px);
 	width: 500px;
 	overflow-x: visible;
 	overflow-y: auto;
-	max-height: 313px;
+	max-height: 205px;
 	cursor: pointer;
 	z-index: 5;
+}
+
+.archive_link {
+	position: fixed;
+	left: calc(50% - 240px);
+	bottom: 2rem;
+	font-family: 'davidlight';
+    font-size: var(--font-size-6);
+    font-weight: bold;
+	padding-left:7px;
+	text-decoration: underline;
 }
 
 #news::before {
@@ -2863,9 +2876,17 @@ header {
 		left: 0px;
 		right: unset;
 		width: unset;
-		bottom: 50px;
+		max-height:500px;
+		bottom: 90px;
 		margin: 1rem;
 	}
+
+	.archive_link {
+		bottom:60px;
+		left:0px;
+		margin:1rem;
+	}
+
 }
 
 .emailregister {

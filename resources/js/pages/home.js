@@ -30,6 +30,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    document.getElementById('newslink').addEventListener('click', function (e) {
+        const news = document.getElementById('news');
+        const logo = document.querySelector('.logocontainer');
+        const email = document.querySelector('.emailregister');
+        const newslink = document.getElementById('newslink');
+
+        [news, logo, email].forEach(el => {
+            if (el) {
+                el.style.display = (el.style.display === 'none' || getComputedStyle(el).display === 'none') ? 'block' : 'none';
+            }
+        });
+
+        if (news && getComputedStyle(news).display !== 'none') {
+            newslink.innerHTML = "Peira";
+        } else {
+            newslink.innerHTML = "News";
+        }
+
+        if (typeof menu !== "undefined" && menu === true) {
+            const menuEl = document.getElementById('menu');
+            const menusvg = document.getElementById('menusvg');
+
+            if (menuEl) {
+                menuEl.classList.remove('appeardelayed');
+                menuEl.classList.add('disappeardelayed');
+            }
+            if (menusvg) {
+                menusvg.classList.remove('beginright', 'appear');
+                menusvg.classList.add('disappear');
+            }
+
+            menu = false;
+        }
+    });
+
+    function handleResize() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+      
+        const logo = document.querySelector('.logocontainer');
+        const news = document.getElementById('news');
+        const email = document.querySelector('.emailregister')
+      
+        if (width < 670 && height < 700) {
+          if (logo) logo.style.display = 'none';
+          if (news) news.style.display = 'none';
+        } else {
+          if (logo) logo.style.display = '';
+          if (news) news.style.display = '';
+          if(email) email.style.display = '';
+        }
+      }
+      
+      handleResize();
+      
+      window.addEventListener('resize', handleResize);      
+
     insertTransparentVideo({
         containerSelector: '.bg',
         videoId: 'back_video',
