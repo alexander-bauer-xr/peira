@@ -19,7 +19,7 @@
             class="social-icons-sub">
     </div>
     <div id="logo-social">
-        <img onclick="window.location = '{{ 'https://www.peira.space/' }}';" src="{{ asset('img/peira.svg') }}"
+        <img onclick="window.location = '{{ '/' }}';" src="{{ asset('img/peira.svg') }}"
             alt="logo" class="logoicon">
     </div>
 </div>
