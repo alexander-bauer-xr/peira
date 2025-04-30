@@ -21,6 +21,8 @@ class ProjectItem
         public bool $darkText = false,
         public string $style = '',
         public string $lang = 'de',
+        public array $raw = [],
+        public array $images = [],
     ) {
     }
 
@@ -48,12 +50,19 @@ class ProjectItem
             darkText: filter_var($get('field_schwarzertext'), FILTER_VALIDATE_BOOLEAN),
             style: $get('field_projektstil') ?? '',
             lang: $get('langcode') ?? 'de',
-        );
+            raw: $item,
+            images: $item['field_fotostrecke'] ?? [], 
+        );        
     }
 
     public function slug(): string
     {
         return Str::slug($this->title);
+    }
+
+    public function url(string $locale): string
+    {
+        return '/' . $locale . '/projekte/' . $this->slug();
     }
 
     public function localizedTitle(string $locale): string
@@ -73,7 +82,12 @@ class ProjectItem
 
     public function tagLabels(string $locale): array
     {
-        $tags = app(\App\Services\DrupalApiService::class)->getTags();
+        $tags = app(DrupalApiService::class)->getTags();
         return TagHelper::labels($tags, $this->tags, $locale);
     }
+    public function images(): array
+    {
+        return $this->raw['field_fotostrecke'] ?? [];
+    }    
+
 }

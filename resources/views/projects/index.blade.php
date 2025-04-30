@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="subpage" class="sub_page_proj scrollbarstyle displayblock">
-    </div>
+    <div id="subpage" class="sub_page_proj">
+
 
         @include('partials.social-icons-sub')
         <div class="inner_container_vor">
@@ -44,9 +44,7 @@
                 @endforeach
             </div>
         </div>
-    <div class="bottom-spacer"></div>
-
-    @include('partials.newsletter-form')
+    </div>
 
     @push('scripts')
         @vite('resources/js/helpers/filterProjects.js')

@@ -20,6 +20,7 @@
         @yield('content')
     </main>
 
+    @include('partials.newsletter-form')
     @stack('scripts')
 </body>
 

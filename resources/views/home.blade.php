@@ -46,7 +46,6 @@
     </div>
 
     @include('partials.social-icons')
-    @include('partials.newsletter-form')
 
     <div id="overlay" class="bg">
     </div>

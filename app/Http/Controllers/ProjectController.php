@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Data\MetaData;
 use App\Data\ReihungItem;
+use App\Data\ProjectItem;
 use App\Services\DrupalApiService;
 use Illuminate\Support\Collection;
 
@@ -17,9 +18,8 @@ class ProjectController extends Controller
             ? $drupal->getReihungEn()
             : $drupal->getReihung();
 
-        /** @var Collection<int, \App\Data\ReihungItem> $reihenfolge */
         $reihenfolge = collect($reihungRaw)->map(
-            fn($item) => \App\Data\ReihungItem::fromDrupal($item)
+            fn($item) => ReihungItem::fromDrupal($item)
         );
 
         $tags = $drupal->getTags();
@@ -38,15 +38,30 @@ class ProjectController extends Controller
             'meta' => $meta,
         ]);
     }
-
-    public function show($slug, DrupalApiService $drupal, $locale = 'de')
+    public function show($locale, $slug, DrupalApiService $drupal)
     {
         app()->setLocale($locale);
-
-        // Projekt anhand Slug später hier abrufen
+    
+        $projects = collect($drupal->getProjekte())
+            ->map(fn($item) => ProjectItem::fromDrupal($item));
+    
+        $project = $projects->first(fn(ProjectItem $p) => trim($p->slug()) === trim($slug));
+    
+        if (!$project) {
+            abort(404);
+        }
+    
+        $meta = new MetaData(
+            title: 'Peira - ' . $project->title,
+            titleEn: 'Peira - ' . ($project->titleEn ?? $project->title),
+            description: 'Ein Projekt von Peira: ' . $project->title,
+            descriptionEn: 'A project by Peira: ' . ($project->titleEn ?? $project->title)
+        );
+    
         return view('projects.show', [
-            'slug' => $slug,
+            'project' => $project,
             'locale' => $locale,
+            'meta' => $meta,
         ]);
-    }
+    }    
 }
