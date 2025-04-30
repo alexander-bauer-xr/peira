@@ -316,6 +316,7 @@ body {
 	-ms-hyphens: none;
 	-webkit-hyphens: none;
 	hyphens: none;
+	overflow:hidden;
 }
 
 /*Beginn Projektansicht*/
@@ -336,7 +337,10 @@ blockquote {
 	margin-bottom: 2rem;
 	line-height: 150%;
 	text-indent: 42px;
-	/* Indent for the first line */
+}
+
+a {
+	text-decoration: underline;
 }
 
 #copyright {
@@ -349,12 +353,10 @@ blockquote {
 	z-index: 50;
 	font-size: 0.8rem;
 	text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
-	/* Set the text shadow with offsets to create the outline effect */
 }
 
 blockquote p {
 	margin-bottom: 10px !important;
-	/* to remove the gap between the last line and the quotes */
 }
 
 blockquote::before {
@@ -3085,4 +3087,10 @@ header {
 article {
 	margin-bottom:96px;
 	max-width:64ch;
+}
+
+.nav-flex {
+	display: flex;
+	flex-direction: row;
+	gap:5px;
 }
