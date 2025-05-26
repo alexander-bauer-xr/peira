@@ -25,10 +25,34 @@
             @endif
 
 
+            <div class="infosprojects">
+                @if ($project->yearFormatted())
 
-            @if ($project->yearFormatted())
-                <p><strong>Year:</strong> {{ $project->yearFormatted() }}</p>
-            @endif
+                    <div class="termine">
+                        <div class="newshead small-text">{{ __('content.published') }}</div>
+                    </div>
+                    <span>{{ $project->yearAndPlace() }}</span>
+
+                @endif
+
+                @php $dates = $project->dates(); @endphp
+
+                @if ($project->dates())
+                    <div class="termine">
+                        <div class="newshead small-text">{{ __('content.dates') }}</div>
+
+                        @foreach ($project->dates() as $date)
+                            <div class="termin">
+                                <div class="dateproject body-text">{{ $date->formattedDates }}</div>
+                                <div class="titelproject body-text-bold">{{ $date->localizedTitle($locale) }}</div>
+                                <div class="ortproject body-text">{!! $date->place->asHtmlLink() !!}</div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+
+
+            </div>
 
             @if (!empty($project->tags))
                 <div class="projecttagsandsocial">

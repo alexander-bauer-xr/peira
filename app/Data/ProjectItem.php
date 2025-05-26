@@ -23,6 +23,7 @@ class ProjectItem
         public string $lang = 'de',
         public array $raw = [],
         public array $images = [],
+        public string $place = '',
     ) {
     }
 
@@ -51,8 +52,9 @@ class ProjectItem
             style: $get('field_projektstil') ?? '',
             lang: $get('langcode') ?? 'de',
             raw: $item,
-            images: $item['field_fotostrecke'] ?? [], 
-        );        
+            images: $item['field_fotostrecke'] ?? [],
+            place: $item['field_ort'][0]['value'] ?? '',
+        );
     }
 
     public function slug(): string
@@ -80,14 +82,65 @@ class ProjectItem
         return $this->year ? date('Y', strtotime($this->year)) : null;
     }
 
+    public function yearAndPlace(): string
+    {
+        $year = $this->yearFormatted();
+        return $year ? ($this->place ? "$year, $this->place" : $year) : $this->place;
+    }
+
     public function tagLabels(string $locale): array
     {
         $tags = app(DrupalApiService::class)->getTags();
         return TagHelper::labels($tags, $this->tags, $locale);
     }
+
     public function images(): array
     {
         return $this->raw['field_fotostrecke'] ?? [];
-    }    
+    }
 
+    public function dates(): array
+    {
+        $api = app(\App\Services\DrupalApiService::class);
+
+        $termineData = $api->getTermine();
+
+        $coproList = collect($api->getFoerdererUndKoproduzenten())
+            ->mapWithKeys(fn($p) => [
+                strval($p['nid'][0]['value']) => CoProducerItem::fromDrupal($p)
+            ]);
+
+        return collect($this->raw['field_termine'] ?? [])
+            ->pluck('target_id')   
+            ->map(function ($terminNid) use ($termineData, $coproList, $api) {
+
+                $termin = collect($termineData)
+                    ->first(fn($t) => ($t['nid'][0]['value'] ?? null) == $terminNid);
+
+                if (!$termin) {
+                    return null;    
+                }
+
+                $placeId = $termin['field_veranstaltungsort'][0]['target_id'] ?? null;
+
+                $place = $placeId
+                    ? (
+                        $coproList->get(strval($placeId))
+                        ?? optional(
+                            $api->getFoerdererUndKoproduzentByNid($placeId),
+                            fn($raw) =>
+                            $coproList[strval($placeId)] = CoProducerItem::fromDrupal($raw)
+                        )
+                    )
+                    : null;
+
+                return TermineItem::fromDrupal(
+                    $termin,
+                    $place ?? new CoProducerItem('', 'TBA')
+                );
+            })
+            ->filter() 
+            ->values()
+            ->all();
+    }
 }

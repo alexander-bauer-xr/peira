@@ -23,6 +23,14 @@ class DrupalApiService
     {
         return $this->cachedRequest('foerdererkoproduzenten');
     }
+    public function getFoerdererUndKoproduzentByNid(int $nid): ?array
+    {
+        return $this->cachedRequest(
+            "foerdererkoproduzenten?nid={$nid}",
+            "api.foerderer.nid.{$nid}",
+            60        
+        )[0] ?? null; 
+    }
 
     public function getInfos(): array
     {
