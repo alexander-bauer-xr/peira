@@ -5,6 +5,7 @@ namespace App\Data;
 use Illuminate\Support\Str;
 use App\Services\DrupalApiService;
 use App\Services\TagHelper;
+use App\Services\DrupalApi;
 
 class ProjectItem
 {
@@ -29,8 +30,6 @@ class ProjectItem
 
     public static function fromDrupal(array $item, string $locale = 'de'): self
     {
-        $get = fn(string $key, string $subkey = 'value') => $item[$key][0][$subkey] ?? null;
-
         $tags = [];
         if (!empty($item['field_tags'])) {
             foreach ($item['field_tags'] as $tag) {
@@ -39,21 +38,21 @@ class ProjectItem
         }
 
         return new self(
-            id: $get('nid'),
-            title: $get('title'),
-            titleEn: $get('field_titel_projekt_en'),
-            bodyHtml: $item['body'][0]['processed'] ?? null,
-            bodyHtmlEn: $item['field_bodyenglish'][0]['processed'] ?? null,
-            year: $get('field_jahr_der_'),
-            imageUrl: $item['field_titel'][0]['url'] ?? null,
+            id: DrupalApi::get($item, 'nid'),
+            title: DrupalApi::get($item, 'title'),
+            titleEn: DrupalApi::get($item, 'field_titel_projekt_en'),
+            bodyHtml: DrupalApi::getProcessed($item, 'body'),
+            bodyHtmlEn: DrupalApi::getProcessed($item, 'field_bodyenglish'),
+            year: DrupalApi::get($item, 'field_jahr_der_'),
+            imageUrl: DrupalApi::get($item, 'field_titel', 'url'),
             tags: $tags,
-            overlay: filter_var($get('field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
-            darkText: filter_var($get('field_schwarzertext'), FILTER_VALIDATE_BOOLEAN),
-            style: $get('field_projektstil') ?? '',
-            lang: $get('langcode') ?? 'de',
+            overlay: filter_var(DrupalApi::get($item, 'field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
+            darkText: filter_var(DrupalApi::get($item, 'field_schwarzertext'), FILTER_VALIDATE_BOOLEAN),
+            style: DrupalApi::get($item, 'field_projektstil') ?? '',
+            lang: DrupalApi::get($item, 'langcode') ?? 'de',
             raw: $item,
-            images: $item['field_fotostrecke'] ?? [],
-            place: $item['field_ort'][0]['value'] ?? '',
+            images: DrupalApi::getArray($item, 'field_fotostrecke'),
+            place: DrupalApi::get($item, 'field_ort') ?? '',
         );
     }
 
@@ -94,6 +93,26 @@ class ProjectItem
         return TagHelper::labels($tags, $this->tags, $locale);
     }
 
+    public function subinfosFromFieldLinks(): array
+    {
+        $api = app(\App\Services\DrupalApiService::class);
+        $nids = collect($this->raw['field_links'] ?? [])
+            ->pluck('target_id')
+            ->filter()
+            ->map(fn($id) => intval($id))
+            ->all();
+
+        \Log::info('Subinfo target_ids:', $nids);
+
+        return collect($nids)
+            ->map(fn(int $nid) => $api->getSubinfoByNid($nid))
+            ->filter()
+            ->map(fn($raw) => $raw ? \App\Data\SubinfoItem::fromDrupal($raw) : null)
+            ->filter()
+            ->values()
+            ->all();
+    }
+
     public function images(): array
     {
         return $this->raw['field_fotostrecke'] ?? [];
@@ -111,14 +130,14 @@ class ProjectItem
             ]);
 
         return collect($this->raw['field_termine'] ?? [])
-            ->pluck('target_id')   
+            ->pluck('target_id')
             ->map(function ($terminNid) use ($termineData, $coproList, $api) {
 
                 $termin = collect($termineData)
                     ->first(fn($t) => ($t['nid'][0]['value'] ?? null) == $terminNid);
 
                 if (!$termin) {
-                    return null;    
+                    return null;
                 }
 
                 $placeId = $termin['field_veranstaltungsort'][0]['target_id'] ?? null;
@@ -139,7 +158,7 @@ class ProjectItem
                     $place ?? new CoProducerItem('', 'TBA')
                 );
             })
-            ->filter() 
+            ->filter()
             ->values()
             ->all();
     }

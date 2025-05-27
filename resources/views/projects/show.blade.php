@@ -24,15 +24,13 @@
                 </div>
             @endif
 
-
             <div class="infosprojects">
                 @if ($project->yearFormatted())
 
                     <div class="termine">
                         <div class="newshead small-text">{{ __('content.published') }}</div>
+                        <span>{{ $project->yearAndPlace() }}</span>
                     </div>
-                    <span>{{ $project->yearAndPlace() }}</span>
-
                 @endif
 
                 @php $dates = $project->dates(); @endphp
@@ -54,15 +52,8 @@
 
             </div>
 
-            @if (!empty($project->tags))
-                <div class="projecttagsandsocial">
-                    <div class="tagsforprojects">
-                        @foreach ($project->tagLabels($locale) as $tag)
-                            <div class="projecttag">{{ $tag }}</div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
+            @include('projects.partials.subinfos', ['project' => $project, 'tagsproject' => $tagsProject ?? ''])
+        
         </div>
     </div>
 @endsection

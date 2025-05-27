@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use Illuminate\Support\Str;
+use App\Services\DrupalApi;
 
 class NewsItem
 {
@@ -24,15 +25,15 @@ class NewsItem
             $item[$key][0][$subkey] ?? null;
     
         return new self(
-            id: $get('nid'),
-            title: $get('title'),
-            titleEn: $get('field_titel_en'),
-            bodyHtml: $item['body'][0]['processed'] ?? null,
-            bodyHtmlEn: $item['field_bodyenglish'][0]['processed'] ?? null,
-            date: $get('field_datum'),
-            lang: $get('langcode'),
-            showDate: filter_var($get('field_datum_anzeigen_'), FILTER_VALIDATE_BOOLEAN),
-            showTime: filter_var($get('field_datum_mit_uhrzeit_anzeigen'), FILTER_VALIDATE_BOOLEAN),
+            id: DrupalApi::get($item, 'nid'),
+            title: DrupalApi::get($item, 'title'),
+            titleEn: DrupalApi::get($item, 'field_titel_en'),
+            bodyHtml: DrupalApi::getProcessed($item, 'body'),
+            bodyHtmlEn: DrupalApi::getProcessed($item, 'field_bodyenglish'),
+            date: DrupalApi::get($item, 'field_datum'),
+            lang: DrupalApi::get($item, 'langcode'),
+            showDate: filter_var(DrupalApi::get($item, 'field_datum_anzeigen_'), FILTER_VALIDATE_BOOLEAN),
+            showTime: filter_var(DrupalApi::get($item, 'field_datum_mit_uhrzeit_anzeigen'), FILTER_VALIDATE_BOOLEAN),
         );
     }      
 

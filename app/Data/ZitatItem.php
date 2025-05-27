@@ -2,6 +2,8 @@
 
 namespace App\Data;
 
+use App\Services\DrupalApi;
+
 class ZitatItem
 {
     public function __construct(
@@ -13,14 +15,12 @@ class ZitatItem
 
     public static function fromDrupal(array $item): self
     {
-        $get = fn(string $key, string $subkey = 'value') =>
-            $item[$key][0][$subkey] ?? null;
 
         return new self(
-            title: $get('title'),
-            titleEn: $get('field_titel_zitat_en'),
-            body: $item['body'][0]['processed'] ?? null,
-            bodyEn: $item['field_bodyenglish'][0]['processed'] ?? null,
+            title: DrupalApi::get($item,'title'),
+            titleEn: DrupalApi::get($item,'field_titel_zitat_en'),
+            body: DrupalApi::getProcessed($item,'body') ?? null,
+            bodyEn: DrupalApi::getProcessed($item,'field_bodyenglish') ?? null,
         );
     }
 

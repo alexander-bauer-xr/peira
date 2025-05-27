@@ -5,6 +5,7 @@ namespace App\Data;
 use Illuminate\Support\Str;
 use App\Services\DrupalApiService;
 use App\Services\TagHelper;
+use App\Services\DrupalApi;
 
 class RowItem
 {
@@ -36,18 +37,18 @@ class RowItem
         }
 
         return new self(
-            id: $get('nid'),
-            title: $get('title'),
-            titleEn: $get('field_titel_reihe_en'),
-            bodyHtml: $item['body'][0]['processed'] ?? null,
-            bodyHtmlEn: $item['field_bodyenglish'][0]['processed'] ?? null,
-            year: $get('field_jahr_der_'), // ← falls du das Feld irgendwann doch brauchst
-            imageUrl: $item['field_titelbild'][0]['url'] ?? null,
+            id: DrupalApi::get($item, 'nid'),
+            title: DrupalApi::get($item, 'title'),
+            titleEn: DrupalApi::get($item, 'field_titel_reihe_en'),
+            bodyHtml: DrupalApi::getProcessed($item, 'body'),
+            bodyHtmlEn: DrupalApi::getProcessed($item, 'field_bodyenglish'),
+            year: DrupalApi::get($item, 'field_jahr_der_'),
+            imageUrl: DrupalApi::get($item, 'field_titelbild', 'url'),
             tags: $tags,
-            overlay: filter_var($get('field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
-            darkText: filter_var($get('field_weisser_text'), FILTER_VALIDATE_BOOLEAN),
-            style: $get('field_projektstil') ?? '',
-            lang: $get('langcode') ?? 'de',
+            overlay: filter_var(DrupalApi::get($item, 'field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
+            darkText: filter_var(DrupalApi::get($item, 'field_weisser_text'), FILTER_VALIDATE_BOOLEAN),
+            style: DrupalApi::get($item, 'field_projektstil') ?? '',
+            lang: DrupalApi::get($item, 'langcode') ?? 'de',
         );
     }
 

@@ -4,14 +4,20 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illumiinate\Support\Facades\Config;
 
 class DrupalApiService
 {
-    protected string $baseUrl = 'https://www.peira.space/web/api';
+    protected string $baseUrl;
 
-    protected function cachedRequest(string $endpoint, string $key = null, int $minutes = 10): array
+    public function __construct()
     {
-        $locale = app()->getLocale(); // optional, remove if not needed
+        $this->baseUrl = env('API_URL', 'https://www.peira.space/web/api/');
+    }
+
+    protected function cachedRequest(string $endpoint, ?string $key = null, int $minutes = 10): array
+    {
+        $locale = app()->getLocale();
         $cacheKey = $key ?? "api.{$endpoint}.{$locale}";
 
         return Cache::remember($cacheKey, now()->addMinutes($minutes), function () use ($endpoint) {
@@ -28,8 +34,8 @@ class DrupalApiService
         return $this->cachedRequest(
             "foerdererkoproduzenten?nid={$nid}",
             "api.foerderer.nid.{$nid}",
-            60        
-        )[0] ?? null; 
+            60
+        )[0] ?? null;
     }
 
     public function getInfos(): array
@@ -65,6 +71,15 @@ class DrupalApiService
     public function getSubinfo(): array
     {
         return $this->cachedRequest('subinfo');
+    }
+
+    public function getSubinfoByNid(int $nid): ?array
+    {
+        return $this->cachedRequest(
+            "subinfo?nid={$nid}",
+            "api.subinfo.nid.{$nid}",
+            60
+        )[0] ?? null;
     }
 
     public function getTags(): array
