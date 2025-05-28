@@ -9,7 +9,7 @@ class HtmlTransformHelper
 {
     public static function replaceVideo(string $htmlContent): string
     {
-        libxml_use_internal_errors(true); // Suppress warnings
+        libxml_use_internal_errors(true);
 
         $doc = new DOMDocument();
 

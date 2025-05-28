@@ -52,7 +52,7 @@
 
             </div>
 
-            @include('projects.partials.subinfos', ['project' => $project, 'tagsproject' => $tagsProject ?? ''])
+            @include('projects.partials.subinfos', ['project' => $project, 'tagsproject' => $tagsProject ?? '', 'locale' => $locale])
         
         </div>
     </div>

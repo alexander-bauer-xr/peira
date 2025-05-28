@@ -10,6 +10,7 @@ class SubinfoItem
         public string $id,
         public string $title,
         public ?string $klarTitle = null,
+        public ?string $klarTitleEn = null,
         public ?string $bodyHtml = null,
         public ?string $bodyHtmlEn = null,
         public ?string $subtitleEn = null,
@@ -31,6 +32,7 @@ class SubinfoItem
             id: DrupalApi::get($item, 'nid'),
             title: DrupalApi::get($item, 'title'),
             klarTitle: DrupalApi::get($item, 'field_klartitel'),
+            klarTitleEn: DrupalApi::get($item, 'field_klartitel_en'),
             bodyHtml: DrupalApi::get($item, 'body', 'processed'),
             bodyHtmlEn: DrupalApi::get($item, 'field_bodyenglish', 'processed'),
             subtitleEn: DrupalApi::get($item, 'field_subtitle_en', 'processed'),
@@ -39,5 +41,15 @@ class SubinfoItem
             lang: DrupalApi::get($item, 'langcode') ?? 'de',
             raw: $item
         );
+    }
+
+    public function localizedTitle(string $locale): string
+    {
+        return $locale === 'en' && $this->klarTitleEn ? $this->klarTitleEn : $this->klarTitle;
+    }
+
+    public function localizedBody(string $locale): ?string
+    {
+        return $locale === 'en' && $this->bodyHtmlEn ? $this->bodyHtmlEn : $this->bodyHtml;
     }
 }
