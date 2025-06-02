@@ -3,7 +3,6 @@
 @section('content')
 <div id="subpage" class="sub_page scrollbarstyle displayblock">
 
-    {{-- social icons / back to overview --}}
     @include('partials.social-icons-sub')
 
     <div class="inner_container_vor">
@@ -19,13 +18,11 @@
                 >
             </div>
 
-            {{-- row title --}}
             <h1 class="ueberschrift h1-text">
                 {{ $row->localizedTitle($locale) }}
             </h1>
         </div>
 
-        {{-- row intro/body --}}
         @if ($row->localizedBody($locale))
             <div class="wrapper-vor">
                 <div class="vorangestellt row-vor vor-text">
@@ -34,51 +31,14 @@
             </div>
         @endif
 
-        {{-- gallery of projects in this row --}}
         @if ($projects->isNotEmpty())
-            <div class="rowwrapper">
-                <div class="d-flex flex-row">
-                    <div id="arrowforw">
-                        <img
-                          src="{{ asset('img/nav/garrow.svg') }}"
-                          id="imgarrowforw"
-                          class="arrowforwrow"
-                          alt="›"
-                        >
-                    </div>
-                    <div id="arrowback">
-                        <img
-                          src="{{ asset('img/nav/garrow.svg') }}"
-                          id="imgarrowback"
-                          class="arrowbackrow"
-                          alt="‹"
-                        >
-                    </div>
-
-                    <div class="list scrollbarstyletrans">
-                        @foreach($projects as $proj)
-                            <div class="card item">
-                                <a
-                                  href="{{ $proj->url($locale) }}?row={{ $row->slug() }}"
-                                  class="rowimg"
-                                >
-                                    <div class="h3-text titleforimg">
-                                        {{ $proj->localizedTitle($locale) }}
-                                    </div>
-                                    <img
-                                      src="{{ $proj->imageUrl }}"
-                                      alt="{{ $proj->localizedTitle($locale) }}"
-                                      class="imagecover"
-                                    >
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+            @include('rows.partials.row-gallery', [
+              'row'      => $row,
+              'projects' => $projects,
+              'locale'   => $locale,
+            ])
         @endif
 
-        {{-- Info / Presse tabs, tags & metainfo --}}
         <div class="inner_container">
             <div class="content body-text">
                 @php
@@ -91,7 +51,7 @@
                   'locale'       => $locale,
                   'tags'         => $tags,
                   'metainfoView' => 'projects.partials.metainfo',
-                  'metainfoData' => $metainfoArgs,
+                  'metainfoData' => $metainfoArgs, 
                 ])
             </div>
         </div>
@@ -100,5 +60,5 @@
 @endsection
 
 @push('scripts')
-    @vite('resources/js/pages/project.js')
+    @vite('resources/js/pages/rows.js')
 @endpush

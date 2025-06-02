@@ -4,7 +4,6 @@
 namespace App\Http\Controllers;
 
 use App\Data\RowItem;
-use App\Data\ProjectItem;
 use App\Data\MetaData;
 use App\Services\DrupalApiService;
 use Illuminate\Support\Str;
@@ -24,15 +23,9 @@ class RowController extends Controller
             abort(404);
         }
 
-        $allProjects = $drupal->getProjekte();
-        $projects = collect($allProjects)
-            ->map(fn(array $raw) => ProjectItem::fromDrupal($raw, $locale))
-            ->filter(fn(ProjectItem $p) =>
-                collect($p->raw['field_reihen'] ?? [])
-                    ->pluck('target_id')
-                    ->contains(intval($row->id))
-            )
-            ->values();
+        $projectItemsArray = $row->projectsFromFieldProjekteReihe($locale);
+
+        $projects = collect($projectItemsArray);
 
         $meta = new MetaData(
             title:         'Peira – ' . $row->localizedTitle($locale),
@@ -44,11 +37,11 @@ class RowController extends Controller
         $tagsRow = $row->tagLabels($locale);
 
         return view('rows.show', [
-            'locale'   => $locale,
-            'row'      => $row,
-            'projects' => $projects,
-            'meta'     => $meta,
-            'tagsProject'=> $tagsRow,
+            'locale'      => $locale,
+            'row'         => $row,
+            'projects'    => $projects,
+            'meta'        => $meta,
+            'tagsProject' => $tagsRow,
         ]);
     }
 }

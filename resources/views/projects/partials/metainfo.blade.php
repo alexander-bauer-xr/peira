@@ -4,7 +4,6 @@
 
 <div class="infosprojects">
   @if($isProject)
-    {{-- ───── PROJECT META ───── --}}
     @if($item->yearFormatted())
       <div class="termine">
         <div class="newshead small-text">{{ __('content.published') }}</div>
@@ -30,11 +29,9 @@
     @endif
 
   @else
-    {{-- ───── ROW META ───── --}}
     <div class="termine">
-      <div class="newshead small-text">{{ __('content.social_media') }}</div>
+      <div class="newshead small-text">{{ __('content.social') }}</div>
       <div class="social-media-grid">
-        {{-- Example instagram; repeat for web/spotify/youtube as needed --}}
         @if(!empty($item->raw['field_social_instagram']))
           <div class="social-media-row d-flex flex-row gap-2">
             <div class="social-media-first">IG</div>
@@ -51,7 +48,7 @@
     </div>
 
     <div class="newshead small-text">
-      {{ __('content.projects_in_this_row') }}<br><br>
+      {{ __('content.projects_in_series') }}<br><br>
     </div>
     @foreach($projects as $proj)
       <div class="dateproject body-text rowprojects">

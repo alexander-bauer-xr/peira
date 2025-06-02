@@ -1,5 +1,5 @@
 @php
-$subinfos = $item->subinfosFromFieldLinks();
+ $subinfos = $item->subinfosFromFieldLinks();
 @endphp
 
 @if(count($subinfos))
@@ -30,7 +30,6 @@ $subinfos = $item->subinfosFromFieldLinks();
       @endif
     </div>
 
-    {{-- Inject context-specific metainfo --}}
     @include($metainfoView, $metainfoData)
   </div>
 @endif

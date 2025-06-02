@@ -1,4 +1,5 @@
 <?php
+// app/Data/RowItem.php
 
 namespace App\Data;
 
@@ -29,26 +30,26 @@ class RowItem
     public static function fromDrupal(array $item): self
     {
         $tags = [];
-        if (!empty($item['field_tags'])) {
+        if (! empty($item['field_tags'])) {
             foreach ($item['field_tags'] as $tag) {
                 $tags[] = $tag['target_id'];
             }
         }
 
         return new self(
-            id: DrupalApi::get($item, 'nid'),
-            title: DrupalApi::get($item, 'title'),
-            titleEn: DrupalApi::get($item, 'field_titel_reihe_en'),
-            bodyHtml: DrupalApi::getProcessed($item, 'body'),
-            bodyHtmlEn: DrupalApi::getProcessed($item, 'field_bodyenglish'),
-            year: DrupalApi::get($item, 'field_jahr_der_'),
-            imageUrl: DrupalApi::get($item, 'field_titelbild', 'url'),
-            tags: $tags,
-            overlay: filter_var(DrupalApi::get($item, 'field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
-            darkText: filter_var(DrupalApi::get($item, 'field_weisser_text'), FILTER_VALIDATE_BOOLEAN),
-            style: DrupalApi::get($item, 'field_projektstil') ?? '',
-            lang: DrupalApi::get($item, 'langcode') ?? 'de',
-            raw: $item
+            id:           DrupalApi::get($item, 'nid'),
+            title:        DrupalApi::get($item, 'title'),
+            titleEn:      DrupalApi::get($item, 'field_titel_reihe_en'),
+            bodyHtml:     DrupalApi::getProcessed($item, 'body'),
+            bodyHtmlEn:   DrupalApi::getProcessed($item, 'field_bodyenglish'),
+            year:         DrupalApi::get($item, 'field_jahr_der_'),
+            imageUrl:     DrupalApi::get($item, 'field_titelbild', 'url'),
+            tags:         $tags,
+            overlay:      filter_var(DrupalApi::get($item, 'field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
+            darkText:     filter_var(DrupalApi::get($item, 'field_weisser_text'), FILTER_VALIDATE_BOOLEAN),
+            style:        DrupalApi::get($item, 'field_projektstil') ?? '',
+            lang:         DrupalApi::get($item, 'langcode')       ?? 'de',
+            raw:          $item,
         );
     }
 
@@ -64,12 +65,16 @@ class RowItem
 
     public function localizedTitle(string $locale): string
     {
-        return $locale === 'en' && $this->titleEn ? $this->titleEn : $this->title;
+        return $locale === 'en' && $this->titleEn
+            ? $this->titleEn
+            : $this->title;
     }
 
     public function localizedBody(string $locale): ?string
     {
-        return $locale === 'en' && $this->bodyHtmlEn ? $this->bodyHtmlEn : $this->bodyHtml;
+        return $locale === 'en' && $this->bodyHtmlEn
+            ? $this->bodyHtmlEn
+            : $this->bodyHtml;
     }
 
     public function tagLabels(string $locale): array
@@ -77,6 +82,7 @@ class RowItem
         $tags = app(DrupalApiService::class)->getTags();
         return TagHelper::labels($tags, $this->tags, $locale);
     }
+
     public function subinfosFromFieldLinks(): array
     {
         $api = app(DrupalApiService::class);
@@ -88,14 +94,16 @@ class RowItem
 
         return collect($nids)
             ->map(fn(int $nid) => $api->getSubinfoByNid($nid))
-            ->filter()
+            ->filter() // remove null/empty
             ->map(fn(array $raw) => SubinfoItem::fromDrupal($raw))
             ->values()
             ->all();
     }
+
     public function projectsFromFieldProjekteReihe(string $locale): array
     {
         $api = app(DrupalApiService::class);
+
         $nids = collect($this->raw['field_projekte_reihe'] ?? [])
             ->pluck('target_id')
             ->filter()
@@ -103,8 +111,8 @@ class RowItem
             ->all();
 
         return collect($nids)
-            ->map(fn(int $nid) => $api->getById($nid))
-            ->filter()
+            ->map(fn(int $nid) => $api->getById($nid)[0] ?? null)
+            ->filter(fn($raw) => is_array($raw) && ! empty($raw))
             ->map(fn(array $raw) => ProjectItem::fromDrupal($raw, $locale))
             ->values()
             ->all();
