@@ -6,12 +6,22 @@
         @include('partials.social-icons-sub')
         <div class="inner_container_vor">
             <div class="before-margin">
-                <div class="nav-flex"><a href="{{ route('projects.index', ['locale' => $locale]) }}">
+                <div class="nav-flex">
+                    <a href="{{ route('projects.index', ['locale' => $locale]) }}">
                         {{ __('content.projects') }}
                     </a>
+
+                    @if ($reihe = $project->reihe())
+                        <img id="projekttrenner" alt="{{ __('content.project_separator') }}"
+                            src="{{ asset('img/projekttrenner.svg') }}">
+                        <a href="{{ $reihe->url($locale) }}">{{ $reihe->localizedTitle($locale) }}</a>
+                    @endif
+
                     <img id="projekttrenner" alt="{{ __('content.project_separator') }}"
                         src="{{ asset('img/projekttrenner.svg') }}">
+                    <span>{{ $project->localizedTitle($locale) }}</span>
                 </div>
+
                 <h1 class="ueberschrift h1-text">{{ $project->localizedTitle($locale) }}</h1>
             </div>
 
@@ -53,7 +63,7 @@
             </div>
 
             @include('projects.partials.subinfos', ['project' => $project, 'tagsproject' => $tagsProject ?? '', 'locale' => $locale])
-        
+
         </div>
     </div>
 @endsection

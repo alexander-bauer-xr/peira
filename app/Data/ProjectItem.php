@@ -7,6 +7,8 @@ use App\Services\DrupalApiService;
 use App\Services\TagHelper;
 use App\Services\DrupalApi;
 
+use App\Data\RowItem;
+
 class ProjectItem
 {
     public function __construct(
@@ -162,4 +164,27 @@ class ProjectItem
             ->values()
             ->all();
     }
+
+    public function reihe(): ?RowItem
+    {
+        $api = app(\App\Services\DrupalApiService::class);
+        $reihen = $api->getReihen();
+
+        \Log::debug('[reihe()] Suche nach Reihe für Projekt-ID: ' . $this->id);
+
+        foreach ($reihen as $reihe) {
+            $referenzen = $reihe['field_projekte_reihe'] ?? [];
+
+            foreach ($referenzen as $referenz) {
+                if (($referenz['target_id'] ?? null) == $this->id) {
+                    \Log::debug('[reihe()] Gefunden in Reihe: ' . ($reihe['nid'][0]['value'] ?? '??'));
+                    return \App\Data\RowItem::fromDrupal($reihe);
+                }
+            }
+        }
+
+        \Log::debug('[reihe()] Keine Reihe gefunden für Projekt-ID: ' . $this->id);
+        return null;
+    }
+
 }

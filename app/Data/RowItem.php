@@ -22,7 +22,8 @@ class RowItem
         public bool $darkText = false,
         public string $style = '',
         public string $lang = 'de',
-    ) {}
+    ) {
+    }
 
     public static function fromDrupal(array $item): self
     {
@@ -55,6 +56,11 @@ class RowItem
     public function slug(): string
     {
         return Str::slug($this->title);
+    }
+
+    public function url(string $locale): string
+    {
+        return '/' . $locale . '/reihen/' . $this->slug();
     }
 
     public function localizedTitle(string $locale): string
