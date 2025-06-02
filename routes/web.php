@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RowController;
 use App\Http\Controllers\NewsArchiveController;
 
 Route::get('/{locale?}', [HomeController::class, 'index'])
@@ -20,4 +21,7 @@ Route::prefix('{locale}')
 
         Route::get('/news-archiv', [NewsArchiveController::class, 'index'])
             ->name('news.archive');
+
+        Route::get('/reihen/{slug}', [RowController::class, 'show'])
+            ->name('rows.show');
     });

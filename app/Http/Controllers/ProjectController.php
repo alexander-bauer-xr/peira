@@ -41,27 +41,30 @@ class ProjectController extends Controller
     public function show($locale, $slug, DrupalApiService $drupal)
     {
         app()->setLocale($locale);
-    
+
         $projects = collect($drupal->getProjekte())
             ->map(fn($item) => ProjectItem::fromDrupal($item));
-    
+
         $project = $projects->first(fn(ProjectItem $p) => trim($p->slug()) === trim($slug));
-    
+
         if (!$project) {
             abort(404);
         }
-    
+
         $meta = new MetaData(
             title: 'Peira - ' . $project->title,
             titleEn: 'Peira - ' . ($project->titleEn ?? $project->title),
             description: 'Ein Projekt von Peira: ' . $project->title,
             descriptionEn: 'A project by Peira: ' . ($project->titleEn ?? $project->title)
         );
-    
+
+        $tagsProject = $project->tagLabels($locale);
+
         return view('projects.show', [
             'project' => $project,
             'locale' => $locale,
             'meta' => $meta,
+            'tagsProject' => $tagsProject,
         ]);
-    }    
+    }
 }

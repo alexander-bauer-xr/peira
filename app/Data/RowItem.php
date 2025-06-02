@@ -22,14 +22,12 @@ class RowItem
         public bool $darkText = false,
         public string $style = '',
         public string $lang = 'de',
+        public array $raw = []
     ) {
     }
 
     public static function fromDrupal(array $item): self
     {
-        $get = fn(string $key, string $subkey = 'value') =>
-            $item[$key][0][$subkey] ?? null;
-
         $tags = [];
         if (!empty($item['field_tags'])) {
             foreach ($item['field_tags'] as $tag) {
@@ -50,6 +48,7 @@ class RowItem
             darkText: filter_var(DrupalApi::get($item, 'field_weisser_text'), FILTER_VALIDATE_BOOLEAN),
             style: DrupalApi::get($item, 'field_projektstil') ?? '',
             lang: DrupalApi::get($item, 'langcode') ?? 'de',
+            raw: $item
         );
     }
 
@@ -77,5 +76,37 @@ class RowItem
     {
         $tags = app(DrupalApiService::class)->getTags();
         return TagHelper::labels($tags, $this->tags, $locale);
+    }
+    public function subinfosFromFieldLinks(): array
+    {
+        $api = app(DrupalApiService::class);
+        $nids = collect($this->raw['field_link_reihen'] ?? [])
+            ->pluck('target_id')
+            ->filter()
+            ->map(fn($id) => intval($id))
+            ->all();
+
+        return collect($nids)
+            ->map(fn(int $nid) => $api->getSubinfoByNid($nid))
+            ->filter()
+            ->map(fn(array $raw) => SubinfoItem::fromDrupal($raw))
+            ->values()
+            ->all();
+    }
+    public function projectsFromFieldProjekteReihe(string $locale): array
+    {
+        $api = app(DrupalApiService::class);
+        $nids = collect($this->raw['field_projekte_reihe'] ?? [])
+            ->pluck('target_id')
+            ->filter()
+            ->map(fn($id) => intval($id))
+            ->all();
+
+        return collect($nids)
+            ->map(fn(int $nid) => $api->getById($nid))
+            ->filter()
+            ->map(fn(array $raw) => ProjectItem::fromDrupal($raw, $locale))
+            ->values()
+            ->all();
     }
 }
