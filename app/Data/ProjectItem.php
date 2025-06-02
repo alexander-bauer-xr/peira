@@ -8,6 +8,7 @@ use App\Services\TagHelper;
 use App\Services\DrupalApi;
 
 use App\Data\RowItem;
+use App\Data\SubinfoItem;
 
 class ProjectItem
 {
@@ -97,7 +98,7 @@ class ProjectItem
 
     public function subinfosFromFieldLinks(): array
     {
-        $api = app(\App\Services\DrupalApiService::class);
+        $api = app(DrupalApiService::class);
         $nids = collect($this->raw['field_links'] ?? [])
             ->pluck('target_id')
             ->filter()
@@ -109,7 +110,7 @@ class ProjectItem
         return collect($nids)
             ->map(fn(int $nid) => $api->getSubinfoByNid($nid))
             ->filter()
-            ->map(fn($raw) => $raw ? \App\Data\SubinfoItem::fromDrupal($raw) : null)
+            ->map(fn($raw) => $raw ? SubinfoItem::fromDrupal($raw) : null)
             ->filter()
             ->values()
             ->all();
@@ -122,7 +123,7 @@ class ProjectItem
 
     public function dates(): array
     {
-        $api = app(\App\Services\DrupalApiService::class);
+        $api = app(DrupalApiService::class);
 
         $termineData = $api->getTermine();
 
@@ -167,7 +168,7 @@ class ProjectItem
 
     public function reihe(): ?RowItem
     {
-        $api = app(\App\Services\DrupalApiService::class);
+        $api = app(DrupalApiService::class);
         $reihen = $api->getReihen();
 
         \Log::debug('[reihe()] Suche nach Reihe für Projekt-ID: ' . $this->id);
@@ -178,7 +179,7 @@ class ProjectItem
             foreach ($referenzen as $referenz) {
                 if (($referenz['target_id'] ?? null) == $this->id) {
                     \Log::debug('[reihe()] Gefunden in Reihe: ' . ($reihe['nid'][0]['value'] ?? '??'));
-                    return \App\Data\RowItem::fromDrupal($reihe);
+                    return RowItem::fromDrupal($reihe);
                 }
             }
         }
