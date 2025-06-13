@@ -23,33 +23,37 @@ class RowItem
         public bool $darkText = false,
         public string $style = '',
         public string $lang = 'de',
-        public array $raw = []
+        public array $raw = [],
+        public array $socialMediaItems = [],
+
     ) {
     }
 
     public static function fromDrupal(array $item): self
     {
         $tags = [];
-        if (! empty($item['field_tags'])) {
+        if (!empty($item['field_tags'])) {
             foreach ($item['field_tags'] as $tag) {
                 $tags[] = $tag['target_id'];
             }
         }
 
         return new self(
-            id:           DrupalApi::get($item, 'nid'),
-            title:        DrupalApi::get($item, 'title'),
-            titleEn:      DrupalApi::get($item, 'field_titel_reihe_en'),
-            bodyHtml:     DrupalApi::getProcessed($item, 'body'),
-            bodyHtmlEn:   DrupalApi::getProcessed($item, 'field_bodyenglish'),
-            year:         DrupalApi::get($item, 'field_jahr_der_'),
-            imageUrl:     DrupalApi::get($item, 'field_titelbild', 'url'),
-            tags:         $tags,
-            overlay:      filter_var(DrupalApi::get($item, 'field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
-            darkText:     filter_var(DrupalApi::get($item, 'field_weisser_text'), FILTER_VALIDATE_BOOLEAN),
-            style:        DrupalApi::get($item, 'field_projektstil') ?? '',
-            lang:         DrupalApi::get($item, 'langcode')       ?? 'de',
-            raw:          $item,
+            id: DrupalApi::get($item, 'nid'),
+            title: DrupalApi::get($item, 'title'),
+            titleEn: DrupalApi::get($item, 'field_titel_reihe_en'),
+            bodyHtml: DrupalApi::getProcessed($item, 'body'),
+            bodyHtmlEn: DrupalApi::getProcessed($item, 'field_bodyenglish'),
+            year: DrupalApi::get($item, 'field_jahr_der_'),
+            imageUrl: DrupalApi::get($item, 'field_titelbild', 'url'),
+            tags: $tags,
+            overlay: filter_var(DrupalApi::get($item, 'field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
+            darkText: filter_var(DrupalApi::get($item, 'field_weisser_text'), FILTER_VALIDATE_BOOLEAN),
+            style: DrupalApi::get($item, 'field_projektstil') ?? '',
+            lang: DrupalApi::get($item, 'langcode') ?? 'de',
+            raw: $item,
+            socialMediaItems: DrupalApi::getSocialMedia($item, 'field_social_media'),
+
         );
     }
 
@@ -112,9 +116,41 @@ class RowItem
 
         return collect($nids)
             ->map(fn(int $nid) => $api->getById($nid)[0] ?? null)
-            ->filter(fn($raw) => is_array($raw) && ! empty($raw))
+            ->filter(fn($raw) => is_array($raw) && !empty($raw))
             ->map(fn(array $raw) => ProjectItem::fromDrupal($raw, $locale))
             ->values()
             ->all();
+    }
+
+    public function socialMedia(): string
+    {
+        $entries = $this->socialMediaItems;
+        if (empty($entries)) {
+            return '';
+        }
+
+        $html = '<div class="termine">';
+        $html .= '<div class="newshead small-text">' . __('content.social') . '</div>';
+        $html .= '<div class="social-media-grid">';
+
+        foreach ($entries as $entry) {
+            $label = e($entry['first'] ?? '');
+            $handle = e($entry['second'] ?? '');
+            $url = $entry['third'] ?? null;
+
+            if (!$label || !$url) {
+                continue;
+            }
+
+            $html .= '<div class="social-media-row d-flex flex-row gap-2">';
+            $html .= '<div class="social-media-first">' . $label . '</div>';
+            $html .= '<a href="' . e($url) . '" target="_blank" class="social-media-second">'
+                . $handle . ' </a>';
+            $html .= '</div>';
+        }
+
+        $html .= '</div>';
+
+        return $html;
     }
 }

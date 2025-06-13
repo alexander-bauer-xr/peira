@@ -65,6 +65,10 @@
             ])
         </div>
     </div>
+    @include('projects.partials.similar-projects', [
+    'item'   => $project,
+    'locale' => $locale,
+    ])
 </div>
 @endsection
 

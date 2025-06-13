@@ -28,4 +28,8 @@ return [
     'contributors' => 'Mitwirkende',
     'more' => 'mehr',
     'archiv_link' => 'hier geht\'s zum Archiv',
+    'ist_eine_kooperation_zwischen' => 'ist eine Kooperation zwischen',
+    'und_wird_gefoerdert_von' => 'und wird gefördert von',
+    'wird_gefoerdert_von' => 'wird gefördert von',
+    'alle_inhalte_eigentum' => 'Alle Inhalte sind, soweit nicht anders angegeben, Eigentum der Peira GbR.',
 ];

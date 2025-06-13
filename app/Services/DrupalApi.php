@@ -13,4 +13,18 @@ class DrupalApi {
     public static function getArray(array $item, string $key): ?array {
         return $item[$key] ?? [];
     }
+
+    public static function getSocialMedia(array $item, string $field = 'field_social_media'): array
+    {
+        $entries = $item[$field] ?? [];
+        $out = [];
+        foreach ($entries as $e) {
+            $out[] = [
+                'first'  => $e['first']  ?? '',
+                'second' => $e['second'] ?? '',
+                'third'  => $e['third']  ?? null,
+            ];
+        }
+        return $out;
+    }
 }

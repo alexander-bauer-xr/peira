@@ -28,6 +28,7 @@ class ProjectItem
         public array $raw = [],
         public array $images = [],
         public string $place = '',
+        public array $socialMediaItems = [],
     ) {
     }
 
@@ -56,6 +57,7 @@ class ProjectItem
             raw: $item,
             images: DrupalApi::getArray($item, 'field_fotostrecke'),
             place: DrupalApi::get($item, 'field_ort') ?? '',
+            socialMediaItems: DrupalApi::getSocialMedia($item, 'field_social_media'),
         );
     }
 
@@ -188,4 +190,103 @@ class ProjectItem
         return null;
     }
 
+    public function contributors(): array
+    {
+        $fieldName = ($this->lang === 'en')
+            ? 'field_contributors'
+            : 'field_mitwirkende';
+
+        $rawList = $this->raw[$fieldName] ?? [];
+        $out = [];
+
+        foreach ($rawList as $entry) {
+            // Each $entry has ['first'], ['second'], and optionally ['third']
+            $first = trim($entry['first'] ?? '');
+            $second = trim($entry['second'] ?? '');
+            $third = trim($entry['third'] ?? '');
+
+            // Only include if at least “first” or “second” is non‐empty
+            if ($first || $second) {
+                $out[] = [
+                    'first' => $first,
+                    'second' => $second,
+                    'third' => $third !== '' ? $third : null,
+                ];
+            }
+        }
+
+        return $out;
+    }
+
+    public function funders(): array
+    {
+        $api = app(DrupalApiService::class);
+        $nids = collect($this->raw['field_foerderer'] ?? [])
+            ->pluck('target_id')
+            ->filter()
+            ->map(fn($id) => intval($id))
+            ->all();
+
+        return collect($nids)
+            ->map(fn(int $nid) => $api->getFoerdererUndKoproduzentByNid($nid))
+            ->filter()
+            ->map(fn(array $raw) => CoProducerItem::fromDrupal($raw))
+            ->values()
+            ->all();
+    }
+
+    public function coProducers(): array
+    {
+        $api = app(DrupalApiService::class);
+        $nids = collect($this->raw['field_kooperationspartner'] ?? [])
+            ->pluck('target_id')
+            ->filter()
+            ->map(fn($id) => intval($id))
+            ->all();
+
+        return collect($nids)
+            ->map(fn(int $nid) => $api->getFoerdererUndKoproduzentByNid($nid))
+            ->filter()
+            ->map(fn(array $raw) => CoProducerItem::fromDrupal($raw))
+            ->values()
+            ->all();
+    }
+
+    public function sponsors(): array
+    {
+        return array_merge($this->funders(), $this->coProducers());
+    }
+
+    public function socialMedia(): string
+    {
+        $entries = $this->socialMediaItems;
+        if (empty($entries)) {
+            return '';
+        }
+
+        $html = '<div class="termine">';
+        $html .= '<div class="newshead small-text">' . __('content.social') . '</div>';
+        $html .= '<div class="social-media-grid">';
+
+        foreach ($entries as $entry) {
+            $label = e($entry['first'] ?? '');
+            $handle = e($entry['second'] ?? '');
+            $url = $entry['third'] ?? null;
+
+            if (!$label || !$url) {
+                continue;
+            }
+
+            $html .= '<div class="social-media-row d-flex flex-row gap-2">';
+            $html .= '<div class="social-media-first">' . $label . '</div>';
+            $html .= '<a href="' . e($url) . '" target="_blank" class="social-media-second">'
+                . $handle . ' </a>';
+            $html .= '</div>';
+        }
+
+        $html .= '</div>';
+        $html .= '</div>';
+
+        return $html;
+    }
 }
