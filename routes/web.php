@@ -16,12 +16,14 @@ Route::prefix('{locale}')
         Route::get('/projekte', [ProjectController::class, 'index'])
             ->name('projects.index');
 
-        Route::get('/projekte/{slug}', [ProjectController::class, 'show'])
+        Route::get('projekte/{slug}/{tabIndex?}', [ProjectController::class, 'show'])
             ->name('projects.show');
 
         Route::get('/news-archiv', [NewsArchiveController::class, 'index'])
             ->name('news.archive');
 
-        Route::get('/reihen/{slug}', [RowController::class, 'show'])
+        Route::get('/reihen/{slug}/{tabIndex?}', [RowController::class, 'show'])
             ->name('rows.show');
+
+
     });

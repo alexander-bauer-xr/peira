@@ -38,14 +38,14 @@ class ProjectController extends Controller
             'meta' => $meta,
         ]);
     }
-    public function show($locale, $slug, DrupalApiService $drupal)
+    public function show($locale, $slug, DrupalApiService $drupal, int $tabIndex = 0)
     {
         app()->setLocale($locale);
 
         $projects = collect($drupal->getProjekte())
             ->map(fn($item) => ProjectItem::fromDrupal($item));
 
-        $project = $projects->first(fn(ProjectItem $p) => trim($p->slug()) === trim($slug));
+        $project = $projects->first(callback: fn(ProjectItem $p) => trim($p->slug()) === trim($slug));
 
         if (!$project) {
             abort(404);
@@ -58,6 +58,15 @@ class ProjectController extends Controller
             descriptionEn: 'A project by Peira: ' . ($project->titleEn ?? $project->title)
         );
 
+        $subInfoCount = count($project->subinfosFromFieldLinks());
+        $contrib = $project->contributors();
+        $hasContrib = count($contrib) ? 1 : 0;
+        $maxIndex = $subInfoCount + $hasContrib;
+        $activeTab = min(
+            max($tabIndex, 0),
+            max($maxIndex, 0)
+        );
+
         $tagsProject = $project->tagLabels($locale);
 
         return view('projects.show', [
@@ -65,6 +74,7 @@ class ProjectController extends Controller
             'locale' => $locale,
             'meta' => $meta,
             'tagsProject' => $tagsProject,
+            'activeTab' => $activeTab,
         ]);
     }
 }

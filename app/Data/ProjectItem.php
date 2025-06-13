@@ -200,12 +200,10 @@ class ProjectItem
         $out = [];
 
         foreach ($rawList as $entry) {
-            // Each $entry has ['first'], ['second'], and optionally ['third']
             $first = trim($entry['first'] ?? '');
             $second = trim($entry['second'] ?? '');
             $third = trim($entry['third'] ?? '');
 
-            // Only include if at least “first” or “second” is non‐empty
             if ($first || $second) {
                 $out[] = [
                     'first' => $first,

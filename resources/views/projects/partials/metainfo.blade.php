@@ -126,7 +126,7 @@
   </div>
   @foreach($projects as $proj)
     <div class="dateproject body-text rowprojects">
-    <a href="{{ $proj->url($locale) }}?row={{ $item->slug() }}">
+    <a href="{{ $proj->url($locale) }}">
     {{ $proj->localizedTitle($locale) }}
     </a>
     </div>

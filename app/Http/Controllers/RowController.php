@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class RowController extends Controller
 {
-    public function show(string $locale, string $slug, DrupalApiService $drupal)
+    public function show(string $locale, string $slug, DrupalApiService $drupal, int $tabIndex = 0)
     {
         app()->setLocale($locale);
 
@@ -19,7 +19,7 @@ class RowController extends Controller
             ->map(fn(array $raw) => RowItem::fromDrupal($raw))
             ->first(fn(RowItem $r) => trim($r->slug()) === trim($slug));
 
-        if (! $row) {
+        if (!$row) {
             abort(404);
         }
 
@@ -28,20 +28,23 @@ class RowController extends Controller
         $projects = collect($projectItemsArray);
 
         $meta = new MetaData(
-            title:         'Peira – ' . $row->localizedTitle($locale),
-            titleEn:       'Peira – ' . $row->localizedTitle('en'),
-            description:   Str::limit(strip_tags($row->localizedBody($locale)), 160),
-            descriptionEn: Str::limit(strip_tags($row->localizedBody('en')),   160),
+            title: 'Peira – ' . $row->localizedTitle($locale),
+            titleEn: 'Peira – ' . $row->localizedTitle('en'),
+            description: Str::limit(strip_tags($row->localizedBody($locale)), 160),
+            descriptionEn: Str::limit(strip_tags($row->localizedBody('en')), 160),
         );
+
+        $activeTab = min(max($tabIndex, 0), count($row->subinfosFromFieldLinks()));
 
         $tagsRow = $row->tagLabels($locale);
 
         return view('rows.show', [
-            'locale'      => $locale,
-            'row'         => $row,
-            'projects'    => $projects,
-            'meta'        => $meta,
+            'locale' => $locale,
+            'row' => $row,
+            'projects' => $projects,
+            'meta' => $meta,
             'tagsProject' => $tagsRow,
+            'activeTab' => $activeTab,
         ]);
     }
 }

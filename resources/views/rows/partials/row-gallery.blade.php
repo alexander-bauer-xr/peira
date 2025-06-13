@@ -29,7 +29,7 @@
       @foreach($projects as $proj)
         <div class="card item">
           <a
-            href="{{ $proj->url($locale) }}?row={{ $slug }}"
+            href="{{ $proj->url($locale) }}"
             class="rowimg"
           >
             <div class="h3-text titleforimg">
