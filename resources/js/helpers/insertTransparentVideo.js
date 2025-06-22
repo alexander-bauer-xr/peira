@@ -37,7 +37,7 @@ export function insertTransparentVideo({
     videoElement.setAttribute('autoplay', '');
     videoElement.setAttribute('muted', '');
     videoElement.setAttribute('playsinline', '');
-    videoElement.setAttribute('webkit-playsinline', ''); // iOS Safari specific
+    videoElement.setAttribute('webkit-playsinline', '');
     videoElement.setAttribute('loop', '');
 
     videoElement.autoplay = true;
@@ -79,6 +79,8 @@ export function insertTransparentVideo({
             if (fallbackImage) {
                 fallbackImage.style.display = 'block';
                 if (onTimeoutFallback) onTimeoutFallback(fallbackImage);
+                const header = container.querySelector('h4');
+                if (header) header.style.display = 'none';
             }
         }
     }, timeout);

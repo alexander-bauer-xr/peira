@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- Logo & Slogan --}}
     <div id="schrift" class="bg">
         <div class="flex-container">
             <div id="logo-container" class="logocontainer">
@@ -17,7 +16,6 @@
 
             <div id="newslink">News</div>
 
-            {{-- News Section --}}
             <div id="news" class="scrollbarstyle">
                 @foreach ($newsItems as $index => $item)
                     <hr>
@@ -49,7 +47,6 @@
 
     <div id="overlay" class="bg">
     </div>
-    {{-- Fallback background --}}
     <div class="bg">
         <img id="webpPlayer" src="{{ asset('img/seq/000.webp') }}" alt="Peira Video" style="display: none;">
         <img src="{{ asset('img/bg.jpg') }}" alt="background" id="bgimg" class="bgimg">
