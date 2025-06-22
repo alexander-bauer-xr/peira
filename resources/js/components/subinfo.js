@@ -1,6 +1,6 @@
 export default function initSubinfoToggle() {
-  const buttons  = document.querySelectorAll('.buttonsinfo');
-  const contents = document.querySelectorAll('.infosoflinks');
+  const buttons  = Array.from(document.querySelectorAll('.buttonsinfo'));
+  const contents = Array.from(document.querySelectorAll('.infosoflinks'));
 
   function showTab(id) {
     contents.forEach(el => {
@@ -14,21 +14,38 @@ export default function initSubinfoToggle() {
     });
   }
 
+  function indexForSlug(slug) {
+    const btn = buttons.find(b => b.getAttribute('href').endsWith(`/${slug}`));
+    return btn ? btn.id.replace('controlinh-', '') : '0';
+  }
+
   window.addEventListener('popstate', () => {
-    const parts = location.pathname.split('/');
-    const id    = parts.pop() || '0';
+    const parts = location.pathname.split('/').filter(Boolean);
+    const slug  = parts.pop() || ''; 
+    const id    = indexForSlug(slug);
     showTab(id);
   });
 
   buttons.forEach(btn => {
     btn.addEventListener('click', e => {
       const href = btn.getAttribute('href');
-      const [ , , , , tab ] = href.split('/');
-      if (href.startsWith(location.pathname.split('/').slice(0,-1).join('/'))) {
+      const slug = href.split('/').pop();
+
+      const base = window.location.pathname.split('/').slice(0, -1).join('/');
+
+      if (href.startsWith(base)) {
         e.preventDefault();
-        history.pushState(null, '', href);
-        showTab(tab);
+
+        if (location.pathname !== href) {
+          history.pushState(null, '', href);
+        }
+
+        const id = indexForSlug(slug);
+        showTab(id);
       }
     });
   });
+
+  const initialSlug = location.pathname.split('/').filter(Boolean).pop() || '';
+  showTab(indexForSlug(initialSlug));
 }

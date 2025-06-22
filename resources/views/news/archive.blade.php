@@ -4,7 +4,7 @@
     use Illuminate\Support\Carbon;
 
     $grouped = $newsItems->groupBy(function ($item) {
-        return Carbon::parse($item->date)->format('Y-m'); // example: 2025-04
+        return Carbon::parse($item->date)->format('Y-m');
     });
 @endphp
 
@@ -53,6 +53,6 @@
                 @endforeach
             </div>
         </div>
-        @include('partials.footer')
+        @include(view: 'partials.footer')
     </div>
 @endsection

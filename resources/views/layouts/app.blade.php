@@ -7,7 +7,6 @@
 
     <x-meta :title="$meta->localizedTitle($locale)" :description="$meta->localizedDescription($locale)" />
 
-    <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
