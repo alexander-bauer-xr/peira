@@ -2,22 +2,22 @@
 
 namespace App\Data;
 
-use Illuminate\Support\Str;
 use App\Services\DrupalApiService;
 use App\Services\DrupalApi;
 
-class InfoItem
+class InfoItem extends BaseContentItem
 {
     public function __construct(
         public int $id,
-        public string $title,
-        public ?string $titleEn,
-        public ?string $bodyHtml,
-        public ?string $bodyHtmlEn,
+        string $title,
+        ?string $titleEn,
+        ?string $bodyHtml,
+        ?string $bodyHtmlEn,
         public ?string $imageUrl,
         public array $raw,
-        public string $lang = 'de',
+        string $lang = 'de',
     ) {
+        parent::__construct($title, $titleEn, $bodyHtml, $bodyHtmlEn, $lang);
     }
 
     public static function fromDrupal(array $item, string $locale = 'de'): self
@@ -34,28 +34,9 @@ class InfoItem
         );
     }
 
-    public function slug(): string
-    {
-        return Str::slug($this->localizedTitle($this->lang));
-    }
-
     public function url(string $locale): string
     {
         return '/' . $locale . '/ueber-uns/' . $this->slug();
-    }
-
-    public function localizedTitle(string $locale): string
-    {
-        return $locale === 'en' && $this->titleEn
-            ? $this->titleEn
-            : $this->title;
-    }
-
-    public function localizedBody(string $locale): ?string
-    {
-        return $locale === 'en' && $this->bodyHtmlEn
-            ? $this->bodyHtmlEn
-            : $this->bodyHtml;
     }
 
     public function subinfosFromFieldLinks(): array

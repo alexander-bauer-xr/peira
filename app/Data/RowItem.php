@@ -3,30 +3,30 @@
 
 namespace App\Data;
 
-use Illuminate\Support\Str;
 use App\Services\DrupalApiService;
 use App\Services\TagHelper;
 use App\Services\DrupalApi;
 
-class RowItem
+class RowItem extends BaseContentItem
 {
     public function __construct(
         public string $id,
-        public string $title,
-        public ?string $titleEn = null,
-        public ?string $bodyHtml = null,
-        public ?string $bodyHtmlEn = null,
+        string $title,
+        ?string $titleEn = null,
+        ?string $bodyHtml = null,
+        ?string $bodyHtmlEn = null,
         public ?string $year = null,
         public ?string $imageUrl = null,
         public array $tags = [],
         public bool $overlay = true,
         public bool $darkText = false,
         public string $style = '',
-        public string $lang = 'de',
+        string $lang = 'de',
         public array $raw = [],
         public array $socialMediaItems = [],
 
     ) {
+        parent::__construct($title, $titleEn, $bodyHtml, $bodyHtmlEn, $lang);
     }
 
     public static function fromDrupal(array $item): self
@@ -57,29 +57,11 @@ class RowItem
         );
     }
 
-    public function slug(): string
-    {
-        return Str::slug($this->title);
-    }
-
     public function url(string $locale): string
     {
         return '/' . $locale . '/reihen/' . $this->slug();
     }
 
-    public function localizedTitle(string $locale): string
-    {
-        return $locale === 'en' && $this->titleEn
-            ? $this->titleEn
-            : $this->title;
-    }
-
-    public function localizedBody(string $locale): ?string
-    {
-        return $locale === 'en' && $this->bodyHtmlEn
-            ? $this->bodyHtmlEn
-            : $this->bodyHtml;
-    }
 
     public function tagLabels(string $locale): array
     {
