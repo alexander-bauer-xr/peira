@@ -2,7 +2,6 @@
 
 namespace App\Data;
 
-use Illuminate\Support\Str;
 use App\Services\DrupalApiService;
 use App\Services\TagHelper;
 use App\Services\DrupalApi;
@@ -10,26 +9,27 @@ use App\Services\DrupalApi;
 use App\Data\RowItem;
 use App\Data\SubinfoItem;
 
-class ProjectItem
+class ProjectItem extends BaseContentItem
 {
     public function __construct(
         public string $id,
-        public string $title,
-        public ?string $titleEn,
-        public ?string $bodyHtml,
-        public ?string $bodyHtmlEn,
+        string $title,
+        ?string $titleEn,
+        ?string $bodyHtml,
+        ?string $bodyHtmlEn,
         public ?string $year,
         public ?string $imageUrl,
         public array $tags = [],
         public bool $overlay = true,
         public bool $darkText = false,
         public string $style = '',
-        public string $lang = 'de',
+        string $lang = 'de',
         public array $raw = [],
         public array $images = [],
         public string $place = '',
         public array $socialMediaItems = [],
     ) {
+        parent::__construct($title, $titleEn, $bodyHtml, $bodyHtmlEn, $lang);
     }
 
     public static function fromDrupal(array $item, string $locale = 'de'): self
@@ -61,24 +61,9 @@ class ProjectItem
         );
     }
 
-    public function slug(): string
-    {
-        return Str::slug($this->title);
-    }
-
     public function url(string $locale): string
     {
         return '/' . $locale . '/projekte/' . $this->slug();
-    }
-
-    public function localizedTitle(string $locale): string
-    {
-        return $locale === 'en' && $this->titleEn ? $this->titleEn : $this->title;
-    }
-
-    public function localizedBody(string $locale): ?string
-    {
-        return $locale === 'en' && $this->bodyHtmlEn ? $this->bodyHtmlEn : $this->bodyHtml;
     }
 
     public function yearFormatted(): ?string
