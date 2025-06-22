@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RowController;
 use App\Http\Controllers\NewsArchiveController;
+use App\Http\Controllers\InfoController;
 
 Route::get('/{locale?}', [HomeController::class, 'index'])
     ->where('locale', 'de|en')
@@ -25,5 +26,6 @@ Route::prefix('{locale}')
         Route::get('/reihen/{slug}/{tabIndex?}', [RowController::class, 'show'])
             ->name('rows.show');
 
-
+        Route::get('ueber-uns/{tabSlug?}', [InfoController::class, 'index'])
+            ->name('about');
     });

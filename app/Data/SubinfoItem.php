@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Services\DrupalApi;
+use Illuminate\Support\Str;
 
 class SubinfoItem
 {
@@ -51,5 +52,10 @@ class SubinfoItem
     public function localizedBody(string $locale): ?string
     {
         return $locale === 'en' && $this->bodyHtmlEn ? $this->bodyHtmlEn : $this->bodyHtml;
+    }
+
+    public function slug(): string
+    {
+        return Str::slug($this->localizedTitle($this->lang));
     }
 }
