@@ -18,7 +18,7 @@
 
     {{-- 2) Datumsliste mit Show-More/Show-Less-Logik --}}
     @php
-    $dates = $item->dates() ?? [];
+    $dates = $item->dates(app(App\Services\DrupalApiService::class)) ?? [];
     $totalDates = is_array($dates) ? count($dates) : 0;
     @endphp
 

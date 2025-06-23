@@ -31,7 +31,7 @@
 
             <div id="projectgrid" class="grid-wrapper">
                 @foreach($reihenfolge as $item)
-                    @php $entries = $item->entries($locale); @endphp
+                    @php $entries = $item->entries($locale, app(App\Services\DrupalApiService::class)); @endphp
                     @foreach($entries as $entry)
                         @if ($entry instanceof \App\Data\ProjectItem)
                             @include('projects.partials.card', ['project' => $entry, 'locale' => $locale])

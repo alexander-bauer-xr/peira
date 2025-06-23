@@ -108,10 +108,8 @@ class ProjectItem extends BaseContentItem
         return $this->raw['field_fotostrecke'] ?? [];
     }
 
-    public function dates(): array
+    public function dates(DrupalApiService $api): array
     {
-        $api = app(DrupalApiService::class);
-
         $termineData = $api->getTermine();
 
         $coproList = collect($api->getFoerdererUndKoproduzenten())
