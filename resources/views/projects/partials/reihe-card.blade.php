@@ -1,7 +1,7 @@
 <div class="{{ $reihe->style }} card">
     <a class="{{ $reihe->darkText ? 'blacktextcard' : 'whitetextcard' }}" href="/{{ $locale }}/reihen/{{ $reihe->slug() }}">
         <div class="tagcontainer">
-            @foreach ($reihe->tagLabels($locale) as $tag)
+            @foreach ($reihe->tagLabels($locale, app(App\Services\DrupalApiService::class)) as $tag)
                 <div class="tag {{ $reihe->darkText ? 'borderblack' : 'borderwhite' }}">
                     {{ $tag }}
                 </div>

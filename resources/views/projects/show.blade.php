@@ -12,7 +12,7 @@
                     {{ __('content.projects') }}
                 </a>
 
-                @if ($reihe = $project->reihe())
+                @if ($reihe = $project->reihe(app(App\Services\DrupalApiService::class)))
                     <img
                         id="projekttrenner"
                         alt="{{ __('content.project_separator') }}"
