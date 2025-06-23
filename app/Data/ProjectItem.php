@@ -5,6 +5,7 @@ namespace App\Data;
 use App\Services\DrupalApiService;
 use App\Services\TagHelper;
 use App\Services\DrupalApi;
+use App\Services\SocialMediaRenderer;
 
 use App\Data\RowItem;
 use App\Data\SubinfoItem;
@@ -77,15 +78,14 @@ class ProjectItem extends BaseContentItem
         return $year ? ($this->place ? "$year, $this->place" : $year) : $this->place;
     }
 
-    public function tagLabels(string $locale): array
+    public function tagLabels(string $locale, DrupalApiService $api): array
     {
-        $tags = app(DrupalApiService::class)->getTags();
+        $tags = $api->getTags();
         return TagHelper::labels($tags, $this->tags, $locale);
     }
 
-    public function subinfosFromFieldLinks(): array
+    public function subinfosFromFieldLinks(DrupalApiService $api): array
     {
-        $api = app(DrupalApiService::class);
         $nids = collect($this->raw['field_links'] ?? [])
             ->pluck('target_id')
             ->filter()
@@ -153,9 +153,8 @@ class ProjectItem extends BaseContentItem
             ->all();
     }
 
-    public function reihe(): ?RowItem
+    public function reihe(DrupalApiService $api): ?RowItem
     {
-        $api = app(DrupalApiService::class);
         $reihen = $api->getReihen();
 
         \Log::debug('[reihe()] Suche nach Reihe für Projekt-ID: ' . $this->id);
@@ -201,9 +200,8 @@ class ProjectItem extends BaseContentItem
         return $out;
     }
 
-    public function funders(): array
+    public function funders(DrupalApiService $api): array
     {
-        $api = app(DrupalApiService::class);
         $nids = collect($this->raw['field_foerderer'] ?? [])
             ->pluck('target_id')
             ->filter()
@@ -218,9 +216,8 @@ class ProjectItem extends BaseContentItem
             ->all();
     }
 
-    public function coProducers(): array
+    public function coProducers(DrupalApiService $api): array
     {
-        $api = app(DrupalApiService::class);
         $nids = collect($this->raw['field_kooperationspartner'] ?? [])
             ->pluck('target_id')
             ->filter()
@@ -235,41 +232,13 @@ class ProjectItem extends BaseContentItem
             ->all();
     }
 
-    public function sponsors(): array
+    public function sponsors(DrupalApiService $api): array
     {
-        return array_merge($this->funders(), $this->coProducers());
+        return array_merge($this->funders($api), $this->coProducers($api));
     }
 
-    public function socialMedia(): string
+    public function socialMedia(SocialMediaRenderer $renderer): string
     {
-        $entries = $this->socialMediaItems;
-        if (empty($entries)) {
-            return '';
-        }
-
-        $html = '<div class="termine">';
-        $html .= '<div class="newshead small-text">' . __('content.social') . '</div>';
-        $html .= '<div class="social-media-grid">';
-
-        foreach ($entries as $entry) {
-            $label = e($entry['first'] ?? '');
-            $handle = e($entry['second'] ?? '');
-            $url = $entry['third'] ?? null;
-
-            if (!$label || !$url) {
-                continue;
-            }
-
-            $html .= '<div class="social-media-row d-flex flex-row gap-2">';
-            $html .= '<div class="social-media-first">' . $label . '</div>';
-            $html .= '<a href="' . e($url) . '" target="_blank" class="social-media-second">'
-                . $handle . ' </a>';
-            $html .= '</div>';
-        }
-
-        $html .= '</div>';
-        $html .= '</div>';
-
-        return $html;
+        return $renderer->render($this->socialMediaItems);
     }
 }

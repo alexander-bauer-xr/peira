@@ -39,9 +39,8 @@ class InfoItem extends BaseContentItem
         return '/' . $locale . '/ueber-uns/' . $this->slug();
     }
 
-    public function subinfosFromFieldLinks(): array
+    public function subinfosFromFieldLinks(DrupalApiService $api): array
     {
-        $api = app(DrupalApiService::class);
 
         $nids = collect($this->raw['field_links'] ?? [])
             ->pluck('target_id')

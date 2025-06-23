@@ -23,7 +23,7 @@ class RowController extends Controller
             abort(404);
         }
 
-        $projectItemsArray = $row->projectsFromFieldProjekteReihe($locale);
+        $projectItemsArray = $row->projectsFromFieldProjekteReihe($locale, $drupal);
 
         $projects = collect($projectItemsArray);
 
@@ -34,17 +34,22 @@ class RowController extends Controller
             descriptionEn: Str::limit(strip_tags($row->localizedBody('en')), 160),
         );
 
-        $activeTab = min(max($tabIndex, 0), count($row->subinfosFromFieldLinks()));
+        $subinfos = $row->subinfosFromFieldLinks($drupal);
+        $activeTab = min(max($tabIndex, 0), count($subinfos));
 
-        $tagsRow = $row->tagLabels($locale);
+        $tagsRow = $row->tagLabels($locale, $drupal);
 
         return view('rows.show', [
-            'locale' => $locale,
-            'row' => $row,
-            'projects' => $projects,
-            'meta' => $meta,
+            'locale'      => $locale,
+            'row'         => $row,
+            'projects'    => $projects,
+            'meta'        => $meta,
             'tagsProject' => $tagsRow,
-            'activeTab' => $activeTab,
+            'activeTab'   => $activeTab,
+            'subinfos'    => $subinfos,
+            'contributors'=> [],
+            'coproducers' => [],
+            'funders'     => [],
         ]);
     }
 }
