@@ -7,7 +7,7 @@
                 </div>
             @endif
 
-            @foreach($project->tagLabels($locale) as $tagLabel)
+            @foreach($project->tagLabels($locale, app(App\Services\DrupalApiService::class)) as $tagLabel)
                 <div class="tag {{ $project->darkText ? 'borderblack' : 'borderwhite' }}">
                     {{ $tagLabel }}
                 </div>
