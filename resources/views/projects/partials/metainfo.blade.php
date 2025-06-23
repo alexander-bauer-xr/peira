@@ -14,7 +14,7 @@
     </div>
     @endif
 
-    {!! $item->socialMedia() !!}
+    {!! $item->socialMedia(app(App\Services\SocialMediaRenderer::class)) !!}
 
     {{-- 2) Datumsliste mit Show-More/Show-Less-Logik --}}
     @php
@@ -74,7 +74,7 @@
 
     {{-- Ko-Produzenten --}}
     @php
-    $koproduzenten = $item->coProducers();
+    $koproduzenten = $item->coProducers(app(App\Services\DrupalApiService::class));
     @endphp
     @if(count($koproduzenten))
     <div class="foerderung">
@@ -95,7 +95,7 @@
 
     {{-- Förderer --}}
     @php
-    $foerderer = $item->funders();
+    $foerderer = $item->funders(app(App\Services\DrupalApiService::class));
     @endphp
     @if(count($foerderer))
     <div class="foerderung">
@@ -117,7 +117,7 @@
 
   @else
     {{-- 3) Für Reihen (Social + Projekte in der Serie) --}}
-    {!! $item->socialMedia() !!}
+    {!! $item->socialMedia(app(App\Services\SocialMediaRenderer::class)) !!}
   </div>
 
   <div class="newshead small-text">
