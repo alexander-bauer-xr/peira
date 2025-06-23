@@ -25,10 +25,8 @@ class ReihungItem
         );
     }
 
-    public function entries(string $locale): array
+    public function entries(string $locale, DrupalApiService $drupal): array
     {
-        $drupal = app(DrupalApiService::class);
-
         return collect($this->projectIds)
             ->map(function ($nid) use ($drupal, $locale) {
                 $raw = $drupal->getById($nid);
