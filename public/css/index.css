@@ -1,57 +1,58 @@
 @charset "utf-8";
 
 :root {
-        /* Colors */
-        --color-white: #fff;
-        --color-black: #000;
-        --color-primary: #FF3901;
-        --color-primary-dark: #ff3801;
-        --color-black-60: rgba(0, 0, 0, 0.6);
-        --color-transparent: rgba(0, 0, 0, 0);
-        --color-black-65: rgba(0, 0, 0, 0.65);
-        --color-black-58: rgb(0 0 0 / 58%);
-        --color-black-30: rgba(0, 0, 0, .3);
+	/* Colors */
+	--color-white: #fff;
+	--color-black: #000;
+	--color-primary: #FF3901;
+	--color-primary-dark: #ff3801;
+	--color-black-60: rgba(0, 0, 0, 0.6);
+	--color-transparent: rgba(0, 0, 0, 0);
+	--color-black-65: rgba(0, 0, 0, 0.65);
+	--color-black-58: rgb(0 0 0 / 58%);
+	--color-black-30: rgba(0, 0, 0, .3);
 
-        /* Legacy color variables */
-        --color-1: var(--color-white);
-        --color-2: var(--color-black);
-        --color-3: var(--color-white);
-        --color-4: var(--color-black);
-        --color-5: var(--color-black);
-        --color-6: var(--color-black-60);
-        --color-7: var(--color-transparent);
-        --color-8: var(--color-black-65);
-        --color-9: var(--color-white);
-        --color-10: var(--color-primary);
-        --color-11: var(--color-black-58);
-        --color-12: var(--color-primary-dark);
-        --color-13: var(--color-black-30);
+	/* Legacy color variables */
+	--color-1: var(--color-white);
+	--color-2: var(--color-black);
+	--color-3: var(--color-white);
+	--color-4: var(--color-black);
+	--color-5: var(--color-black);
+	--color-6: var(--color-black-60);
+	--color-7: var(--color-transparent);
+	--color-8: var(--color-black-65);
+	--color-9: var(--color-white);
+	--color-10: var(--color-primary);
+	--color-11: var(--color-black-58);
+	--color-12: var(--color-primary-dark);
+	--color-13: var(--color-black-30);
 
-        /* Font Sizes */
-        --font-size-1: 2em;
-        --font-size-2: 18px;
-        --font-size-3: 15px;
-        --font-size-4: 50px;
-        --font-size-5: 2rem;
-        --font-size-6: 24px;
-        --font-size-7: 1.5rem;
-        --font-size-8: 1rem;
-        --font-size-9: 2rem;
-        --font-size-10: 25pt;
-        --font-size-11: 20pt;
-        --font-size-12: 12px;
-        --font-size-md: 18px; /* replacement for font-size-13 */
+	/* Font Sizes */
+	--font-size-1: 2em;
+	--font-size-2: 18px;
+	--font-size-3: 15px;
+	--font-size-4: 50px;
+	--font-size-5: 2rem;
+	--font-size-6: 24px;
+	--font-size-7: 1.5rem;
+	--font-size-8: 1rem;
+	--font-size-9: 2rem;
+	--font-size-10: 25pt;
+	--font-size-11: 20pt;
+	--font-size-12: 12px;
+	--font-size-md: 18px;
+	/* replacement for font-size-13 */
 
-        /* Border Radius */
-        --border-radius-1: 0px;
-        --border-radius-2: 10px;
-        --border-radius-3: 15px;
-        --border-radius-4: 1px;
-        --border-radius-5: 20px;
-        --border-radius-6: 25px;
-        --border-radius-7: 50%;
-        --border-radius-8: 5px;
-        --border-radius-9: 8px;
+	/* Border Radius */
+	--border-radius-1: 0px;
+	--border-radius-2: 10px;
+	--border-radius-3: 15px;
+	--border-radius-4: 1px;
+	--border-radius-5: 20px;
+	--border-radius-6: 25px;
+	--border-radius-7: 50%;
+	--border-radius-8: 5px;
+	--border-radius-9: 8px;
 }
 
 /* CSS Document */
@@ -302,7 +303,7 @@ table {
 	src: url('fonts/David-02-Light.woff2') format('woff2'),
 		url('fonts/David-02-Light.woff') format('woff');
 	font-weight: lighter;
-	font-style: lighter;
+	font-style: normal;
 	font-display: swap;
 }
 
@@ -316,7 +317,7 @@ body {
 }
 
 body {
-	font-family: 'davidlight';
+	font-family: 'davidlight', sans-serif;
 	font-size: 16px;
 	-moz-font-feature-settings: "liga", "kern";
 	font-feature-settings: "liga", "kern";
@@ -328,7 +329,7 @@ body {
 	-ms-hyphens: none;
 	-webkit-hyphens: none;
 	hyphens: none;
-	overflow:hidden;
+	overflow: hidden;
 }
 
 /*Beginn Projektansicht*/
@@ -451,6 +452,12 @@ blockquote::before {
 	align-items: center;
 	color: #fff;
 	border-radius: var(--border-radius-6);
+	position: relative;
+	width: 305px;
+	height: 300px;
+	flex-shrink: 0;
+	scroll-snap-align: center;
+	overflow: hidden;
 }
 
 .rowimg {
@@ -482,14 +489,7 @@ blockquote::before {
 	z-index: 8;
 }
 
-.item {
-	position: relative;
-	width: 305px;
-	height: 300px;
-	flex-shrink: 0;
-	scroll-snap-align: center;
-	overflow: hidden;
-}
+/* Removed duplicate .item definition. Properties merged above. */
 
 .cardtitle {
 	position: absolute;
@@ -603,19 +603,20 @@ blockquote::before {
 
 .projecttag {
 	font-family: 'davidlight';
-	font-size: var(--font-size-2);
+	font-size: 20px;
 	color: rgb(0, 0, 0);
 	z-index: 50;
-	border-radius: var(--border-radius-5);
-	border: 1px #000000 solid;
+	border-radius: 20px;
+	border: 2px #000000 solid;
 	width: auto;
-	height: auto;
+	height: 27px;
 	text-align: center;
-	float: right;
-	font-size: var(--font-size-3);
+	float: left;
+	font-size: 15px;
 	margin-right: 5px;
 	margin-bottom: 5px;
-	padding: 5px;
+	padding: 1px 4px 1px 4px;
+	line-height: 20px;
 }
 
 .tag {
@@ -1244,23 +1245,7 @@ blockquote::before {
 	margin-top: 53px;
 }
 
-.projecttag {
-	font-family: 'davidlight';
-	font-size: 20px;
-	color: rgb(0, 0, 0);
-	z-index: 50;
-	border-radius: 20px;
-	border: 2px #000000 solid;
-	width: auto;
-	height: 27px;
-	text-align: center;
-	float: left;
-	font-size: 15px;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	padding: 1px 4px 1px 4px;
-	line-height: 20px;
-}
+/* Removed duplicate .projecttag definition; see consolidated definition above */
 
 .vorangestellt .d-flex {
 	position: relative;
@@ -3095,12 +3080,12 @@ header {
 }
 
 article {
-	margin-bottom:96px;
-	max-width:64ch;
+	margin-bottom: 96px;
+	max-width: 64ch;
 }
 
 .nav-flex {
 	display: flex;
 	flex-direction: row;
-	gap:5px;
+	gap: 5px;
 }

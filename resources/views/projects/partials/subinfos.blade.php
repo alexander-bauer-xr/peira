@@ -18,47 +18,32 @@
 @if(count($subinfos) || count($contributors))
     <div class="linkcontainer">
         @foreach($subinfos as $i => $sub)
-            <a
-                href="{{ $item->url($locale) }}/{{ $i }}"
-                id="controlinh-{{ $i }}"
-                class="buttonsinfo {{ $i === $activeTab ? 'activeb' : 'notactiveb' }}"
-            >{{ $sub->localizedTitle($locale) }}</a>
+            <a href="{{ $item->url($locale) }}/{{ $i }}" id="controlinh-{{ $i }}"
+                class="buttonsinfo {{ $i === $activeTab ? 'activeb' : 'notactiveb' }}">{{ $sub->localizedTitle($locale) }}</a>
         @endforeach
 
         @if(count($contributors))
             @php $tabIndex = count($subinfos); @endphp
-            <a
-                href="{{ $item->url($locale) }}/{{ $tabIndex }}"
-                id="controlinh-{{ $tabIndex }}"
-                class="buttonsinfo {{ $tabIndex === $activeTab ? 'activeb' : 'notactiveb' }}"
-            >{{ __('content.contributors') }}</a>
+            <a href="{{ $item->url($locale) }}/{{ $tabIndex }}" id="controlinh-{{ $tabIndex }}"
+                class="buttonsinfo {{ $tabIndex === $activeTab ? 'activeb' : 'notactiveb' }}">{{ __('content.contributors') }}</a>
         @endif
     </div>
 
     <div class="contentwrapper">
         <div class="metalinks">
             @foreach($subinfos as $i => $sub)
-                <div
-                    id="controledinh-{{ $i }}"
-                    class="infosoflinks {{ $i === $activeTab ? 'disp' : 'nondisp' }}"
-                >@replaceVideo($sub->localizedBody($locale))</div>
+                <div id="controledinh-{{ $i }}" class="infosoflinks {{ $i === $activeTab ? 'disp' : 'nondisp' }}">
+                    @replaceVideo($sub->localizedBody($locale))
+                </div>
             @endforeach
 
             @if(count($contributors))
                 @php $tabIndex = count($subinfos); @endphp
 
-                <div
-                    id="controledinh-{{ $tabIndex }}"
-                    class="infosoflinks {{ $tabIndex === $activeTab ? 'disp' : 'nondisp' }}"
-                >
+                <div id="controledinh-{{ $tabIndex }}" class="infosoflinks {{ $tabIndex === $activeTab ? 'disp' : 'nondisp' }}">
                     @foreach($contributors as $c)
                         @if(!empty($c['third']))
-                            <strong>
-                                <a href="{{ $c['third'] }}" target="_blank">
-                                    {{ $c['first'] }}
-                                </a>
-                            </strong>
-                            {{ $c['second'] }}<br>
+                            <strong><a href="{{ $c['third'] }}" target="_blank">{{ $c['first'] }}</a></strong> {{ $c['second'] }}<br>
                         @else
                             <strong>{{ $c['first'] }}</strong> {{ $c['second'] }}<br>
                         @endif
@@ -66,44 +51,25 @@
 
                     <br><br>
 
-                    @if(count($coproducers))
-                        @php
-                            $cpFragments = array_map(fn($cp) => $cp->asHtmlLink(), $coproducers);
-                            if(count($cpFragments) === 1) {
-                                $coProdString = $cpFragments[0];
-                            } else {
-                                $last = array_pop($cpFragments);
-                                $coProdString = implode(', ', $cpFragments) . ' und ' . $last;
-                            }
+                    @php
+                        $coProdString = collect($coproducers)->map->asHtmlLink()->join(', ', ' und ');
+                        $fundString = collect($funders)->map->asHtmlLink()->join(', ', ' und ');
+                    @endphp
 
-                            $fFragments = array_map(fn($f) => $f->asHtmlLink(), $funders);
-                            if(count($fFragments) === 1) {
-                                $fundString = $fFragments[0];
-                            } elseif(count($fFragments) > 1) {
-                                $lastF = array_pop($fFragments);
-                                $fundString = implode(', ', $fFragments) . ' und ' . $lastF;
-                            } else {
-                                $fundString = '';
-                            }
-                        @endphp
-
+                    @if($coProdString !== '')
                         <div class="co-production">
                             <strong>{{ $item->localizedTitle($locale) }}</strong>
                             {{ __('content.ist_eine_kooperation_zwischen') }}
                             {!! $coProdString !!}
-
-                            @if(count($funders))
+                            @if($fundString !== '')
                                 {{ __('content.und_wird_gefoerdert_von') }}
                                 {!! $fundString !!}.
                             @else
                                 .
                             @endif
-
                             {{ __('content.alle_inhalte_eigentum') }}
                         </div>
-                    @endif
-
-                    @if(count($coproducers) === 0 && count($funders))
+                    @elseif($fundString !== '')
                         <div class="funding">
                             <strong>{{ $item->localizedTitle($locale) }}</strong>
                             {{ __('content.wird_gefoerdert_von') }}
@@ -127,4 +93,5 @@
 
         @include($metainfoView, $metainfoData)
     </div>
+
 @endif

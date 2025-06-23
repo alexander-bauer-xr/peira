@@ -53,6 +53,6 @@
                 @endforeach
             </div>
         </div>
-        @include(view: 'partials.footer')
+        @include( 'partials.footer')
     </div>
 @endsection

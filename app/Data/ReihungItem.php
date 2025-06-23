@@ -8,7 +8,7 @@ class ReihungItem
 {
     public function __construct(
         public string $title,
-        public array $projectIds, // Nur nid-Werte
+        public array $projectIds,
     ) {}
 
     public static function fromDrupal(array $item): self
