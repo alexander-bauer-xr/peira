@@ -20,7 +20,7 @@ class InfoController extends Controller
             Str::lower($i->title) === 'über uns' || Str::lower($i->title) === 'about'
         );
 
-        $subinfos = collect($item->subinfosFromFieldLinks())
+        $subinfos = collect($item->subinfosFromFieldLinks($drupal))
             ->mapWithKeys(fn($sub) => [
                 $slug = $sub->slug() => $sub
             ])->all();

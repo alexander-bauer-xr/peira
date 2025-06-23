@@ -58,7 +58,8 @@ class ProjectController extends Controller
             descriptionEn: 'A project by Peira: ' . ($project->titleEn ?? $project->title)
         );
 
-        $subInfoCount = count($project->subinfosFromFieldLinks());
+        $subinfos = $project->subinfosFromFieldLinks($drupal);
+        $subInfoCount = count($subinfos);
         $contrib = $project->contributors();
         $hasContrib = count($contrib) ? 1 : 0;
         $maxIndex = $subInfoCount + $hasContrib;
@@ -67,14 +68,20 @@ class ProjectController extends Controller
             max($maxIndex, 0)
         );
 
-        $tagsProject = $project->tagLabels($locale);
+        $coproducers = $project->coProducers($drupal);
+        $funders = $project->funders($drupal);
+        $tagsProject = $project->tagLabels($locale, $drupal);
 
         return view('projects.show', [
-            'project' => $project,
-            'locale' => $locale,
-            'meta' => $meta,
-            'tagsProject' => $tagsProject,
-            'activeTab' => $activeTab,
+            'project'      => $project,
+            'locale'       => $locale,
+            'meta'         => $meta,
+            'tagsProject'  => $tagsProject,
+            'activeTab'    => $activeTab,
+            'subinfos'     => $subinfos,
+            'contributors' => $contrib,
+            'coproducers'  => $coproducers,
+            'funders'      => $funders,
         ]);
     }
 }

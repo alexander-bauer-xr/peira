@@ -1,18 +1,10 @@
 @php
-    $activeTab = $activeTab ?? 0;
-    $subinfos = $item->subinfosFromFieldLinks();
-
-    $isProject = $item instanceof \App\Data\ProjectItem;
-
-    if ($isProject) {
-        $contributors = $item->contributors();
-        $coproducers = $item->coProducers();
-        $funders = $item->funders();
-    } else {
-        $contributors = [];
-        $coproducers = [];
-        $funders = [];
-    }
+    $activeTab    = $activeTab ?? 0;
+    $subinfos      = $subinfos ?? [];
+    $contributors  = $contributors ?? [];
+    $coproducers   = $coproducers ?? [];
+    $funders       = $funders ?? [];
+    $isProject     = $item instanceof \App\Data\ProjectItem;
 @endphp
 
 @if(count($subinfos) || count($contributors))

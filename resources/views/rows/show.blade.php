@@ -42,7 +42,7 @@
         <div class="inner_container">
             <div class="content body-text">
                 @php
-                  $tags          = $row->tagLabels($locale);
+                  $tags          = $tagsProject ?? [];
                   $metainfoArgs  = ['item' => $row, 'locale' => $locale, 'projects' => $projects];
                 @endphp
 
@@ -51,7 +51,11 @@
                   'locale'       => $locale,
                   'tags'         => $tags,
                   'metainfoView' => 'projects.partials.metainfo',
-                  'metainfoData' => $metainfoArgs, 
+                  'metainfoData' => $metainfoArgs,
+                  'subinfos'     => $subinfos,
+                  'contributors' => $contributors,
+                  'coproducers'  => $coproducers,
+                  'funders'      => $funders,
                 ])
             </div>
         </div>

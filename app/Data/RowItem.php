@@ -6,6 +6,7 @@ namespace App\Data;
 use App\Services\DrupalApiService;
 use App\Services\TagHelper;
 use App\Services\DrupalApi;
+use App\Services\SocialMediaRenderer;
 
 class RowItem extends BaseContentItem
 {
@@ -63,15 +64,14 @@ class RowItem extends BaseContentItem
     }
 
 
-    public function tagLabels(string $locale): array
+    public function tagLabels(string $locale, DrupalApiService $api): array
     {
-        $tags = app(DrupalApiService::class)->getTags();
+        $tags = $api->getTags();
         return TagHelper::labels($tags, $this->tags, $locale);
     }
 
-    public function subinfosFromFieldLinks(): array
+    public function subinfosFromFieldLinks(DrupalApiService $api): array
     {
-        $api = app(DrupalApiService::class);
         $nids = collect($this->raw['field_link_reihen'] ?? [])
             ->pluck('target_id')
             ->filter()
@@ -86,9 +86,8 @@ class RowItem extends BaseContentItem
             ->all();
     }
 
-    public function projectsFromFieldProjekteReihe(string $locale): array
+    public function projectsFromFieldProjekteReihe(string $locale, DrupalApiService $api): array
     {
-        $api = app(DrupalApiService::class);
 
         $nids = collect($this->raw['field_projekte_reihe'] ?? [])
             ->pluck('target_id')
@@ -104,35 +103,8 @@ class RowItem extends BaseContentItem
             ->all();
     }
 
-    public function socialMedia(): string
+    public function socialMedia(SocialMediaRenderer $renderer): string
     {
-        $entries = $this->socialMediaItems;
-        if (empty($entries)) {
-            return '';
-        }
-
-        $html = '<div class="termine">';
-        $html .= '<div class="newshead small-text">' . __('content.social') . '</div>';
-        $html .= '<div class="social-media-grid">';
-
-        foreach ($entries as $entry) {
-            $label = e($entry['first'] ?? '');
-            $handle = e($entry['second'] ?? '');
-            $url = $entry['third'] ?? null;
-
-            if (!$label || !$url) {
-                continue;
-            }
-
-            $html .= '<div class="social-media-row d-flex flex-row gap-2">';
-            $html .= '<div class="social-media-first">' . $label . '</div>';
-            $html .= '<a href="' . e($url) . '" target="_blank" class="social-media-second">'
-                . $handle . ' </a>';
-            $html .= '</div>';
-        }
-
-        $html .= '</div>';
-
-        return $html;
+        return $renderer->render($this->socialMediaItems);
     }
 }
