@@ -63,7 +63,7 @@
                 'metainfoView' => 'projects.partials.metainfo',
                 'metainfoData' => $metainfoData,
                 'subinfos'     => $subinfos,
-                'contributors' => $contrib,
+                'contributors' => $contributors,
                 'coproducers'  => $coproducers,
                 'funders'      => $funders,
             ])

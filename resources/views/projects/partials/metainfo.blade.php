@@ -6,7 +6,6 @@
 
 <div class="infosprojects">
   @if($isProject)
-    {{-- 1) Veröffentlicht (Jahr & Ort) --}}
     @if($item->yearFormatted())
     <div class="termine">
     <div class="newshead small-text">{{ __('content.published') }}</div>
@@ -16,7 +15,6 @@
 
     {!! $item->socialMedia(app(App\Services\SocialMediaRenderer::class)) !!}
 
-    {{-- 2) Datumsliste mit Show-More/Show-Less-Logik --}}
     @php
     $dates = $item->dates(app(App\Services\DrupalApiService::class)) ?? [];
     $totalDates = is_array($dates) ? count($dates) : 0;

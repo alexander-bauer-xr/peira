@@ -1,10 +1,10 @@
 @php
-    $activeTab    = $activeTab ?? 0;
-    $subinfos      = $subinfos ?? [];
-    $contributors  = $contributors ?? [];
-    $coproducers   = $coproducers ?? [];
-    $funders       = $funders ?? [];
-    $isProject     = $item instanceof \App\Data\ProjectItem;
+    $activeTab = $activeTab ?? 0;
+    $subinfos = $subinfos ?? [];
+    $contributors = $contributors ?? [];
+    $coproducers = $coproducers ?? [];
+    $funders = $funders ?? [];
+    $isProject = $item instanceof \App\Data\ProjectItem;
 @endphp
 
 @if(count($subinfos) || count($contributors))
@@ -64,8 +64,15 @@
                     @elseif($fundString !== '')
                         <div class="funding">
                             <strong>{{ $item->localizedTitle($locale) }}</strong>
-                            {{ __('content.wird_gefoerdert_von') }}
+                            {{ __('content.ist_eine_produktion_von') }} Peira GbR
+                            {{ __('content.und_wird_gefoerdert_von') }}
                             {!! $fundString !!}.
+                            {{ __('content.alle_inhalte_eigentum') }}
+                        </div>
+                    @else
+                        <div class="funding">
+                            <strong>{{ $item->localizedTitle($locale) }}</strong>
+                            {{ __('content.ist_eine_produktion_von') }} Peira GbR.
                             {{ __('content.alle_inhalte_eigentum') }}
                         </div>
                     @endif

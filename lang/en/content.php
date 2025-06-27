@@ -31,5 +31,6 @@ return [
     'ist_eine_kooperation_zwischen' => 'is a co-production between',
     'und_wird_gefoerdert_von' => 'and is funded by',
     'wird_gefoerdert_von' => 'is funded by',
+    'ist_eine_produktion_von' => 'is a production by',
     'alle_inhalte_eigentum' => 'All content is, unless otherwise noted, the property of Peira GbR.',
 ];
