@@ -1,11 +1,36 @@
+{{-- resources/views/menu.blade.php --}}
+@php
+    $locale        = app()->getLocale();
+    $currentRoute  = Route::currentRouteName();
+    $currentParams = request()->route()->parameters();
+@endphp
+
 <div class="close_img">
-    <div id="menu-interaction"><h4>Menu</h4></div>
-    <img id="mobileMenu" class="close_img_mobile" src="{{ asset('img/burger-menu.svg') }}" alt="Peira Menu">
-    <img id="webpPlayerMenu" class="close_img" src="{{ asset('img/burger-menu.svg') }}" alt="Peira Menu"
-        style="display: none;">
+    <div id="menu-interaction"><h4>{{ __('navigation.menu') }}</h4></div>
+
+    <button
+        id="mobileMenu"
+        class="close_img_mobile"
+        aria-controls="menu"
+        aria-expanded="false"
+        aria-label="{{ __('navigation.menu_oeffnen') }}"
+    >
+        <img src="{{ asset('img/burger-menu.svg') }}" alt="">
+    </button>
+
+    <button
+        id="webpPlayerMenu"
+        class="close_img"
+        aria-controls="menu"
+        aria-expanded="false"
+        aria-label="{{ __('navigation.menu_oeffnen') }}"
+        style="display: none;"
+    >
+        <img src="{{ asset('img/burger-menu.svg') }}" alt="">
+    </button>
 </div>
 
-<div id="clickaway"></div>
+<div id="clickaway" tabindex="-1"></div>
 
 <div id="menusvg" class="beginright"><svg width="520" height="471" viewBox="0 0 520 471" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -15,50 +40,74 @@
     </svg>
 </div>
 
-@php
-    $locale        = app()->getLocale();
-    $currentRoute  = Route::currentRouteName();
-    $currentParams = request()->route()->parameters();
-@endphp
-
-<div id="menu" class="menucontainer">
-
+<div id="menu" class="menucontainer" role="dialog" aria-modal="true" aria-label="{{ __('navigation.hauptmenue') }}">
     <div id="menuitem6" class="menuitem">
-        <a href="{{ route('home', ['locale' => $locale]) }}">
-            <img id="logo" src="{{ asset('img/peira-w.svg') }}" alt="logo" class="logo">
-        </a>
+        <x-a-link
+            href="{{ route('home', ['locale' => $locale]) }}"
+            :active="$currentRoute === 'home'"
+            label="{{ __('navigation.startseite') }}"
+        >
+            <img id="logo" src="{{ asset('img/peira-w.svg') }}" alt="Peira Logo" class="logo">
+        </x-a-link>
     </div>
 
     <div id="menuitem1" class="menuitem">
-        <a href="{{ route('projects.index', ['locale' => $locale]) }}">
+        <x-a-link
+            href="{{ route('projects.index', ['locale' => $locale]) }}"
+            :active="$currentRoute === 'projects.index'"
+            label="{{ __('navigation.projekte') }}"
+        >
             {{ __('navigation.projekte') }}
-        </a>
+        </x-a-link>
     </div>
 
     <div id="menuitem2" class="menuitem">
-        <a href="{{ route('about', ['locale' => $locale]) }}">
+        <x-a-link
+            href="{{ route('about', ['locale' => $locale]) }}"
+            :active="$currentRoute === 'about' && ! request()->has('tabSlug')"
+            label="{{ __('navigation.ueber_uns') }}"
+        >
             {{ __('navigation.ueber_uns') }}
-        </a>
+        </x-a-link>
     </div>
 
     <div id="menuitem3" class="menuitem">
-        <a href="{{ route('about', [
-                    'locale'   => $locale,
-                    'tabSlug'  => 'kontakt'
-                ]) }}">
+        <x-a-link
+            href="{{ route('about', array_merge($currentParams, ['locale' => $locale, 'tabSlug' => 'kontakt'])) }}"
+            :active="$currentRoute === 'about' && request('tabSlug') === 'kontakt'"
+            label="{{ __('navigation.kontakt') }}"
+        >
             {{ __('navigation.kontakt') }}
-        </a>
+        </x-a-link>
     </div>
 
-    <div id="menuitem4" class="menuitem {{ $locale === 'de' ? 'activelink' : '' }}">
-        <a href="{{ route($currentRoute, array_merge($currentParams, ['locale' => 'de'])) }}">DE</a>
+    <div id="menuitem4" class="menuitem">
+        <x-a-link
+            href="{{ route($currentRoute, array_merge($currentParams, ['locale' => 'de'])) }}"
+            :active="$locale === 'de'"
+            label="{{ __('navigation.deutsch') }}"
+        >
+            DE
+        </x-a-link>
     </div>
-    <div id="menuitem5" class="menuitem {{ $locale === 'en' ? 'activelink' : '' }}">
-        <a href="{{ route($currentRoute, array_merge($currentParams, ['locale' => 'en'])) }}">EN</a>
+
+    <div id="menuitem5" class="menuitem">
+        <x-a-link
+            href="{{ route($currentRoute, array_merge($currentParams, ['locale' => 'en'])) }}"
+            :active="$locale === 'en'"
+            label="{{ __('navigation.english') }}"
+        >
+            EN
+        </x-a-link>
     </div>
 
     <div id="menuitemclose" class="menuitem">
-        <img id="close_img" src="{{ asset('img/nav/close.svg') }}" alt="Peira Close Menu">
+        <button
+            id="close_img"
+            aria-label="{{ __('navigation.menu_schliessen') }}"
+        >
+            <img src="{{ asset('img/nav/close.svg') }}" alt="">
+        </button>
     </div>
 </div>
 

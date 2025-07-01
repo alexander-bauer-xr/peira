@@ -1,133 +1,132 @@
 {{-- resources/views/projects/partials/metainfo.blade.php --}}
 
 @php
-  $isProject = method_exists($item, 'dates');
+    $isProject = method_exists($item, 'dates');
 @endphp
 
 <div class="infosprojects">
-  @if($isProject)
-    @if($item->yearFormatted())
-    <div class="termine">
-    <div class="newshead small-text">{{ __('content.published') }}</div>
-    <span>{{ $item->yearAndPlace() }}</span>
-    </div>
-    @endif
+    @if ($isProject)
+        @if ($item->yearFormatted())
+            <div class="termine">
+                <div class="newshead small-text">{{ __('content.published') }}</div>
+                <span>{{ $item->yearAndPlace() }}</span>
+            </div>
+        @endif
 
-    {!! $item->socialMedia(app(App\Services\SocialMediaRenderer::class)) !!}
+        {!! $item->socialMedia(app(App\Services\SocialMediaRenderer::class)) !!}
 
-    @php
-    $dates = $item->dates(app(App\Services\DrupalApiService::class)) ?? [];
-    $totalDates = is_array($dates) ? count($dates) : 0;
-    @endphp
+        @php
+            $dates = $item->dates(app(App\Services\DrupalApiService::class)) ?? [];
+            $totalDates = is_array($dates) ? count($dates) : 0;
+        @endphp
 
-    @if($totalDates > 0)
-    <div class="termine">
-    <div class="newshead small-text">{{ __('content.dates') }}</div>
+        @if ($totalDates > 0)
+            <div class="termine">
+                <div class="newshead small-text">{{ __('content.dates') }}</div>
 
-    @foreach($dates as $date)
-      @if($loop->index < 3)
-      <div class="termin">
-      <div class="dateproject body-text">{{ $date->formattedDates }}</div>
-      <div class="titelproject body-text-bold">
-      {{ $date->localizedTitle($locale) }}
-      </div>
-      <div class="ortproject body-text">
-      {!! $date->place->asHtmlLink() !!}
-      </div>
-      </div>
-      @elseif($loop->index === 3)
-      <div id="extraDates" class="d-none">
-      <div class="termin">
-      <div class="dateproject body-text">{{ $date->formattedDates }}</div>
-      <div class="titelproject body-text-bold">
-      {{ $date->localizedTitle($locale) }}
-      </div>
-      <div class="ortproject body-text">
-      {!! $date->place->asHtmlLink() !!}
-      </div>
-      </div>
-      @else
-      <div class="termin">
-      <div class="dateproject body-text">{{ $date->formattedDates }}</div>
-      <div class="titelproject body-text-bold">
-      {{ $date->localizedTitle($locale) }}
-      </div>
-      <div class="ortproject body-text">
-      {!! $date->place->asHtmlLink() !!}
-      </div>
-      </div>
-      @endif
-    @endforeach
+                @foreach ($dates as $date)
+                    @if ($loop->index < 3)
+                        <div class="termin">
+                            <div class="dateproject body-text">{{ $date->formattedDates }}</div>
+                            <div class="titelproject body-text-bold">
+                                {{ $date->localizedTitle($locale) }}
+                            </div>
+                            <div class="ortproject body-text">
+                                {!! $date->place->asHtmlLink() !!}
+                            </div>
+                        </div>
+                    @elseif($loop->index === 3)
+                        <div id="extraDates" class="d-none">
+                            <div class="termin">
+                                <div class="dateproject body-text">{{ $date->formattedDates }}</div>
+                                <div class="titelproject body-text-bold">
+                                    {{ $date->localizedTitle($locale) }}
+                                </div>
+                                <div class="ortproject body-text">
+                                    {!! $date->place->asHtmlLink() !!}
+                                </div>
+                            </div>
+                        @else
+                            <div class="termin">
+                                <div class="dateproject body-text">{{ $date->formattedDates }}</div>
+                                <div class="titelproject body-text-bold">
+                                    {{ $date->localizedTitle($locale) }}
+                                </div>
+                                <div class="ortproject body-text">
+                                    {!! $date->place->asHtmlLink() !!}
+                                </div>
+                            </div>
+                    @endif
+                @endforeach
 
-      @if($totalDates > 3)
-    </div>
-    <div class="buttonwrapper">
-      <button id="toggleButton" class="morebutton" aria-expanded="false" aria-controls="extraDates">
-      {{ __('content.show_more') }}
-      </button>
-    </div>
-    @endif
-    </div>
-    @endif
+                @if ($totalDates > 3)
+            </div>
+            <div class="buttonwrapper">
+                <button id="toggleButton" class="morebutton" aria-expanded="false" aria-controls="extraDates">
+                    {{ __('content.show_more') }}
+                </button>
+            </div>
+        @endif
+</div>
+@endif
 
-    {{-- Ko-Produzenten --}}
-    @php
+{{-- Ko-Produzenten --}}
+@php
     $koproduzenten = $item->coProducers(app(App\Services\DrupalApiService::class));
-    @endphp
-    @if(count($koproduzenten))
+@endphp
+@if (count($koproduzenten))
     <div class="foerderung">
-    <div class="foerderunghead small-text">
-      In Kooperation mit
+        <div class="foerderunghead small-text">
+            In Kooperation mit
+        </div>
+        <div class="container-fluid py-2 flex-grid-logos">
+            @foreach ($koproduzenten as $k)
+                <div class="col">
+                    <a href="{{ $k->getLink() }}" target="_blank" title="{{ $k->getName() }}">
+                        <img src="{{ $k->getLogoUrl() }}" alt="{{ $k->getLogoAlt() ?? $k->getName() }}">
+                    </a>
+                </div>
+            @endforeach
+        </div>
     </div>
-    <div class="container-fluid py-2 flex-grid-logos">
-      @foreach($koproduzenten as $k)
-      <div class="col">
-      <a href="{{ $k->getLink() }}" target="_blank" title="{{ $k->getName() }}">
-      <img src="{{ $k->getLogoUrl() }}" alt="{{ $k->getLogoAlt() ?? $k->getName() }}">
-      </a>
-      </div>
-    @endforeach
-    </div>
-    </div>
-    @endif
+@endif
 
-    {{-- Förderer --}}
-    @php
+{{-- Förderer --}}
+@php
     $foerderer = $item->funders(app(App\Services\DrupalApiService::class));
-    @endphp
-    @if(count($foerderer))
+@endphp
+@if (count($foerderer))
     <div class="foerderung">
-    <div class="foerderunghead small-text">
-      Dieses Projekt wurde gefördert von
+        <div class="foerderunghead small-text">
+            Dieses Projekt wurde gefördert von
+        </div>
+        <div class="container-fluid py-2 flex-grid-logos">
+            @foreach ($foerderer as $f)
+                <div class="col">
+                    <a href="{{ $f->getLink() }}" target="_blank" title="{{ $f->getName() }}">
+                        <img src="{{ $f->getLogoUrl() }}" alt="{{ $f->getLogoAlt() ?? $f->getName() }}">
+                    </a>
+                </div>
+            @endforeach
+        </div>
     </div>
-    <div class="container-fluid py-2 flex-grid-logos">
-      @foreach($foerderer as $f)
-      <div class="col">
-      <a href="{{ $f->getLink() }}" target="_blank" title="{{ $f->getName() }}">
-      <img src="{{ $f->getLogoUrl() }}" alt="{{ $f->getLogoAlt() ?? $f->getName() }}">
-      </a>
-      </div>
-    @endforeach
-    </div>
-    </div>
-    @endif
+@endif
+@else
+{{-- 3) Für Reihen (Social + Projekte in der Serie) --}}
+{!! $item->socialMedia(app(App\Services\SocialMediaRenderer::class)) !!}
 
 
-  @else
-    {{-- 3) Für Reihen (Social + Projekte in der Serie) --}}
-    {!! $item->socialMedia(app(App\Services\SocialMediaRenderer::class)) !!}
-  </div>
-
-  <div class="newshead small-text">
+<div class="newshead small-text">
     {{ __('content.projects_in_series') }}
     <br><br>
-  </div>
-  @foreach($projects as $proj)
+</div>
+@foreach ($projects as $proj)
     <div class="dateproject body-text rowprojects">
-    <a href="{{ $proj->url($locale) }}">
-    {{ $proj->localizedTitle($locale) }}
-    </a>
+        <a href="{{ $proj->url($locale) }}">
+            {{ $proj->localizedTitle($locale) }}
+        </a>
     </div>
-  @endforeach
+@endforeach
+</div>
 @endif
 </div>

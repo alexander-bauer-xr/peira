@@ -13,7 +13,7 @@ class NewsArchiveController extends Controller
     {
         app()->setLocale($locale);
 
-        $newsRaw = $drupal->getNews();
+        $newsRaw = $drupal->getArchivedNews();
 
         $newsItems = collect($newsRaw)
             ->map(fn($n) => NewsItem::fromDrupal($n))

@@ -47,6 +47,11 @@ class DrupalApiService
         return $this->cachedRequest('news');
     }
 
+    public function getArchivedNews(): array
+    {
+        return $this->cachedRequest('newsarchiv');
+    }
+
     public function getProjekte(): array
     {
         return $this->cachedRequest('projekte');

@@ -28,7 +28,6 @@
                     alt="{{ __('content.project_separator') }}"
                     src="{{ asset('img/projekttrenner.svg') }}"
                 >
-                <span>{{ $project->localizedTitle($locale) }}</span>
             </div>
 
             <h1 class="ueberschrift h1-text">
