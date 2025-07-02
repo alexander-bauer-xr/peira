@@ -28,10 +28,7 @@
     <div id="{{ $containerId }}" class="list scrollbarstyletrans">
       @foreach($projects as $proj)
         <div class="card item">
-          <a
-            href="{{ $proj->url($locale) }}"
-            class="rowimg"
-          >
+          <x-a-link href="{{ $proj->url($locale) }}" class="rowimg" label="{{ $proj->localizedTitle($locale) }}">
             <div class="h3-text titleforimg">
               {{ $proj->localizedTitle($locale) }}
             </div>
@@ -40,7 +37,7 @@
               alt="{{ $proj->localizedTitle($locale) }}"
               class="imagecover"
             >
-          </a>
+          </x-a-link>
         </div>
       @endforeach
     </div>

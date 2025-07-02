@@ -8,9 +8,9 @@
     <div class="inner_container_vor">
         <div class="before-margin">
             <div class="nav-flex">
-                <a href="{{ route('projects.index', ['locale' => $locale]) }}">
+                <x-a-link href="{{ route('projects.index', ['locale' => $locale]) }}" label="{{ __('content.projects') }}">
                     {{ __('content.projects') }}
-                </a>
+                </x-a-link>
 
                 @if ($reihe = $project->reihe(app(App\Services\DrupalApiService::class)))
                     <img
@@ -18,9 +18,9 @@
                         alt="{{ __('content.project_separator') }}"
                         src="{{ asset('img/projekttrenner.svg') }}"
                     >
-                    <a href="{{ $reihe->url($locale) }}">
+                    <x-a-link href="{{ $reihe->url($locale) }}" label="{{ $reihe->localizedTitle($locale) }}">
                         {{ $reihe->localizedTitle($locale) }}
-                    </a>
+                    </x-a-link>
                 @endif
 
                 <img

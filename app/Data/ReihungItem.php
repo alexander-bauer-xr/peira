@@ -9,7 +9,8 @@ class ReihungItem
     public function __construct(
         public string $title,
         public array $projectIds,
-    ) {}
+    ) {
+    }
 
     public static function fromDrupal(array $item): self
     {
@@ -37,9 +38,9 @@ class ReihungItem
 
                     return match ($type) {
                         'projekt' => ProjectItem::fromDrupal($item),
-                        'zitat'   => ZitatItem::fromDrupal($item),
-                        'reihen'   => RowItem::fromDrupal($item),
-                        default   => null,
+                        'zitat' => ZitatItem::fromDrupal($item),
+                        'reihen' => RowItem::fromDrupal($item),
+                        default => null,
                     };
                 }
 

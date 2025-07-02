@@ -8,9 +8,9 @@
     <div class="inner_container_vor">
         <div class="before-margin">
             <div class="nav-flex">
-                <a href="{{ route('projects.index', ['locale' => $locale]) }}">
+                <x-a-link href="{{ route('projects.index', ['locale' => $locale]) }}" label="{{ __('content.projects') }}">
                     {{ __('content.projects') }}
-                </a>
+                </x-a-link>
                 <img
                   id="projekttrenner"
                   alt="{{ __('content.project_separator') }}"

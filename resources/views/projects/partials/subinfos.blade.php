@@ -10,14 +10,14 @@
 @if(count($subinfos) || count($contributors))
     <div class="linkcontainer">
         @foreach($subinfos as $i => $sub)
-            <a href="{{ $item->url($locale) }}/{{ $i }}" id="controlinh-{{ $i }}"
-                class="buttonsinfo {{ $i === $activeTab ? 'activeb' : 'notactiveb' }}">{{ $sub->localizedTitle($locale) }}</a>
+            <x-a-link href="{{ $item->url($locale) }}/{{ $i }}" id="controlinh-{{ $i }}"
+                class="buttonsinfo {{ $i === $activeTab ? 'activeb' : 'notactiveb' }}" label="{{ $sub->localizedTitle($locale) }}">{{ $sub->localizedTitle($locale) }}</x-a-link>
         @endforeach
 
         @if(count($contributors))
             @php $tabIndex = count($subinfos); @endphp
-            <a href="{{ $item->url($locale) }}/{{ $tabIndex }}" id="controlinh-{{ $tabIndex }}"
-                class="buttonsinfo {{ $tabIndex === $activeTab ? 'activeb' : 'notactiveb' }}">{{ __('content.contributors') }}</a>
+            <x-a-link href="{{ $item->url($locale) }}/{{ $tabIndex }}" id="controlinh-{{ $tabIndex }}"
+                class="buttonsinfo {{ $tabIndex === $activeTab ? 'activeb' : 'notactiveb' }}" label="{{ __('content.contributors') }}">{{ __('content.contributors') }}</x-a-link>
         @endif
     </div>
 
@@ -35,7 +35,7 @@
                 <div id="controledinh-{{ $tabIndex }}" class="infosoflinks {{ $tabIndex === $activeTab ? 'disp' : 'nondisp' }}">
                     @foreach($contributors as $c)
                         @if(!empty($c['third']))
-                            <strong><a href="{{ $c['third'] }}" target="_blank">{{ $c['first'] }}</a></strong> {{ $c['second'] }}<br>
+                            <strong><x-a-link href="{{ $c['third'] }}" target="_blank" label="{{ $c['first'] }}">{{ $c['first'] }}</x-a-link></strong> {{ $c['second'] }}<br>
                         @else
                             <strong>{{ $c['first'] }}</strong> {{ $c['second'] }}<br>
                         @endif
