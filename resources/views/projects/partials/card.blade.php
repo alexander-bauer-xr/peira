@@ -1,15 +1,15 @@
 <div class="{{ $project->style }} {{ $project->overlay ? 'card' : 'cardo' }}">
-    <a class="{{ $project->darkText ? 'blacktextcard' : 'whitetextcard' }}"
+    <a class="{{ $project->darkText ? 'whitetextcard' : 'whitetextcard' }}"
         href="/{{ $locale }}/projekte/{{ $project->slug() }}">
         <div class="tagcontainer">
             @if ($project->yearFormatted())
-                <div class="tag {{ $project->darkText ? 'borderblack' : 'borderwhite' }}">
+                <div class="tag {{ $project->darkText ? 'borderwhite' : 'borderwhite' }}">
                     {{ $project->yearFormatted() }}
                 </div>
             @endif
 
             @foreach ($project->tagLabels($locale, app(App\Services\DrupalApiService::class)) as $tagLabel)
-                <div class="tag {{ $project->darkText ? 'borderblack' : 'borderwhite' }}">
+                <div class="tag {{ $project->darkText ? 'borderwhite' : 'borderwhite' }}">
                     {{ $tagLabel }}
                 </div>
             @endforeach

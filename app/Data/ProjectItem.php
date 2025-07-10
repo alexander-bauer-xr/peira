@@ -53,7 +53,6 @@ class ProjectItem extends BaseContentItem
             ->values()
             ->all();
 
-        // AFTER – keep everything, we’ll use url directly in the view
         $gallery = $item['field_fotostrecke'] ?? [];
 
         $cover = $item['field_titel'][0] ?? [];
@@ -264,5 +263,17 @@ class ProjectItem extends BaseContentItem
     public function socialMedia(SocialMediaRenderer $renderer): string
     {
         return $renderer->render($this->socialMediaItems);
+    }
+
+    public function coverStyles(): array 
+    {
+        if (!$this->image_uuid) {
+            return [];
+        }
+
+        $api = app(DrupalApiService::class);
+
+        return $api->getFileByUuid($this->image_uuid)['data']['attributes']['image_style_uri']
+            ?? [];
     }
 }

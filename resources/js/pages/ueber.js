@@ -1,5 +1,5 @@
-import initSubinfoToggle from '../components/subinfo';
+import initSubinfoSimple from '../components/subinfo-simple';
 
 document.addEventListener('DOMContentLoaded', () => {
-    initSubinfoToggle();
+    initSubinfoSimple();
 });

@@ -61,9 +61,18 @@
                                 'locale' => $locale,
                             ])
                         @elseif ($entry instanceof \App\Data\RowItem)
+                        @php
+                                if ($entry->imageUuid()) {
+                                    $file = $drupal->getFileByUuid($entry->imageUuid());
+                                    $coverStyles = data_get($file, 'data.attributes.image_style_uri', []);
+                                } else {
+                                    $coverStyles = [];
+                                }
+                            @endphp
                             @include('projects.partials.reihe-card', [
                                 'reihe' => $entry,
                                 'locale' => $locale,
+                                'coverStyles' => $coverStyles,
                             ])
                         @endif
                     @endforeach

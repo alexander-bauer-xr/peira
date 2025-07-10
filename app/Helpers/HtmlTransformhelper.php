@@ -3,8 +3,8 @@ namespace App\Helpers;
 
 use DOMDocument;
 use DOMXPath;
-use Spatie\CookieConsent\Facades\Cookie;
 
+use App\Helpers\CookieConsent;
 class HtmlTransformHelper
 {
     public static function processHtml(string $htmlContent): string
@@ -57,9 +57,9 @@ class HtmlTransformHelper
      */
     private static function transformIframeWithConsent(string $htmlContent): string
     {
-        /*if (Cookie::hasConsent('external')) {
+        if (CookieConsent::has('external')) {
             return $htmlContent;
-        }*/
+        }
 
         // No consent, replace iframe with a placeholder.
         libxml_use_internal_errors(true);

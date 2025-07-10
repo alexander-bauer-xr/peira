@@ -3186,3 +3186,19 @@ article {
 	flex-direction: row;
 	gap: 5px;
 }
+
+.holder { position: relative; }
+.spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(36, 36, 36, 0.3);
+  border-top-color: #5c5c5c;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.invisible { opacity: 0; transition: opacity .3s; }

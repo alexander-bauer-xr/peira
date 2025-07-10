@@ -1,8 +1,8 @@
 <div class="{{ $reihe->style }} card">
-    <a class="{{ $reihe->darkText ? 'blacktextcard' : 'whitetextcard' }}" href="/{{ $locale }}/reihen/{{ $reihe->slug() }}">
+    <a class="{{ $reihe->darkText ? 'whitetextcard' : 'whitetextcard' }}" href="/{{ $locale }}/reihen/{{ $reihe->slug() }}">
         <div class="tagcontainer">
             @foreach ($reihe->tagLabels($locale, app(App\Services\DrupalApiService::class)) as $tag)
-                <div class="tag {{ $reihe->darkText ? 'borderblack' : 'borderwhite' }}">
+                <div class="tag {{ $reihe->darkText ? 'borderwhite' : 'borderwhite' }}">
                     {{ $tag }}
                 </div>
             @endforeach
@@ -10,8 +10,9 @@
 
         <div class="cardtitle h3-text">{{ $reihe->localizedTitle($locale) }}</div>
 
-        @if ($reihe->imageUrl)
-            <img loading="lazy" class="image" src="{{ $reihe->imageUrl }}" alt="{{ $reihe->localizedTitle($locale) }}">
-        @endif
+        @isset($coverStyles)
+            <x-responsive-image class="image" :styles="$coverStyles" :alt="$reihe->localizedTitle($locale)" />
+        @endisset
     </a>
 </div>
+ 

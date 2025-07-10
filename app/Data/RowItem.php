@@ -18,6 +18,7 @@ class RowItem extends BaseContentItem
         ?string $bodyHtmlEn = null,
         public ?string $year = null,
         public ?string $imageUrl = null,
+        public ?string $image_uuid = null,
         public array $tags = [],
         public bool $overlay = true,
         public bool $darkText = false,
@@ -39,6 +40,8 @@ class RowItem extends BaseContentItem
             }
         }
 
+        $cover = $item['field_titelbild'][0] ?? [];
+
         return new self(
             id: DrupalApi::get($item, 'nid'),
             title: DrupalApi::get($item, 'title'),
@@ -46,7 +49,8 @@ class RowItem extends BaseContentItem
             bodyHtml: DrupalApi::getProcessed($item, 'body'),
             bodyHtmlEn: DrupalApi::getProcessed($item, 'field_bodyenglish'),
             year: DrupalApi::get($item, 'field_jahr_der_'),
-            imageUrl: DrupalApi::get($item, 'field_titelbild', 'url'),
+            imageUrl: $cover['url'] ?? null,
+            image_uuid: $cover['target_uuid'] ?? null,
             tags: $tags,
             overlay: filter_var(DrupalApi::get($item, 'field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
             darkText: filter_var(DrupalApi::get($item, 'field_weisser_text'), FILTER_VALIDATE_BOOLEAN),
@@ -84,6 +88,11 @@ class RowItem extends BaseContentItem
             ->map(fn(array $raw) => SubinfoItem::fromDrupal($raw))
             ->values()
             ->all();
+    }
+
+    public function imageUuid(): ?string
+    {
+        return $this->image_uuid;
     }
 
     public function projectsFromFieldProjekteReihe(string $locale, DrupalApiService $api): array

@@ -125,8 +125,8 @@ function renderProjects(projects) {
 
   projects.forEach(project => {
     const title = locale === 'en'
-  ? project.field_titel_projekt_en?.[0]?.value || project.title?.[0]?.value || "Untitled"
-  : project.title?.[0]?.value || "Untitled";
+      ? project.field_titel_projekt_en?.[0]?.value || project.title?.[0]?.value || "Untitled"
+      : project.title?.[0]?.value || "Untitled";
 
     const year = project.field_jahr_der_?.[0]?.value ? new Date(project.field_jahr_der_[0].value).getFullYear() : "";
     const image = project.field_titel?.[0]?.url || "/img/default.jpg";
@@ -153,7 +153,9 @@ function renderProjects(projects) {
         <a class="${classText}" href="/${locale}/projekte/${title.replace(/\s+/g, "-").toLowerCase()}">
           ${tagHtml}
           <div class="cardtitle h3-text">${title}</div>
-          <img loading="lazy" class="image" src="${image}" alt="${title}">
+          <picture>
+            <img loading="lazy" class="image" src="${image}" alt="${title}">
+          </picture>
         </a>
       </div>`;
   });

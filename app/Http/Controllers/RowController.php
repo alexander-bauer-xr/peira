@@ -39,6 +39,18 @@ class RowController extends Controller
 
         $tagsRow = $row->tagLabels($locale, $drupal);
 
+        $coverRaw = $project->raw['field_titelbild'][0] ?? [];
+        // Titelbild
+        $coverStyles = $row->imageUuid()
+            ? ($drupal->getFileByUuid($row->imageUuid())['data']['attributes']['image_style_uri'] ?? [])
+            : [];
+        $cover = [
+            'uuid' => $row->imageUuid(),
+            'alt' => $coverRaw['alt'] ?? $row->localizedTitle($locale),
+            'title' => $coverRaw['title'] ?? $row->localizedTitle($locale),
+            'styles' => $coverStyles,
+        ];
+
         return view('rows.show', [
             'locale'      => $locale,
             'row'         => $row,
@@ -50,6 +62,8 @@ class RowController extends Controller
             'contributors'=> [],
             'coproducers' => [],
             'funders'     => [],
+            'coverStyles' => $coverStyles,
+            'coverImage' => $cover,
         ]);
     }
 }
