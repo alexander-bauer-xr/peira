@@ -58,6 +58,32 @@ class ProjectController extends Controller
             descriptionEn: 'A project by Peira: ' . ($project->titleEn ?? $project->title)
         );
 
+        $images = collect($project->images)
+            ->map(function (array $g) use ($drupal) {
+                $styles = data_get(
+                    $drupal->getFileByUuid($g['target_uuid']),
+                    'data.attributes.image_style_uri',
+                    []
+                );
+                return [
+                    'alt' => $g['alt'] ?? '',
+                    'title' => $g['title'] ?? '',
+                    'styles' => $styles,
+                ];
+            })->values();
+
+        $coverRaw = $project->raw['field_titelbild'][0] ?? [];
+        // Titelbild
+        $coverStyles = $project->imageUuid()
+            ? ($drupal->getFileByUuid($project->imageUuid())['data']['attributes']['image_style_uri'] ?? [])
+            : [];
+        $cover = [
+            'uuid' => $project->imageUuid(),
+            'alt' => $coverRaw['alt'] ?? $project->localizedTitle($locale),
+            'title' => $coverRaw['title'] ?? $project->localizedTitle($locale),
+            'styles' => $coverStyles,
+        ];
+
         $subinfos = $project->subinfosFromFieldLinks($drupal);
         $subInfoCount = count($subinfos);
         $contrib = $project->contributors();
@@ -73,15 +99,18 @@ class ProjectController extends Controller
         $tagsProject = $project->tagLabels($locale, $drupal);
 
         return view('projects.show', [
-            'project'      => $project,
-            'locale'       => $locale,
-            'meta'         => $meta,
-            'tagsProject'  => $tagsProject,
-            'activeTab'    => $activeTab,
-            'subinfos'     => $subinfos,
+            'project' => $project,
+            'locale' => $locale,
+            'meta' => $meta,
+            'tagsProject' => $tagsProject,
+            'activeTab' => $activeTab,
+            'subinfos' => $subinfos,
             'contributors' => $contrib,
-            'coproducers'  => $coproducers,
-            'funders'      => $funders,
+            'coproducers' => $coproducers,
+            'funders' => $funders,
+            'images' => $images,
+            'coverStyles' => $coverStyles,
+            'coverImage' => $cover,
         ]);
     }
 }

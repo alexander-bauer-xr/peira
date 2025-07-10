@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Blade::directive('replaceVideo', function ($expression) {
-            return "<?php echo App\\Helpers\\HtmlTransformHelper::replaceVideo($expression); ?>";
+            return "<?php echo \\App\\Helpers\\HtmlTransformHelper::processHtml($expression); ?>";
         });
     }
 }

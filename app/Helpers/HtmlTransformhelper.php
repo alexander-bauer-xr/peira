@@ -1,20 +1,26 @@
 <?php
-
 namespace App\Helpers;
 
 use DOMDocument;
 use DOMXPath;
+use Spatie\CookieConsent\Facades\Cookie;
 
 class HtmlTransformHelper
 {
-    public static function replaceVideo(string $htmlContent): string
+    public static function processHtml(string $htmlContent): string
+    {
+        if (str_contains($htmlContent, '<iframe')) {
+            return self::transformIframeWithConsent($htmlContent);
+        }
+
+        return self::transformVideoTag($htmlContent);
+    }
+
+    private static function transformVideoTag(string $htmlContent): string
     {
         libxml_use_internal_errors(true);
-
         $doc = new DOMDocument();
-
         $wrappedHtml = '<!DOCTYPE html><html><body>' . mb_convert_encoding($htmlContent, 'HTML-ENTITIES', 'UTF-8') . '</body></html>';
-
         $doc->loadHTML($wrappedHtml, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
 
@@ -42,6 +48,54 @@ class HtmlTransformHelper
             $innerHTML .= $doc->saveHTML($child);
         }
 
+        return $innerHTML;
+    }
+
+    /**
+     * Transforms <iframe> tags based on cookie consent.
+     * Also made 'private' as it's called by processHtml.
+     */
+    private static function transformIframeWithConsent(string $htmlContent): string
+    {
+        /*if (Cookie::hasConsent('external')) {
+            return $htmlContent;
+        }*/
+
+        // No consent, replace iframe with a placeholder.
+        libxml_use_internal_errors(true);
+        $doc = new DOMDocument();
+        $wrappedHtml = '<!DOCTYPE html><html><body>' . mb_convert_encoding($htmlContent, 'HTML-ENTITIES', 'UTF-8') . '</body></html>';
+        $doc->loadHTML($wrappedHtml, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+
+        $xpath = new DOMXPath($doc);
+        $iframes = $xpath->query('//article[contains(@class, "media--type-remote-video")]//iframe');
+
+        foreach ($iframes as $iframe) {
+            $article = $xpath->query('ancestor::article', $iframe)->item(0);
+
+            if ($article) {
+                $placeholder = $doc->createElement('div');
+                $placeholder->setAttribute('class', 'cookie-placeholder');
+                $placeholder->setAttribute('data-src', $iframe->getAttribute('src'));
+
+                $paragraph = $doc->createElement('p', "To see this content, you need to accept 'External Media' cookies.");
+                $link = $doc->createElement('a', 'Change cookie settings');
+                $link->setAttribute('href', '#');
+                $link->setAttribute('class', 'change-cookie-consent-link');
+
+                $placeholder->appendChild($paragraph);
+                $placeholder->appendChild($link);
+
+                $article->parentNode->replaceChild($placeholder, $article);
+            }
+        }
+
+        $body = $doc->getElementsByTagName('body')->item(0);
+        $innerHTML = '';
+        foreach ($body->childNodes as $child) {
+            $innerHTML .= $doc->saveHTML($child);
+        }
         return $innerHTML;
     }
 }

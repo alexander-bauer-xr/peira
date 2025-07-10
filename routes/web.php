@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RowController;
 use App\Http\Controllers\NewsArchiveController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\InfoController;
 
 Route::get('/{locale?}', [HomeController::class, 'index'])
@@ -28,4 +29,9 @@ Route::prefix('{locale}')
 
         Route::get('ueber-uns/{tabSlug?}', [InfoController::class, 'index'])
             ->name('about');
+
+        Route::get('/image/{uuid}', [ImageController::class, '__invoke'])
+            ->where('uuid', '[0-9a-f\-]+')
+            ->name('image.show');
+
     });

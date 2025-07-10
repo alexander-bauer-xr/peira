@@ -115,4 +115,9 @@ class DrupalApiService
     {
         return $this->cachedRequest("projekte?nid={$nid}", "api.projekte.nid.{$nid}");
     }
+
+    public function getFileByUuid(string $uuid): array
+    {
+        return $this->cachedRequest("json/file/file/{$uuid}");
+    }
 }

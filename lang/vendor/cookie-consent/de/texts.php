@@ -2,5 +2,7 @@
 
 return [
     'message' => 'Diese Seite verwendet Cookies um das Nutzererlebnis zu steigern.',
-    'agree' => 'Akzeptieren',
+    'cookie-message' => 'Welche Cookies möchten Sie zulassen?',
+    'agree' => 'Alle',
+    'decline' => 'Ausgewählte',
 ];

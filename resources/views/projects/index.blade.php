@@ -19,9 +19,9 @@
                 </div>
 
                 <div id="listoffilters" class="filterlist hidden">
-                    @foreach($tags as $tag)
+                    @foreach ($tags as $tag)
                         <div class="buttonsinfofilter activeb marked" data-id="{{ $tag['tid'][0]['value'] }}">
-                            {{ $locale === 'en' ? ($tag['field_eng'][0]['value'] ?? '') : ($tag['name'][0]['value'] ?? '') }}
+                            {{ $locale === 'en' ? $tag['field_eng'][0]['value'] ?? '' : $tag['name'][0]['value'] ?? '' }}
                         </div>
                     @endforeach
                 </div>
@@ -29,16 +29,42 @@
                 <div id="loadingcard" class="loadingcontainer"></div>
             </div>
 
+            @php
+                $drupal = app(\App\Services\DrupalApiService::class);
+            @endphp
+
             <div id="projectgrid" class="grid-wrapper">
-                @foreach($reihenfolge as $item)
-                    @php $entries = $item->entries($locale, app(App\Services\DrupalApiService::class)); @endphp
-                    @foreach($entries as $entry)
+                @foreach ($reihenfolge as $item)
+                    @php
+                        $entries = $item->entries($locale, $drupal);
+                    @endphp
+
+                    @foreach ($entries as $entry)
                         @if ($entry instanceof \App\Data\ProjectItem)
-                            @include('projects.partials.card', ['project' => $entry, 'locale' => $locale])
+                            @php
+                                if ($entry->imageUuid()) {
+                                    $file = $drupal->getFileByUuid($entry->imageUuid());
+                                    $coverStyles = data_get($file, 'data.attributes.image_style_uri', []);
+                                } else {
+                                    $coverStyles = [];
+                                }
+                            @endphp
+
+                            @include('projects.partials.card', [
+                                'project' => $entry,
+                                'locale' => $locale,
+                                'coverStyles' => $coverStyles,
+                            ])
                         @elseif ($entry instanceof \App\Data\ZitatItem)
-                            @include('projects.partials.zitat-card', ['zitat' => $entry, 'locale' => $locale])
+                            @include('projects.partials.zitat-card', [
+                                'zitat' => $entry,
+                                'locale' => $locale,
+                            ])
                         @elseif ($entry instanceof \App\Data\RowItem)
-                            @include('projects.partials.reihe-card', ['reihe' => $entry, 'locale' => $locale])
+                            @include('projects.partials.reihe-card', [
+                                'reihe' => $entry,
+                                'locale' => $locale,
+                            ])
                         @endif
                     @endforeach
                 @endforeach

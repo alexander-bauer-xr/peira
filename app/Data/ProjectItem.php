@@ -20,6 +20,7 @@ class ProjectItem extends BaseContentItem
         ?string $bodyHtmlEn,
         public ?string $year,
         public ?string $imageUrl,
+        public ?string $image_uuid,
         public array $tags = [],
         public bool $overlay = true,
         public bool $darkText = false,
@@ -42,6 +43,21 @@ class ProjectItem extends BaseContentItem
             }
         }
 
+        $gallery = collect($item['field_fotostrecke'] ?? [])
+            ->map(fn($g) => [
+                'uuid' => $g['target_uuid'] ?? null,
+                'alt' => $g['alt'] ?? '',
+                'title' => $g['title'] ?? '',
+            ])
+            ->filter(fn($g) => $g['uuid'])
+            ->values()
+            ->all();
+
+        // AFTER – keep everything, we’ll use url directly in the view
+        $gallery = $item['field_fotostrecke'] ?? [];
+
+        $cover = $item['field_titel'][0] ?? [];
+
         return new self(
             id: DrupalApi::get($item, 'nid'),
             title: DrupalApi::get($item, 'title'),
@@ -49,14 +65,15 @@ class ProjectItem extends BaseContentItem
             bodyHtml: DrupalApi::getProcessed($item, 'body'),
             bodyHtmlEn: DrupalApi::getProcessed($item, 'field_bodyenglish'),
             year: DrupalApi::get($item, 'field_jahr_der_'),
-            imageUrl: DrupalApi::get($item, 'field_titel', 'url'),
+            imageUrl: $cover['url'] ?? null,
+            image_uuid: $cover['target_uuid'] ?? null,
             tags: $tags,
             overlay: filter_var(DrupalApi::get($item, 'field_bildoverlay'), FILTER_VALIDATE_BOOLEAN),
             darkText: filter_var(DrupalApi::get($item, 'field_schwarzertext'), FILTER_VALIDATE_BOOLEAN),
             style: DrupalApi::get($item, 'field_projektstil') ?? '',
             lang: DrupalApi::get($item, 'langcode') ?? 'de',
             raw: $item,
-            images: DrupalApi::getArray($item, 'field_fotostrecke'),
+            images: $gallery,
             place: DrupalApi::get($item, 'field_ort') ?? '',
             socialMediaItems: DrupalApi::getSocialMedia($item, 'field_social_media'),
         );
@@ -106,6 +123,15 @@ class ProjectItem extends BaseContentItem
     public function images(): array
     {
         return $this->raw['field_fotostrecke'] ?? [];
+    }
+    public function galleryUuids(): array
+    {
+        return array_column($this->images, 'target_uuid');
+    }
+
+    public function imageUuid(): ?string
+    {
+        return $this->image_uuid;
     }
 
     public function dates(DrupalApiService $api): array

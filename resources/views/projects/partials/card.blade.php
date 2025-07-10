@@ -1,5 +1,6 @@
 <div class="{{ $project->style }} {{ $project->overlay ? 'card' : 'cardo' }}">
-    <a class="{{ $project->darkText ? 'blacktextcard' : 'whitetextcard' }}" href="/{{ $locale }}/projekte/{{ $project->slug() }}">
+    <a class="{{ $project->darkText ? 'blacktextcard' : 'whitetextcard' }}"
+        href="/{{ $locale }}/projekte/{{ $project->slug() }}">
         <div class="tagcontainer">
             @if ($project->yearFormatted())
                 <div class="tag {{ $project->darkText ? 'borderblack' : 'borderwhite' }}">
@@ -7,7 +8,7 @@
                 </div>
             @endif
 
-            @foreach($project->tagLabels($locale, app(App\Services\DrupalApiService::class)) as $tagLabel)
+            @foreach ($project->tagLabels($locale, app(App\Services\DrupalApiService::class)) as $tagLabel)
                 <div class="tag {{ $project->darkText ? 'borderblack' : 'borderwhite' }}">
                     {{ $tagLabel }}
                 </div>
@@ -16,8 +17,8 @@
 
         <div class="cardtitle h3-text">{{ $project->localizedTitle($locale) }}</div>
 
-        @if($project->imageUrl)
-            <img loading="lazy" class="image" src="{{ $project->imageUrl }}" alt="{{ $project->localizedTitle($locale) }}">
-        @endif
+        @isset($coverStyles)
+            <x-responsive-image class="image" :styles="$coverStyles" :alt="$project->localizedTitle($locale)" />
+        @endisset
     </a>
 </div>
