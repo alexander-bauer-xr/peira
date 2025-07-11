@@ -1,0 +1,21 @@
+let w=[],m=new Map,q=new Map;new AbortController;let D="",F=0;const h=document.documentElement.lang||"de";document.addEventListener("DOMContentLoaded",async()=>{var e;try{const[t,s]=await Promise.all([fetch("https://peira.space/web/api/protax"),fetch("https://peira.space/web/api/tags")]);w=await t.json(),(await s.json()).forEach(d=>{var n,c;const o=d.tid[0].value,a=d.name[0].value,l=((c=(n=d.field_eng)==null?void 0:n[0])==null?void 0:c.value)||a;q.set(o,{de:a,en:l})}),w.forEach(d=>{(d.field_tags||[]).forEach(o=>{const a=o.target_id;m.has(a)||m.set(a,[]),m.get(a).push(d)})}),D=((e=document.getElementById("projectgrid"))==null?void 0:e.innerHTML)||"",F=document.querySelectorAll(".buttonsinfofilter").length-1}catch(t){console.error("Failed to load data:",t)}});function z(){const e=document.getElementById("projectgrid");e&&(e.innerHTML=`
+      <div class="widel card"> 
+        <div class="cardtitlerow h3-text">Bitte wähle einen Filter aus</div>
+        <img loading="lazy" class="image" src="/img/select.png" alt="Not found">
+      </div>`)}function R(){const e=document.querySelectorAll(".buttonsinfofilter.activeb:not(.notactiveb)");return Array.from(e).map(s=>s.dataset.id).slice(1)}function N(e){e.target.classList.toggle("activeb"),e.target.classList.toggle("notactiveb");const t=R();t.length===0?z():t.length===F?document.getElementById("projectgrid").innerHTML=D:(U(),O(t))}function U(){const e=`
+    <div id="loading-card" class="loadercard"> 
+      <div class="loader"></div>
+    </div>`,t=document.getElementById("loadingcard");t&&(t.innerHTML=e)}function O(e){const t=new Set;e.forEach(a=>{(m.get(parseInt(a))||[]).forEach(n=>{var c,r;(r=(c=n.nid)==null?void 0:c[0])!=null&&r.value&&t.add(n.nid[0].value)})});const s=w.filter(a=>{var l,n;return t.has((n=(l=a.nid)==null?void 0:l[0])==null?void 0:n.value)}),i=new Set,o=s.filter(a=>{var n,c;const l=(c=(n=a.nid)==null?void 0:n[0])==null?void 0:c.value;return i.has(l)?!1:(i.add(l),!0)}).sort((a,l)=>{var r,u,f,g;const n=new Date(((u=(r=a.field_jahr_der_)==null?void 0:r[0])==null?void 0:u.value)||0);return new Date(((g=(f=l.field_jahr_der_)==null?void 0:f[0])==null?void 0:g.value)||0)-n});Y(o)}function Y(e){const t=document.getElementById("projectgrid");if(!t)return;t.innerHTML="",e.forEach(i=>{var _,p,L,b,E,I,B,$,j,M,k,T,x,A,H,C;const d=h==="en"?((p=(_=i.field_titel_projekt_en)==null?void 0:_[0])==null?void 0:p.value)||((b=(L=i.title)==null?void 0:L[0])==null?void 0:b.value)||"Untitled":((I=(E=i.title)==null?void 0:E[0])==null?void 0:I.value)||"Untitled",o=($=(B=i.field_jahr_der_)==null?void 0:B[0])!=null&&$.value?new Date(i.field_jahr_der_[0].value).getFullYear():"",a=((M=(j=i.field_titel)==null?void 0:j[0])==null?void 0:M.url)||"/img/default.jpg",l=(i.field_tags||[]).map(v=>{var P;return((P=q.get(v.target_id))==null?void 0:P[h])||""}).filter(Boolean),n=((T=(k=i.field_projektstil)==null?void 0:k[0])==null?void 0:T.value)||"",c=((A=(x=i.field_bildoverlay)==null?void 0:x[0])==null?void 0:A.value)===!0,r=((C=(H=i.field_schwarzertext)==null?void 0:H[0])==null?void 0:C.value)===!0,u=c?"card":"cardo",f=r?"blacktextcard":"whitetextcard",g=r?"borderblack":"borderwhite",S=`
+      <div class="tagcontainer">
+        ${o?`<div class="tag ${g}">${o}</div>`:""}
+        ${l.map(v=>`<div class="tag ${g}">${v}</div>`).join("")}
+      </div>`;t.innerHTML+=`
+      <div class="${n} ${u}">
+        <a class="${f}" href="/${h}/projekte/${d.replace(/\s+/g,"-").toLowerCase()}">
+          ${S}
+          <div class="cardtitle h3-text">${d}</div>
+          <picture>
+            <img loading="lazy" class="image" src="${a}" alt="${d}">
+          </picture>
+        </a>
+      </div>`});const s=document.getElementById("loadingcard");s&&(s.innerHTML="")}document.querySelectorAll(".marked").forEach(e=>{e.addEventListener("click",N)});function G(){const e=document.getElementById("filterbtn"),t=document.getElementById("listoffilters"),s=document.getElementById("arrowimg");t.classList.toggle("hidden"),t.classList.contains("hidden")?(s.src="/img/rotpfeil.png",e.classList.add("notactiveb"),e.classList.remove("activeb")):(s.src="/img/weisspfeil.png",e.classList.remove("notactiveb"),e.classList.add("activeb"))}const y=document.getElementById("filterbtn");y==null||y.addEventListener("click",G);

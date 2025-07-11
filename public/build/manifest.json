@@ -5,9 +5,117 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DGlpUBLp.js",
+    "file": "assets/app-DNwjJgp-.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/components/menu.js",
+      "resources/js/helpers/insertTransparentVideo.js"
+    ]
+  },
+  "resources/js/components/gallery.js": {
+    "file": "assets/gallery-BiXJ4X6Z.js",
+    "name": "gallery",
+    "src": "resources/js/components/gallery.js",
     "isEntry": true
+  },
+  "resources/js/components/menu.js": {
+    "file": "assets/menu-CbSSOIN_.js",
+    "name": "menu",
+    "src": "resources/js/components/menu.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/helpers/insertTransparentVideo.js"
+    ]
+  },
+  "resources/js/components/newsletter.js": {
+    "file": "assets/newsletter-DDh1suLZ.js",
+    "name": "newsletter",
+    "src": "resources/js/components/newsletter.js",
+    "isEntry": true
+  },
+  "resources/js/components/row-gallery.js": {
+    "file": "assets/row-gallery-HJqaE7MD.js",
+    "name": "row-gallery",
+    "src": "resources/js/components/row-gallery.js",
+    "isEntry": true
+  },
+  "resources/js/components/similar-projects.js": {
+    "file": "assets/similar-projects-BOr35T68.js",
+    "name": "similar-projects",
+    "src": "resources/js/components/similar-projects.js",
+    "isEntry": true
+  },
+  "resources/js/components/subinfo-simple.js": {
+    "file": "assets/subinfo-simple-CeyNxIem.js",
+    "name": "subinfo-simple",
+    "src": "resources/js/components/subinfo-simple.js",
+    "isEntry": true
+  },
+  "resources/js/components/subinfo.js": {
+    "file": "assets/subinfo-BqeMhg8M.js",
+    "name": "subinfo",
+    "src": "resources/js/components/subinfo.js",
+    "isEntry": true
+  },
+  "resources/js/components/termineToggle.js": {
+    "file": "assets/termineToggle-DrOD4xhO.js",
+    "name": "termineToggle",
+    "src": "resources/js/components/termineToggle.js",
+    "isEntry": true
+  },
+  "resources/js/helpers/filterProjects.js": {
+    "file": "assets/filterProjects-DDk_ElNo.js",
+    "name": "filterProjects",
+    "src": "resources/js/helpers/filterProjects.js",
+    "isEntry": true
+  },
+  "resources/js/helpers/insertTransparentVideo.js": {
+    "file": "assets/insertTransparentVideo-DBXVba1n.js",
+    "name": "insertTransparentVideo",
+    "src": "resources/js/helpers/insertTransparentVideo.js",
+    "isEntry": true
+  },
+  "resources/js/pages/home.js": {
+    "file": "assets/home-D7IYaFpE.js",
+    "name": "home",
+    "src": "resources/js/pages/home.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/components/newsletter.js",
+      "resources/js/helpers/insertTransparentVideo.js"
+    ]
+  },
+  "resources/js/pages/project.js": {
+    "file": "assets/project-DkImW6Aj.js",
+    "name": "project",
+    "src": "resources/js/pages/project.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/components/similar-projects.js",
+      "resources/js/components/gallery.js",
+      "resources/js/components/subinfo.js",
+      "resources/js/components/termineToggle.js"
+    ]
+  },
+  "resources/js/pages/rows.js": {
+    "file": "assets/rows-BwHqHg4i.js",
+    "name": "rows",
+    "src": "resources/js/pages/rows.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/components/row-gallery.js",
+      "resources/js/components/subinfo.js"
+    ]
+  },
+  "resources/js/pages/ueber.js": {
+    "file": "assets/ueber-H4DjnpBn.js",
+    "name": "ueber",
+    "src": "resources/js/pages/ueber.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/components/subinfo-simple.js"
+    ]
   }
 }
