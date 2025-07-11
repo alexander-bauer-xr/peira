@@ -4,6 +4,7 @@ return [
     'projekte' => 'Projects',
     'ueber_uns' => 'About Us',
     'kontakt' => 'Contact',
+    'news' => 'News',
     'menu' => 'Menu',
     'menu_oeffnen' => 'Open menu',
     'menu_schliessen' => 'Close menu',

@@ -21,7 +21,6 @@ The website, built with Laravel, serves as a digital home for these initiatives 
 
 - Laravel 10+
 - PHP 8.1+
-- TailwindCSS (customized)
 - RESTful API via Drupal (headless setup)
 - Blade views
 - Custom controllers and models

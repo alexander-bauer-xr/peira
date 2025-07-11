@@ -32,11 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('newslink').addEventListener('click', function (e) {
         const news = document.getElementById('news');
+        const newsArchiveLink = document.querySelector('.archive_link');
         const logo = document.querySelector('.logocontainer');
         const email = document.querySelector('.emailregister');
         const newslink = document.getElementById('newslink');
 
-        [news, logo, email].forEach(el => {
+        [news, logo, email, newsArchiveLink].forEach(el => {
             if (el) {
                 el.style.display = (el.style.display === 'none' || getComputedStyle(el).display === 'none') ? 'block' : 'none';
             }
