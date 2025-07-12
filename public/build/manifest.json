@@ -1,7 +1,28 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-BJiVSiID.css",
+    "file": "assets/app-DdvYwcAm.css",
     "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/fonts/David-02-Light.woff": {
+    "file": "assets/David-02-Light-CmttwvXC.woff",
+    "src": "resources/css/fonts/David-02-Light.woff"
+  },
+  "resources/css/fonts/David-02-Light.woff2": {
+    "file": "assets/David-02-Light-COuwszRk.woff2",
+    "src": "resources/css/fonts/David-02-Light.woff2"
+  },
+  "resources/css/fonts/David-04-Medium.woff": {
+    "file": "assets/David-04-Medium-X-qquY0f.woff",
+    "src": "resources/css/fonts/David-04-Medium.woff"
+  },
+  "resources/css/fonts/David-04-Medium.woff2": {
+    "file": "assets/David-04-Medium-ChCF2FH4.woff2",
+    "src": "resources/css/fonts/David-04-Medium.woff2"
+  },
+  "resources/css/index.css": {
+    "file": "assets/index-BVZHNCoW.css",
+    "src": "resources/css/index.css",
     "isEntry": true
   },
   "resources/js/app.js": {

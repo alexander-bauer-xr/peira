@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <x-meta :title="$meta->localizedTitle($locale)" :description="$meta->localizedDescription($locale)" />
-
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/index.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
 
