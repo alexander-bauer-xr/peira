@@ -1,34 +1,30 @@
 @php
-    $slug = $row->slug();
-    $containerId = "list-{$slug}";
-    $forwardId = "arrowforw-{$slug}";
-    $backId = "arrowback-{$slug}";
+    // Prepare row title for query param
+    $rowTitle = $row->localizedTitle($locale);
 @endphp
 
 <div class="rowwrapper">
     <div class="d-flex flex-row">
-        <div id="{{ $forwardId }}">
-            <img src="{{ asset('img/nav/garrow.svg') }}" id="imgarrowforw-{{ $slug }}" class="arrowforwrow"
-                alt="›">
+        <div id="arrowforw">
+            <img alt="Pfeil" id="imgarrowforw" class="arrowforwrow" src="{{ asset('img/nav/garrow.svg') }}">
         </div>
 
-        <div id="{{ $backId }}">
-            <img src="{{ asset('img/nav/garrow.svg') }}" id="imgarrowback-{{ $slug }}" class="arrowbackrow"
-                alt="‹">
+        <div id="arrowback">
+            <img alt="Pfeil" id="imgarrowback" class="arrowbackrow" src="{{ asset('img/nav/garrow.svg') }}">
         </div>
 
-        <div id="{{ $containerId }}" class="list scrollbarstyletrans">
+        <div class="list scrollbarstyletrans">
             @foreach ($projects as $proj)
+                @php
+                    $styles = $proj->coverStyles();
+                    $imgUrl = $styles['large'] 
+                        ?? ($styles['large_16_9'] ?? ($styles['16_9'] ?? (is_array($styles) ? (reset($styles) ?: '') : '')));
+                @endphp
                 <div class="card item">
-                    <x-a-link href="{{ $proj->url($locale) }}" class="rowimg"
-                        label="{{ $proj->localizedTitle($locale) }}">
-                        <div class="h3-text titleforimg">
-                            {{ $proj->localizedTitle($locale) }}
-                        </div>
-                        
-                        <x-responsive-image class="imagecover" :styles="$proj->coverStyles()" :alt="$proj->localizedTitle($locale)" />
-
-                    </x-a-link>
+                    <a class="rowimg" href="{{ $proj->url($locale) }}?row={{ urlencode($rowTitle) }}">
+                        <div class="h3-text titleforimg">{{ $proj->localizedTitle($locale) }}</div>
+                        <img class="imagecover" src="{{ $imgUrl }}" alt="{{ $proj->localizedTitle($locale) }}">
+                    </a>
                 </div>
             @endforeach
         </div>

@@ -271,6 +271,11 @@ table {
 
 .inner_container_vor .d-flex {
 	align-items: center;
+	display: flex !important;
+}
+
+.flex-row {
+	flex-direction: row !important;
 }
 
 .inner_container_vor .d-flex #arrowback {
@@ -2874,7 +2879,7 @@ header {
 
 	#news:before {
 		left: 0;
-		margin-left:1rem;
+		margin-left: 1rem;
 	}
 
 	#news {

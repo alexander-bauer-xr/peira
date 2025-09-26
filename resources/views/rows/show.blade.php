@@ -60,6 +60,7 @@
                 </div>
             </div>
         </div>
+        @include('rows.partials.footer')
     </div>
 @endsection
 
