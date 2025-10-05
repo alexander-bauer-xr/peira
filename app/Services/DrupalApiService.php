@@ -11,7 +11,8 @@ class DrupalApiService
 
     public function __construct()
     {
-        $this->baseUrl = env('API_URL', 'https://www.peira.space/web/api/');
+        $drupalBase = rtrim(env('DRUPAL_URL', config('app.url')), '/');
+        $this->baseUrl = $drupalBase ? "{$drupalBase}/web/api" : '/web/api';
     }
 
     protected function cachedRequest(string $endpoint, ?string $key = null, int $minutes = 10): array

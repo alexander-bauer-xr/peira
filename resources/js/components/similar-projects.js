@@ -1,3 +1,5 @@
+import { DRUPAL_URL } from '../utils/env';
+
 export default async function initSimilarProjects() {
     const wrapper = document.getElementById("similar-wrapper");
     if (!wrapper) {
@@ -19,7 +21,7 @@ export default async function initSimilarProjects() {
     let projectMatches = {};
 
     async function fetchProjectsByTagId(tid) {
-        const apiUrl = `https://peira.space/web/api/protax?tid_1=${tid}`;
+        const apiUrl = `${DRUPAL_URL}/web/api/protax?tid_1=${tid}`;
         try {
             const response = await fetch(apiUrl);
             const projectsWithThisTag = await response.json();
@@ -55,7 +57,7 @@ export default async function initSimilarProjects() {
         if (isNaN(projectId)) continue;
 
         try {
-            const projectRes = await fetch(`https://peira.space/web/api/projekte?nid=${projectId}`);
+            const projectRes = await fetch(`${DRUPAL_URL}/web/api/projekte?nid=${projectId}`);
             const projectJson = await projectRes.json();
             const rawProject = projectJson[0];
             if (

@@ -1,3 +1,5 @@
+import { DRUPAL_URL } from '../utils/env';
+
 let allProjects = [];
 let tagIndex = new Map();
 let tagMap = new Map();
@@ -11,8 +13,8 @@ const locale = document.documentElement.lang || 'de';
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const [projectsRes, tagsRes] = await Promise.all([
-      fetch("https://peira.space/web/api/protax"),
-      fetch("https://peira.space/web/api/tags")
+      fetch(`${DRUPAL_URL}/web/api/protax`),
+      fetch(`${DRUPAL_URL}/web/api/tags`)
     ]);
 
     allProjects = await projectsRes.json();

@@ -1,4 +1,5 @@
 import tippy from 'tippy.js';
+import { DRUPAL_URL } from '../utils/env';
 
 export default function subscribenews() {
     const input = document.getElementById("adressfield");
@@ -62,10 +63,10 @@ export default function subscribenews() {
         }
     };
 
-    fetch('https://peira.space/web/session/token')
+    fetch(`${DRUPAL_URL}/web/session/token`)
         .then(res => res.text())
         .then(token => {
-            return fetch('https://peira.space/web/api/json/node/newsletteranmeldung', {
+            return fetch(`${DRUPAL_URL}/web/api/json/node/newsletteranmeldung`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/vnd.api+json',

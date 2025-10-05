@@ -1,5 +1,6 @@
 import initNewsletterForm from '../components/newsletter';
 import { insertTransparentVideo } from '../helpers/insertTransparentVideo';
+import { APP_URL } from '../utils/env';
 
 window.subscribenews = initNewsletterForm;
 document.addEventListener('DOMContentLoaded', () => {
@@ -94,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
         videoClass: 'bg_video',
         fallbackImageId: 'webpPlayer',
         sources: [
-            { src: 'https://www.peira.space/img/seq/bg.mov', type: 'video/mp4; codecs=hvc1' },
-            { src: 'https://www.peira.space/img/seq/bg.webm', type: 'video/webm' },
+            { src: `${APP_URL}/img/seq/bg.mov`, type: 'video/mp4; codecs=hvc1' },
+            { src: `${APP_URL}/img/seq/bg.webm`, type: 'video/webm' },
         ],
     });
 });

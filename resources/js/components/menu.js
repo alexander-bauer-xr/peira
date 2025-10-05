@@ -1,4 +1,5 @@
 import { insertTransparentVideo } from '../helpers/insertTransparentVideo';
+import { APP_URL } from '../utils/env';
 
 export default function setupMenu() {
     const menu = document.getElementById('menu');
@@ -98,13 +99,13 @@ export default function setupMenu() {
         videoClass: 'close_img',
         fallbackImageId: 'webpPlayerMenu',
         sources: [
-            { src: 'https://www.peira.space/img/seqmenu/menu.mov', type: 'video/mp4; codecs=hvc1' },
-            { src: 'https://www.peira.space/img/seqmenu/menu.webm', type: 'video/webm' }
+            { src: `${APP_URL}/img/seqmenu/menu.mov`, type: 'video/mp4; codecs=hvc1' },
+            { src: `${APP_URL}/img/seqmenu/menu.webm`, type: 'video/webm' }
         ],
         timeout: 5000,
         onClick: openMenu,
         onTimeoutFallback: (img) => {
-            img.src = 'https://peira.space/img/burger-menu.svg';
+            img.src = `${APP_URL}/img/burger-menu.svg`;
             img.style.setProperty('width', '60px', 'important');
         }
     });
