@@ -1037,7 +1037,7 @@ blockquote::before {
 }
 
 .sub_page {
-	background: url("https://peira.space/img/bg_sub.jpg") no-repeat center center fixed;
+        background: url("/img/bg_sub.jpg") no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1054,7 +1054,7 @@ blockquote::before {
 }
 
 .sub_page_proj {
-	background: url("https://peira.space/img/bgproj.jpg") no-repeat center center fixed;
+        background: url("/img/bgproj.jpg") no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1885,7 +1885,7 @@ strong {
 	margin-top: 3rem;
 	padding-top: 20px;
 	text-align: center;
-	background-image: url('https://www.peira.space/img/nav/pageend.svg');
+        background-image: url('/img/nav/pageend.svg');
 	display: flex;
 	flex-direction: column;
 	background-size: cover;

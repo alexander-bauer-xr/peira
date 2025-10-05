@@ -1,1 +1,0 @@
-import{i}from"./similar-projects-BOr35T68.js";import{i as o}from"./gallery-BiXJ4X6Z.js";import{i as t}from"./subinfo-BqeMhg8M.js";import{i as r}from"./termineToggle-DrOD4xhO.js";document.addEventListener("DOMContentLoaded",()=>{window.galleryData&&o(),t(),i(),r()});

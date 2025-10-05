@@ -1,0 +1,1 @@
+const e={BASE_URL:"/build/",DEV:!1,MODE:"production",PROD:!0,SSR:!1},t=n=>n?n.endsWith("/")?n.slice(0,-1):n:"",o=n=>typeof import.meta<"u"?e[n]:void 0,i=()=>typeof window<"u"&&window.location?window.location.origin:"",r=t(o("VITE_APP_URL"))||i(),_=t(o("VITE_DRUPAL_URL"))||r;export{r as A,_ as D};
