@@ -13,8 +13,8 @@ const locale = document.documentElement.lang || 'de';
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const [projectsRes, tagsRes] = await Promise.all([
-      fetch(`${DRUPAL_URL}/web/api/protax`),
-      fetch(`${DRUPAL_URL}/web/api/tags`)
+      fetch(`${DRUPAL_URL}/api/protax`),
+      fetch(`${DRUPAL_URL}/api/tags`)
     ]);
 
     allProjects = await projectsRes.json();

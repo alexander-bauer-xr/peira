@@ -46,7 +46,7 @@
                             @endif
 
                             <div class="newsdetail">
-                                {!! $item->localizedBody($locale) !!}
+                                @replaceVideo($item->localizedBody($locale))
                             </div>
                         </article>
                     @endforeach

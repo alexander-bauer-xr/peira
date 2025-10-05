@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'drupal' => [
+        'base_url' => rtrim(env('DRUPAL_URL', config('app.url')), '/'),
+    ],
+
 ];

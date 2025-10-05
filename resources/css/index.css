@@ -384,7 +384,7 @@ blockquote p {
 }
 
 blockquote::before {
-	content: url(../img/quote.svg);
+	content: var(--quote-image, url(../img/quote.svg));
 	position: absolute;
 	top: -5px;
 	left: -4px;
@@ -488,6 +488,7 @@ blockquote::before {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
+	line-clamp: 2;
 	/* Number of lines to show */
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -513,6 +514,7 @@ blockquote::before {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
+	line-clamp: 2;
 	/* Number of lines to show */
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -561,12 +563,12 @@ blockquote::before {
 /*image styles*/
 
 .contentwrapper img {
-	height: auto;
 	vertical-align: middle;
 	display: inline-block;
 	margin: 1.5rem;
 	max-width: calc(70% - 5rem);
 	height: auto;
+	width:100%;
 }
 
 .align-center {
@@ -918,10 +920,6 @@ blockquote::before {
 		height: 20px;
 	}
 
-	.vor-text {
-		/*font-size: var(--font-size-6);*/
-	}
-
 	.body-text,
 	.body-text-bold {
 		font-size: 18px;
@@ -1036,8 +1034,12 @@ blockquote::before {
 	width: 100%;
 }
 
+
 .sub_page {
-        background: url("/img/bg_sub.jpg") no-repeat center center fixed;
+	background-image: var(--bg-sub-image, url("/img/bg_sub.jpg"));
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1054,7 +1056,10 @@ blockquote::before {
 }
 
 .sub_page_proj {
-        background: url("/img/bgproj.jpg") no-repeat center center fixed;
+	background-image: var(--bg-proj-image, url("/img/bgproj.jpg"));
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1885,7 +1890,7 @@ strong {
 	margin-top: 3rem;
 	padding-top: 20px;
 	text-align: center;
-        background-image: url('/img/nav/pageend.svg');
+		background-image: var(--nav-pageend-image, url('/img/nav/pageend.svg'));
 	display: flex;
 	flex-direction: column;
 	background-size: cover;

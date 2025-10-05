@@ -12,7 +12,9 @@
 
             <div class="wrapper-vor">
                 @if($item->bodyHtml)
-                    <div class="vorangestellt vor-text">{!! $item->localizedBody($locale) !!}</div>
+                    <div class="vorangestellt vor-text">
+                        @replaceVideo($item->localizedBody($locale))
+                    </div>
                 @endif
 
                 @if($item->imageUrl)

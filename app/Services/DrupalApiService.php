@@ -11,8 +11,8 @@ class DrupalApiService
 
     public function __construct()
     {
-        $drupalBase = rtrim(env('DRUPAL_URL', config('app.url')), '/');
-        $this->baseUrl = $drupalBase ? "{$drupalBase}/web/api" : '/web/api';
+        $drupalBase = rtrim(config('services.drupal.base_url', config('app.url')), '/');
+        $this->baseUrl = $drupalBase ? "{$drupalBase}/api" : '/api';
     }
 
     protected function cachedRequest(string $endpoint, ?string $key = null, int $minutes = 10): array

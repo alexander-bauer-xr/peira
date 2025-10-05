@@ -34,7 +34,7 @@
                                     {{ \Carbon\Carbon::parse($item->date)->format($item->showTime ? 'd.m. H:i' : 'd.m.') }}
                                 </div>
                             @endif
-                            <div>{!! $item->localizedBody($locale) !!}</div>
+                            <div>@replaceVideo($item->localizedBody($locale))</div>
                         </div>
                     </div>
                 @endforeach

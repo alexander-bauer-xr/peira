@@ -19,7 +19,7 @@
                     id="controledinh-{{ $loop->index }}"
                     class="infosoflinks {{ $loop->index === $activeTab ? 'disp' : 'nondisp' }}"
                 >
-                    {!! $sub->localizedBody($locale) !!}
+                    @replaceVideo($sub->localizedBody($locale))
                 </div>
             @endforeach
         </div>

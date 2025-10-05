@@ -276,4 +276,50 @@ class ProjectItem extends BaseContentItem
         return $api->getFileByUuid($this->image_uuid)['data']['attributes']['image_style_uri']
             ?? [];
     }
+
+    public function preferredCoverImageUrl(): ?string
+    {
+        $styles = $this->coverStyles();
+
+        if (empty($styles)) {
+            return $this->imageUrl;
+        }
+
+        $preferredOrder = [
+            'peira_desktop_xl_webp',
+            'peira_desktop_lg_webp',
+            'peira_desktop_md_webp',
+            'peira_desktop_sm_webp',
+            'peira_tablet_md_webp',
+            'peira_tablet_sm_webp',
+            'peira_mobile_lg_webp',
+            'peira_mobile_md_webp',
+            'peira_mobile_sm_webp',
+            'peira_desktop_xl_jpeg',
+            'peira_desktop_lg_jpeg',
+            'peira_desktop_md_jpeg',
+            'peira_desktop_sm_jpeg',
+            'peira_tablet_md_jpeg',
+            'peira_tablet_sm_jpeg',
+            'peira_mobile_lg_jpeg',
+            'peira_mobile_md_jpeg',
+            'peira_mobile_sm_jpeg',
+        ];
+
+        foreach ($preferredOrder as $key) {
+            if (!empty($styles[$key])) {
+                return $styles[$key];
+            }
+        }
+
+        foreach ($styles as $key => $url) {
+            if (str_contains($key, 'webp') && $url) {
+                return $url;
+            }
+        }
+
+        $first = reset($styles);
+
+        return $first ?: $this->imageUrl;
+    }
 }

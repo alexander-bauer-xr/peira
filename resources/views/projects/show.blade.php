@@ -30,10 +30,13 @@
                 </h1>
             </div>
 
-            @if ($project->localizedBody($locale))
+            @php
+                $projectBody = $project->localizedBody($locale);
+            @endphp
+            @if ($projectBody)
                 <div class="wrapper-vor">
                     <div class="vorangestellt vor-text">
-                        {!! $project->localizedBody($locale) !!}
+                        @replaceVideo($projectBody)
                     </div>
 
                     @include('projects.partials.gallery', [

@@ -16,9 +16,7 @@
         <div class="list scrollbarstyletrans">
             @foreach ($projects as $proj)
                 @php
-                    $styles = $proj->coverStyles();
-                    $imgUrl = $styles['large'] 
-                        ?? ($styles['large_16_9'] ?? ($styles['16_9'] ?? (is_array($styles) ? (reset($styles) ?: '') : '')));
+                    $imgUrl = $proj->preferredCoverImageUrl() ?? $proj->imageUrl;
                 @endphp
                 <div class="card item">
                     <a class="rowimg" href="{{ $proj->url($locale) }}?row={{ urlencode($rowTitle) }}">

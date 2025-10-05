@@ -21,10 +21,13 @@
                 </h1>
             </div>
 
-            @if ($row->localizedBody($locale))
+            @php
+                $rowBody = $row->localizedBody($locale);
+            @endphp
+            @if ($rowBody)
                 <div class="wrapper-vor">
                     <div class="vorangestellt row-vor vor-text">
-                        {!! $row->localizedBody($locale) !!}
+                        @replaceVideo($rowBody)
                     </div>
                 </div>
             @endif

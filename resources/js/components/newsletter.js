@@ -66,7 +66,7 @@ export default function subscribenews() {
     fetch(`${DRUPAL_URL}/web/session/token`)
         .then(res => res.text())
         .then(token => {
-            return fetch(`${DRUPAL_URL}/web/api/json/node/newsletteranmeldung`, {
+            return fetch(`${DRUPAL_URL}/api/json/node/newsletteranmeldung`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/vnd.api+json',
