@@ -4,6 +4,7 @@ namespace App\Data;
 
 use App\Services\DrupalApiService;
 use App\Services\DrupalApi;
+use Illuminate\Support\Str;
 
 class InfoItem extends BaseContentItem
 {
@@ -36,7 +37,14 @@ class InfoItem extends BaseContentItem
 
     public function url(string $locale): string
     {
-        return '/' . $locale . '/ueber-uns/' . $this->slug();
+        $slugDe = Str::slug($this->title ?? '');
+        $slugEn = $this->titleEn ? Str::slug($this->titleEn) : null;
+
+        $basePath = in_array('fortbildung', [$slugDe, $slugEn], true)
+            ? 'fortbildung'
+            : 'ueber-uns';
+
+        return '/' . $locale . '/' . $basePath . '/' . $this->slug();
     }
 
     public function subinfosFromFieldLinks(DrupalApiService $api): array

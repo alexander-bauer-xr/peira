@@ -63,21 +63,21 @@
 
     <div id="menuitem1-5" class="menuitem">
         <x-a-link
-            href="{{ route('news.archive', ['locale' => $locale]) }}"
-            :active="$currentRoute === 'news.archive'"
-            label="{{ __('navigation.news') }}"
-        >
-            {{ __('navigation.news') }}
-        </x-a-link>
-    </div>
-
-    <div id="menuitem2" class="menuitem">
-        <x-a-link
             href="{{ route('about', ['locale' => $locale]) }}"
             :active="$currentRoute === 'about' && ! request()->has('tabSlug')"
             label="{{ __('navigation.ueber_uns') }}"
         >
             {{ __('navigation.ueber_uns') }}
+        </x-a-link>
+    </div>
+
+    <div id="menuitem2" class="menuitem">
+        <x-a-link
+            href="{{ route('fortbildung', ['locale' => $locale]) }}"
+            :active="$currentRoute === 'fortbildung'"
+            label="{{ __('navigation.fortbildung') }}"
+        >
+            {{ __('navigation.fortbildung') }}
         </x-a-link>
     </div>
 

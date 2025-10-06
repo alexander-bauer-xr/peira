@@ -1,8 +1,10 @@
+@php($infoBasePath = ($routeSegment ?? 'ueber-uns'))
+
 @if(count($subinfos))
     <div class="linkcontainer">
         @foreach($subinfos as $slug => $sub)
             <x-a-link
-                href="{{ url($locale . '/ueber-uns/' . $slug) }}"
+                href="{{ url($locale . '/' . $infoBasePath . '/' . $slug) }}"
                 id="controlinh-{{ $loop->index }}"
                 class="buttonsinfo {{ $loop->index === $activeTab ? 'activeb' : 'notactiveb' }}"
                 label="{{ $sub->localizedTitle($locale) }}"

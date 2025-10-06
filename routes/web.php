@@ -27,8 +27,11 @@ Route::prefix('{locale}')
         Route::get('/reihen/{slug}/{tabIndex?}', [RowController::class, 'show'])
             ->name('rows.show');
 
-        Route::get('ueber-uns/{tabSlug?}', [InfoController::class, 'index'])
+        Route::get('ueber-uns/{tabSlug?}', [InfoController::class, 'about'])
             ->name('about');
+
+        Route::get('fortbildung/{tabSlug?}', [InfoController::class, 'fortbildung'])
+            ->name('fortbildung');
 
         Route::get('/image/{uuid}', [ImageController::class, '__invoke'])
             ->where('uuid', '[0-9a-f\-]+')

@@ -3,6 +3,7 @@
 return [
     'projekte' => 'Projects',
     'ueber_uns' => 'About Us',
+    'fortbildung' => 'Training',
     'kontakt' => 'Contact',
     'news' => 'News',
     'menu' => 'Menu',
