@@ -568,7 +568,7 @@ blockquote::before {
 	margin: 1.5rem;
 	max-width: calc(70% - 5rem);
 	height: auto;
-	width:100%;
+	width: 100%;
 }
 
 .align-center {
@@ -1591,6 +1591,7 @@ strong {
 	color: var(--color-primary);
 	margin: 0px;
 	margin-bottom: 2rem;
+	word-wrap: break-word;
 }
 
 .vorangestellt {
@@ -1890,7 +1891,7 @@ strong {
 	margin-top: 3rem;
 	padding-top: 20px;
 	text-align: center;
-		background-image: var(--nav-pageend-image, url('/img/nav/pageend.svg'));
+	background-image: var(--nav-pageend-image, url('/img/nav/pageend.svg'));
 	display: flex;
 	flex-direction: column;
 	background-size: cover;
@@ -2043,16 +2044,23 @@ div.keeptogether {
 }
 
 .close_img_mobile {
-	width: 60px !important;
+	width: 45px !important;
 	height: auto;
 	right: 10px !important;
 	top: 10px !important;
 	position: absolute !important;
 }
 
+#close_img {
+	width: 15px !important;
+	height: auto;
+	right: 0px !important;
+	top: 0px !important;
+	position: absolute !important;
+}
+
 @media screen and (max-width: 500px) {
 
-	.close_img img,
 	.close_img video,
 	#menu-interaction {
 		display: none;
@@ -2144,14 +2152,14 @@ div#load_screen>div#loading {
 #menuitem1 {
 	position: absolute;
 	left: 160px;
-	top: 200px;
+	top: 150px;
 	cursor: pointer;
 }
 
 #menuitem1-5 {
 	position: absolute;
 	left: 160px;
-	top: 250px;
+	top: 200px;
 	cursor: pointer;
 }
 
@@ -2162,11 +2170,18 @@ div#load_screen>div#loading {
 #menuitem2 {
 	position: absolute;
 	left: 160px;
-	top: 300px;
+	top: 250px;
 	cursor: pointer;
 }
 
 #menuitem3 {
+	position: absolute;
+	left: 160px;
+	top: 300px;
+	cursor: pointer;
+}
+
+#menuitem3-1 {
 	position: absolute;
 	left: 160px;
 	top: 350px;
@@ -2553,16 +2568,17 @@ div#load_screen>div#loading {
 	max-height: 205px;
 	cursor: pointer;
 	z-index: 5;
+	display: flex;
+	flex-direction: column;
 }
 
 .archive_link {
-	position: fixed;
-	left: calc(50% - 240px);
-	bottom: 2rem;
+	position: relative;
 	font-family: 'davidlight';
 	font-size: var(--font-size-6);
 	font-weight: bold;
 	padding-left: 7px;
+	padding-top: 7px;
 	text-decoration: underline;
 }
 
@@ -2763,10 +2779,6 @@ header {
 		bottom: 4rem;
 	}
 
-	.archive_link {
-		left: calc(50% - 60px);
-	}
-
 	#news::before {
 		left: calc(50% - 60px);
 	}
@@ -2896,13 +2908,6 @@ header {
 		margin: 1rem;
 	}
 
-	.archive_link {
-		left: 0px;
-		bottom: 1rem;
-		margin: 1rem;
-		display: none
-	}
-
 	#ThreeJS {
 		right: 0px;
 		width: 350px;
@@ -2948,6 +2953,7 @@ header {
 	#menuitem1-5,
 	#menuitem2,
 	#menuitem3,
+	#menuitem3-1,
 	#menuitemclose {
 		right: 1.5rem;
 		left: unset !important;
@@ -2967,6 +2973,10 @@ header {
 
 	#menuitem3 {
 		top: 250px;
+	}
+
+	#menuitem3-1 {
+		top: 300px;
 	}
 
 	#menuitem4 {
@@ -3003,12 +3013,6 @@ header {
 		width: unset;
 		max-height: 500px;
 		bottom: 90px;
-		margin: 1rem;
-	}
-
-	.archive_link {
-		bottom: 60px;
-		left: 0px;
 		margin: 1rem;
 	}
 

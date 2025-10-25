@@ -83,6 +83,16 @@
 
     <div id="menuitem3" class="menuitem">
         <x-a-link
+            href="{{ route('news.archive', ['locale' => $locale]) }}"
+            :active="$currentRoute === 'news.archive'"
+            label="{{ __('navigation.news') }}"
+        >
+            {{ __('navigation.news') }}
+        </x-a-link>
+    </div>
+
+    <div id="menuitem3-1" class="menuitem">
+        <x-a-link
             href="{{ route('about', array_merge($currentParams, ['locale' => $locale, 'tabSlug' => 'kontakt'])) }}"
             :active="$currentRoute === 'about' && request('tabSlug') === 'kontakt'"
             label="{{ __('navigation.kontakt') }}"
@@ -114,6 +124,7 @@
     <div id="menuitemclose" class="menuitem">
         <button
             id="close_img"
+            class="close_img_mobile"
             aria-label="{{ __('navigation.menu_schliessen') }}"
         >
             <img src="{{ asset('img/nav/close.svg') }}" alt="">

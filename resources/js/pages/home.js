@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.querySelector('.emailregister');
         const newslink = document.getElementById('newslink');
 
-        [news, logo, email, newsArchiveLink].forEach(el => {
+        [news, logo, email].forEach(el => {
             if (el) {
                 el.style.display = (el.style.display === 'none' || getComputedStyle(el).display === 'none') ? 'block' : 'none';
             }

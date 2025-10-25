@@ -1,58 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="schrift" class="bg">
-        <div class="flex-container">
-            <div id="logo-container" class="logocontainer">
-                <img src="{{ asset('img/peira.svg') }}" alt="logo" id="logo" class="logo">
-                <h1>Peira</h1>
-                <hr>
-                <div id="slogan">
-                    <h2 class="h3-text white-text">
-                        {{ __('content.collaboration') }}
-                    </h2>
+<div id="schrift" class="bg">
+    <div class="flex-container">
+        <div id="logo-container" class="logocontainer">
+            <img src="{{ asset('img/peira.svg') }}" alt="logo" id="logo" class="logo">
+            <h1>Peira</h1>
+            <hr>
+            <div id="slogan">
+                <h2 class="h3-text white-text">
+                    {{ __('content.collaboration') }}
+                </h2>
+            </div>
+        </div>
+
+        <div id="newslink">News</div>
+
+        <div id="news" class="scrollbarstyle">
+            @foreach ($newsItems as $index => $item)
+            <hr>
+            <div id="news-{{ $index + 1 }}" class="newsitem body-text">
+                <div class="h3-news-container">
+                    <div class="headline">
+                        <h3 class="h3-text">{{ $item->localizedTitle($locale) }}</h3>
+                    </div>
+                    <img id="news-button-{{ $index + 1 }}" alt="Toggle News"
+                        src="{{ asset('img/nav/Arrow_open_red.png') }}">
+                </div>
+
+                <div id="news-detail-{{ $index + 1 }}" class="newsdetail out">
+                    @if ($item->showDate && $item->date)
+                    <div class="date">
+                        {{ \Carbon\Carbon::parse($item->date)->format($item->showTime ? 'd.m. H:i' : 'd.m.') }}
+                    </div>
+                    @endif
+                    <div>@replaceVideo($item->localizedBody($locale))</div>
                 </div>
             </div>
-
-            <div id="newslink">News</div>
-
-            <div id="news" class="scrollbarstyle">
-                @foreach ($newsItems as $index => $item)
-                    <hr>
-                    <div id="news-{{ $index + 1 }}" class="newsitem body-text">
-                        <div class="h3-news-container">
-                            <div class="headline">
-                                <h3 class="h3-text">{{ $item->localizedTitle($locale) }}</h3>
-                            </div>
-                            <img id="news-button-{{ $index + 1 }}" alt="Toggle News"
-                                src="{{ asset('img/nav/Arrow_open_red.png') }}">
-                        </div>
-
-                        <div id="news-detail-{{ $index + 1 }}" class="newsdetail out">
-                            @if ($item->showDate && $item->date)
-                                <div class="date">
-                                    {{ \Carbon\Carbon::parse($item->date)->format($item->showTime ? 'd.m. H:i' : 'd.m.') }}
-                                </div>
-                            @endif
-                            <div>@replaceVideo($item->localizedBody($locale))</div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+            @endforeach
             <x-a-link href="/{{ $locale }}/news-archiv" class="archive_link" label="{{ __('content.archiv_link') }}">{{ __('content.archiv_link') }}</x-a-link>
         </div>
     </div>
+</div>
 
-    @include('partials.social-icons')
+@include('partials.social-icons')
 
-    <div id="overlay" class="bg">
-    </div>
-    <div class="bg">
-        <img id="webpPlayer" src="{{ asset('img/seq/000.webp') }}" alt="Peira Video" style="display: none;">
-        <img src="{{ asset('img/bg.jpg') }}" alt="background" id="bgimg" class="bgimg">
-    </div>
+<div id="overlay" class="bg">
+</div>
+<div class="bg">
+    <img id="webpPlayer" src="{{ asset('img/seq/000.webp') }}" alt="Peira Video" style="display: none;">
+    <img src="{{ asset('img/bg.jpg') }}" alt="background" id="bgimg" class="bgimg">
+</div>
 @endsection
 
 @push('scripts')
-    @vite('resources/js/pages/home.js')
+@vite('resources/js/pages/home.js')
 @endpush
