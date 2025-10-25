@@ -4,7 +4,7 @@
     "name": "env"
   },
   "resources/css/app.css": {
-    "file": "assets/app-C0OCovbH.css",
+    "file": "assets/app-DFqYnJVC.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -23,11 +23,6 @@
   "resources/css/fonts/David-04-Medium.woff2": {
     "file": "assets/David-04-Medium-ChCF2FH4.woff2",
     "src": "resources/css/fonts/David-04-Medium.woff2"
-  },
-  "resources/css/index.css": {
-    "file": "assets/index-BpNg9Qg3.css",
-    "src": "resources/css/index.css",
-    "isEntry": true
   },
   "resources/js/app.js": {
     "file": "assets/app-FfWB6Yyd.js",
@@ -114,7 +109,7 @@
     "isEntry": true
   },
   "resources/js/pages/home.js": {
-    "file": "assets/home-QAFJPPzV.js",
+    "file": "assets/home-UW_5UK82.js",
     "name": "home",
     "src": "resources/js/pages/home.js",
     "isEntry": true,
@@ -155,5 +150,10 @@
     "imports": [
       "resources/js/components/subinfo-simple.js"
     ]
+  },
+  "resources/scss/app.scss": {
+    "file": "assets/app-5CgJy4Cz.css",
+    "src": "resources/scss/app.scss",
+    "isEntry": true
   }
 }
