@@ -25,7 +25,7 @@
     "src": "resources/css/fonts/David-04-Medium.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-FfWB6Yyd.js",
+    "file": "assets/app-CsypTr9B.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -61,13 +61,13 @@
     ]
   },
   "resources/js/components/row-gallery.js": {
-    "file": "assets/row-gallery-HJqaE7MD.js",
+    "file": "assets/row-gallery-CuLo0j-L.js",
     "name": "row-gallery",
     "src": "resources/js/components/row-gallery.js",
     "isEntry": true
   },
   "resources/js/components/similar-projects.js": {
-    "file": "assets/similar-projects-D_D3mSkl.js",
+    "file": "assets/similar-projects-BQUzJIkw.js",
     "name": "similar-projects",
     "src": "resources/js/components/similar-projects.js",
     "isEntry": true,
@@ -94,7 +94,7 @@
     "isEntry": true
   },
   "resources/js/helpers/filterProjects.js": {
-    "file": "assets/filterProjects-BBV2bxju.js",
+    "file": "assets/filterProjects-B6gppZ1L.js",
     "name": "filterProjects",
     "src": "resources/js/helpers/filterProjects.js",
     "isEntry": true,
@@ -120,7 +120,7 @@
     ]
   },
   "resources/js/pages/project.js": {
-    "file": "assets/project-IjrJO8R1.js",
+    "file": "assets/project-DHeLjTeP.js",
     "name": "project",
     "src": "resources/js/pages/project.js",
     "isEntry": true,
@@ -133,7 +133,7 @@
     ]
   },
   "resources/js/pages/rows.js": {
-    "file": "assets/rows-BwHqHg4i.js",
+    "file": "assets/rows-BjAffW4y.js",
     "name": "rows",
     "src": "resources/js/pages/rows.js",
     "isEntry": true,
@@ -152,7 +152,7 @@
     ]
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-5CgJy4Cz.css",
+    "file": "assets/app-S33OOpH1.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
   }

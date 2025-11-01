@@ -7,6 +7,7 @@ use App\Http\Controllers\RowController;
 use App\Http\Controllers\NewsArchiveController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\CookiePreferencesController;
 
 Route::get('/{locale?}', [HomeController::class, 'index'])
     ->where('locale', 'de|en')
@@ -36,5 +37,11 @@ Route::prefix('{locale}')
         Route::get('/image/{uuid}', [ImageController::class, '__invoke'])
             ->where('uuid', '[0-9a-f\-]+')
             ->name('image.show');
+
+        Route::get('/cookie-einstellungen', [CookiePreferencesController::class, 'show'])
+            ->name('cookie.preferences');
+
+        Route::post('/cookie-einstellungen', [CookiePreferencesController::class, 'update'])
+            ->name('cookie.update');
 
     });
