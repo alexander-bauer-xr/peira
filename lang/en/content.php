@@ -33,4 +33,13 @@ return [
     'wird_gefoerdert_von' => 'is funded by',
     'ist_eine_produktion_von' => 'is a production by',
     'alle_inhalte_eigentum' => 'All content is, unless otherwise noted, the property of Peira GbR.',
+    
+    // Cookie Preferences
+    'cookie_settings' => 'Cookie Settings',
+    'cookie_intro' => 'Here you can adjust your cookie settings. Changes take effect immediately after saving, and external content such as YouTube videos will be loaded automatically.',
+    'cookie_save' => 'Save Settings',
+    'cookie_settings_saved' => 'Cookie settings have been saved.',
+    'cookie_necessary_desc' => 'These cookies are necessary for the basic functions of the website and cannot be disabled.',
+    'cookie_external_desc' => 'These cookies enable the embedding of external media such as YouTube videos, Vimeo videos and other embedded content from third parties.',
+    'cookie_statistics_desc' => 'These cookies help us understand how visitors interact with the website by collecting and reporting information anonymously.',
 ];

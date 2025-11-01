@@ -48,19 +48,21 @@ class CookiePreferencesController extends Controller
             }
         }
         
-        $cookie = Cookie::make(
+        // Use queue instead of make to ensure proper cookie settings
+        Cookie::queue(
             $cookieName,
             json_encode($consent),
             $cookieLifetime,
             '/',
-            null,
-            false,
-            false
+            null,  // domain (null = current domain)
+            $request->secure(),  // secure (true for HTTPS)
+            false,  // httpOnly (false so JavaScript can read it)
+            false,  // raw
+            'lax'   // sameSite
         );
         
         return redirect()
             ->back()
-            ->withCookie($cookie)
-            ->with('success', 'Cookie-Einstellungen wurden gespeichert.');
+            ->with('success', __('content.cookie_settings_saved'));
     }
 }

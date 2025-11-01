@@ -660,8 +660,11 @@ blockquote {
 .copyrighttext { width: 100%; height: fr(20); text-align: center; margin-bottom:0.5rem; }
 .impressum { 
   width: 100%; 
-  height: calc(100% - #{fr(140)}); 
-  //padding-top: fr(165); 
+  height: calc(100% - #{fr(140)});
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  //padding-top: fr(165);
 
   .cookie-settings-link {
     color: $color-white;
@@ -1036,7 +1039,7 @@ div.keeptogether { display: inline-block; width: 100%; }
   border: 2px dashed rgba($color-white, 0.3);
   border-radius: fr(8);
   text-align: center;
-  color: $color-white;
+  //color: $color-white;
 
   p {
     font-size: fp(fr(18), fr(24));

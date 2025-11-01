@@ -7,18 +7,18 @@
 
         <div class="inner_container_vor">
             <div class="before-margin">
-                <h1 class="ueberschrift h1-text">Cookie-Einstellungen</h1>
+                <h1 class="ueberschrift h1-text">{{ __('content.cookie_settings') }}</h1>
             </div>
 
             @if(session('success'))
                 <div class="alert alert-success cookie-success-message">
-                    {{ session('success') }}
+                    {{ __('content.cookie_settings_saved') }}
                 </div>
             @endif
 
             <div class="wrapper-vor">
                 <div class="vorangestellt vor-text">
-                    <p>Hier können Sie Ihre Cookie-Einstellungen anpassen. Änderungen werden sofort nach dem Speichern wirksam, und externe Inhalte wie YouTube-Videos werden automatisch geladen.</p>
+                    <p>{{ __('content.cookie_intro') }}</p>
                 </div>
             </div>
 
@@ -47,11 +47,11 @@
                                     
                                     <div class="cookie-category-description">
                                         @if($key === 'necessary')
-                                            <p>Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.</p>
+                                            <p>{{ __('content.cookie_necessary_desc') }}</p>
                                         @elseif($key === 'external')
-                                            <p>Diese Cookies ermöglichen die Einbettung von externen Medien wie YouTube-Videos, Vimeo-Videos und anderen eingebetteten Inhalten von Drittanbietern.</p>
+                                            <p>{{ __('content.cookie_external_desc') }}</p>
                                         @elseif($key === 'statistics')
-                                            <p>Diese Cookies helfen uns zu verstehen, wie Besucher mit der Website interagieren, indem Informationen anonym gesammelt und gemeldet werden.</p>
+                                            <p>{{ __('content.cookie_statistics_desc') }}</p>
                                         @endif
                                     </div>
                                 </div>
@@ -59,8 +59,8 @@
                         </div>
 
                         <div class="cookie-actions">
-                            <button type="submit" class="cookie-consent-button accept-all">
-                                Einstellungen speichern
+                            <button type="submit" class="cookie-consent-button ok_cookie_box_style accept-all">
+                                {{ __('content.cookie_save') }}
                             </button>
                         </div>
                     </form>
@@ -73,11 +73,18 @@
 
 @push('scripts')
 <script>
-    // Auto-reload page after successful save to apply changes
+    // Handle successful save
     @if(session('success'))
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
+        // Check if we came from a page with content that needs reloading
+        const referrer = document.referrer;
+        const shouldReload = referrer && !referrer.includes('cookie-einstellungen');
+        
+        if (shouldReload) {
+            // Redirect back to the previous page to show new content
+            setTimeout(() => {
+                window.location.href = referrer;
+            }, 1500);
+        }
     @endif
 </script>
 @endpush

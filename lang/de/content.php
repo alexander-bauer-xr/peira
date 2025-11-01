@@ -26,10 +26,19 @@ return [
     'collaboration_with' => 'Eine Kooperation mit',
     'projects_in_series' => 'Projekte in dieser Reihe:',
     'contributors' => 'Mitwirkende',
-    'more' => 'mehr',
+        'more' => 'mehr',
     'archiv_link' => 'hier geht\'s zum Archiv',
     'ist_eine_kooperation_zwischen' => 'ist eine Kooperation zwischen',
     'und_wird_gefoerdert_von' => 'und wird gefördert von',
     'ist_eine_produktion_von' => 'ist eine Produktion von',
     'alle_inhalte_eigentum' => 'Alle Inhalte sind, soweit nicht anders angegeben, Eigentum der Peira GbR.',
+    
+    // Cookie Preferences
+    'cookie_settings' => 'Cookie-Einstellungen',
+    'cookie_intro' => 'Hier können Sie Ihre Cookie-Einstellungen anpassen. Änderungen werden sofort nach dem Speichern wirksam, und externe Inhalte wie YouTube-Videos werden automatisch geladen.',
+    'cookie_save' => 'Einstellungen speichern',
+    'cookie_settings_saved' => 'Cookie-Einstellungen wurden gespeichert.',
+    'cookie_necessary_desc' => 'Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.',
+    'cookie_external_desc' => 'Diese Cookies ermöglichen die Einbettung von externen Medien wie YouTube-Videos, Vimeo-Videos und anderen eingebetteten Inhalten von Drittanbietern.',
+    'cookie_statistics_desc' => 'Diese Cookies helfen uns zu verstehen, wie Besucher mit der Website interagieren, indem Informationen anonym gesammelt und gemeldet werden.',
 ];
