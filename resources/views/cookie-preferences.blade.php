@@ -71,22 +71,22 @@
         @include('partials.footer')
     </div>
 
+@endsection
+
 @push('scripts')
+@if(session('success'))
 <script>
     // Handle successful save
-    @if(session('success'))
-        // Check if we came from a page with content that needs reloading
-        const referrer = document.referrer;
-        const shouldReload = referrer && !referrer.includes('cookie-einstellungen');
-        
-        if (shouldReload) {
-            // Redirect back to the previous page to show new content
-            setTimeout(() => {
-                window.location.href = referrer;
-            }, 1500);
-        }
-    @endif
+    // Check if we came from a page with content that needs reloading
+    const referrer = document.referrer;
+    const shouldReload = referrer && !referrer.includes('cookie-einstellungen');
+    
+    if (shouldReload) {
+        // Redirect back to the previous page to show new content
+        setTimeout(() => {
+            window.location.href = referrer;
+        }, 1500);
+    }
 </script>
+@endif
 @endpush
-
-@endsection
