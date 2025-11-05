@@ -48,17 +48,20 @@ class CookiePreferencesController extends Controller
             }
         }
         
-        // Use queue instead of make to ensure proper cookie settings
+        $secureFlag = config('session.secure') ?? $request->secure();
+        $cookieDomain = config('session.domain');
+        $sameSite = config('session.same_site', 'lax');
+
         Cookie::queue(
             $cookieName,
             json_encode($consent),
             $cookieLifetime,
             '/',
-            null,  // domain (null = current domain)
-            $request->secure(),  // secure (true for HTTPS)
+            $cookieDomain,  // domain (null = current domain)
+            (bool) $secureFlag,  // secure (true for HTTPS)
             false,  // httpOnly (false so JavaScript can read it)
             false,  // raw
-            'lax'   // sameSite
+            $sameSite   // sameSite
         );
         
         return redirect()
