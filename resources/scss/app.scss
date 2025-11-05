@@ -1090,11 +1090,15 @@ blockquote {
 .sub_page {
   z-index: 100;
   background-image: var(--bg-sub-image-lowres, url("/img/bg_sub.jpg")), var(--bg-sub-image, url("/img/bg_sub.png"));
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
 }
 
 .sub_page_proj {
   z-index: -1;
   background-image: var(--bg-proj-image-lowres, url("/img/bgproj.jpg")), var(--bg-proj-image, url("/img/bgproj.png"));
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
 }
 
 .bg {
