@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const news = document.getElementById('news');
         const email = document.querySelector('.emailregister')
       
-        if (width < 670 && height < 700) {
+        if (width < 670 && height < 500) {
           if (logo) logo.style.display = 'none';
           if (news) news.style.display = 'none';
         } else {
