@@ -52,6 +52,10 @@ class CookiePreferencesController extends Controller
         $cookieDomain = config('session.domain');
         $sameSite = config('session.same_site', 'lax');
 
+        // First, queue cookie deletion to clear any duplicates
+        Cookie::queue(Cookie::forget($cookieName, '/', $cookieDomain));
+        
+        // Then queue the new cookie with updated consent
         Cookie::queue(
             $cookieName,
             json_encode($consent),

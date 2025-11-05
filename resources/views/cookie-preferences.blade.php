@@ -74,6 +74,18 @@
 @endsection
 
 @push('scripts')
+<script>
+    // Clear any duplicate cookies before form submission
+    document.getElementById('cookie-preferences-form').addEventListener('submit', function(e) {
+        const cookieName = 'laravel_cookie_consent';
+        
+        // Delete all possible cookie variations
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain={{ request()->getHost() }}`;
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.{{ request()->getHost() }}`;
+    });
+</script>
+
 @if(session('success'))
 <script>
     // Handle successful save
