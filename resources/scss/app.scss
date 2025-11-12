@@ -575,6 +575,16 @@ a {
 .contentwrapper {
   width: 100%;
   float: left;
+  display: flex;
+  gap: 1rem;
+
+
+}
+
+@media screen and (max-width:768px) {
+  .contentwrapper {
+    flex-direction: column;
+  }
 }
 
 .contentwrapper img {
@@ -1311,6 +1321,9 @@ blockquote {
   position: absolute;
   width: calc(100% - #{fr(75)});
   left: fr(70);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .projectcontents .item {
@@ -1990,7 +2003,7 @@ blockquote {
   }
 }
 
-.impressum h2 {
+.projectcontents h2 {
   font-family: 'davidmedium';
   color: $color-primary;
   z-index: 50;
@@ -1999,7 +2012,7 @@ blockquote {
   letter-spacing: fp(fr(2), fr(5));
   text-transform: uppercase;
   text-align: left;
-  margin-left: fr(80);
+  //margin-left: fr(80);
 }
 
 .impressum .h3-text {
@@ -2578,11 +2591,18 @@ div.keeptogether {
   }
 
   .infosprojects {
-    width: 100%;
+    width: 350px;
     margin: 0;
     margin-top: fr(20);
   }
 
+  @media screen and (max-width:768px) {
+    .infosprojects {
+      width: 100%;
+    }
+
+  }
+  
   .buttonsinfo {
     float: left;
     clear: unset;

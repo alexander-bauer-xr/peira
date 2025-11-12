@@ -1,24 +1,24 @@
 @php
-    $currentId = $item->id;
-    $tagIds    = $item->tags;
+$currentId = $item->id;
+$tagIds = $item->tags;
 @endphp
 
 <div class="copyright">
-  <div class="impressum">
+  <div id="similar-wrapper"
+    class="projectcontents"
+    data-current-id="{{ $currentId }}"
+    data-locale="{{ $locale }}"
+    data-tags='@json($tagIds)'>
     <h2>{{ __('content.similar_projects') }}</h2>
+    <div class="impressum">
+      
 
-    <div id="similar-wrapper"
-         class="projectcontents"
-         data-current-id="{{ $currentId }}"
-         data-locale="{{ $locale }}"
-         data-tags='@json($tagIds)'>
       <div id="arrowforw">
         <img
           src="{{ asset('img/nav/garrow.svg') }}"
           alt="›"
           id="imgarrowforw"
-          class="arrowforwrow"
-        >
+          class="arrowforwrow">
       </div>
 
       <div id="arrowback">
@@ -26,8 +26,7 @@
           src="{{ asset('img/nav/garrow.svg') }}"
           alt="‹"
           id="imgarrowback"
-          class="arrowbackrow"
-        >
+          class="arrowbackrow">
       </div>
 
       <div class="list scrollbarstyletrans" id="inner-wrapper-similar">
