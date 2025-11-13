@@ -1318,7 +1318,7 @@ blockquote {
 }
 
 .projectcontents {
-  position: absolute;
+  position: relative;
   width: calc(100% - #{fr(75)});
   left: fr(70);
   display: flex;
@@ -1983,7 +1983,7 @@ blockquote {
 
 .impressum {
   width: 100%;
-  height: calc(100% - #{fr(140)});
+  //height: calc(100% - #{fr(140)});
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -2591,18 +2591,23 @@ div.keeptogether {
   }
 
   .infosprojects {
-    width: 350px;
+    width: 300px;
     margin: 0;
     margin-top: fr(20);
+  }
+
+  @media screen and (min-width:769px) {
+    .infosprojects {
+      width: 300px;
+    }
   }
 
   @media screen and (max-width:768px) {
     .infosprojects {
       width: 100%;
     }
-
   }
-  
+
   .buttonsinfo {
     float: left;
     clear: unset;
@@ -2805,6 +2810,10 @@ div.keeptogether {
     max-width: 100% !important;
     height: auto;
     margin: 0 0 fr(10) 0 !important;
+  }
+
+  .infosprojects {
+    width: calc(100% - 1rem) !important;
   }
 }
 
@@ -3135,6 +3144,7 @@ article {
 /* Project info side column (base) */
 .infosprojects {
   height: 100%;
+  width: 300px;
 }
 
 /* Filter button nudge (kept as MQ hook existed) */

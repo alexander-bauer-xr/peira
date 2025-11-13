@@ -52,7 +52,7 @@
     ]
   },
   "resources/js/components/newsletter.js": {
-    "file": "assets/newsletter-B-H2a2xc.js",
+    "file": "assets/newsletter-D-0UGamC.js",
     "name": "newsletter",
     "src": "resources/js/components/newsletter.js",
     "isEntry": true,
@@ -109,7 +109,7 @@
     "isEntry": true
   },
   "resources/js/pages/home.js": {
-    "file": "assets/home-CXyeG6zg.js",
+    "file": "assets/home-B0Qy1t4V.js",
     "name": "home",
     "src": "resources/js/pages/home.js",
     "isEntry": true,
@@ -152,7 +152,7 @@
     ]
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-yxWqBHP9.css",
+    "file": "assets/app-zNTLnLyk.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
   }

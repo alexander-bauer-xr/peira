@@ -4,24 +4,65 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class DrupalApiService
 {
     protected string $baseUrl;
+    protected string $drupalBase;
 
     public function __construct()
     {
-        $drupalBase = rtrim(config('services.drupal.base_url', config('app.url')), '/');
-        $this->baseUrl = $drupalBase ? "{$drupalBase}/api" : '/api';
+        $this->drupalBase = rtrim(config('services.drupal.base_url', config('app.url')), '/');
+        $this->baseUrl = $this->drupalBase ? "{$this->drupalBase}/api" : '/api';
     }
 
-    protected function cachedRequest(string $endpoint, ?string $key = null, int $minutes = 10): array
+    protected function getCsrfToken(): string
+    {
+        return Cache::remember('drupal.csrf.token', now()->addMinutes(30), function () {
+            $tokenUrl = "{$this->drupalBase}/session/token";
+            return Http::get($tokenUrl)->body();
+        });
+    }
+
+    protected function authenticatedRequest()
+    {
+        $username = config('services.drupal.username');
+        $password = config('services.drupal.password');
+
+        if (!$username || !$password) {
+            throw new \RuntimeException(
+                'Drupal API credentials not configured. Please set DRUPAL_API_USERNAME and DRUPAL_API_PASSWORD in your .env file.'
+            );
+        }
+
+        return Http::withHeaders([
+            'X-CSRF-Token' => $this->getCsrfToken(),
+        ])->withBasicAuth($username, $password);
+    }
+
+    protected function cachedRequest(string $endpoint, ?string $key = null, int $minutes = 10, bool $authenticated = false): array
     {
         $locale = app()->getLocale();
         $cacheKey = $key ?? "api.{$endpoint}.{$locale}";
 
-        return Cache::remember($cacheKey, now()->addMinutes($minutes), function () use ($endpoint) {
-            return Http::get("{$this->baseUrl}/{$endpoint}")->json();
+        return Cache::remember($cacheKey, now()->addMinutes($minutes), function () use ($endpoint, $authenticated) {
+            $client = $authenticated ? $this->authenticatedRequest() : Http::asJson();
+            $response = $client->get("{$this->baseUrl}/{$endpoint}");
+
+            if (!$response->successful()) {
+                \Log::error('Drupal API request failed', [
+                    'endpoint' => $endpoint,
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                throw new \RuntimeException(
+                    "Drupal API request failed for endpoint '{$endpoint}': " .
+                    $response->status() . ' - ' . substr($response->body(), 0, 200)
+                );
+            }
+
+            return $response->json() ?? [];
         });
     }
 
@@ -119,6 +160,6 @@ class DrupalApiService
 
     public function getFileByUuid(string $uuid): array
     {
-        return $this->cachedRequest("json/file/file/{$uuid}");
+        return $this->cachedRequest("json/file/file/{$uuid}", null, 10, true);
     }
 }

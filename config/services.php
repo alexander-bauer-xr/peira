@@ -37,6 +37,8 @@ return [
 
     'drupal' => [
         'base_url' => rtrim(env('DRUPAL_URL', config('app.url')), '/'),
+        'username' => env('DRUPAL_API_USERNAME', 'apiuser'),
+        'password' => env('DRUPAL_API_PASSWORD'),
     ],
 
 ];

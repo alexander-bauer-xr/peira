@@ -63,7 +63,7 @@ export default function subscribenews() {
         }
     };
 
-    fetch(`${DRUPAL_URL}/web/session/token`)
+    fetch(`${DRUPAL_URL}/session/token`)
         .then(res => res.text())
         .then(token => {
             return fetch(`${DRUPAL_URL}/api/json/node/newsletteranmeldung`, {
