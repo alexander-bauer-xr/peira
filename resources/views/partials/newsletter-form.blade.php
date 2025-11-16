@@ -1,5 +1,5 @@
 <div class="emailregister">
-    <form method="post" action="" enctype="multipart/form-data" id="catform" style="margin-right:35px;">
+    <form method="post" action="" enctype="multipart/form-data" id="catform">
         <div id="labelnews">
             <p>
                 <label for="adressfield">e-Mail</label><br>

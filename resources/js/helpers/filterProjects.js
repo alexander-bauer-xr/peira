@@ -144,18 +144,14 @@ function renderProjects(projects) {
     const classText = darkText ? "blacktextcard" : "whitetextcard";
     const classTag = darkText ? "borderblack" : "borderwhite";
 
-    // Create proper slug from title
     const slug = title
       .trim()
       .toLowerCase()
-      // Remove umlauts by replacing with base letter
       .replace(/ä/g, 'a')
       .replace(/ö/g, 'o')
       .replace(/ü/g, 'u')
       .replace(/ß/g, 'ss')
-      // Replace any other non-alphanumeric characters with hyphen
       .replace(/[^a-z0-9]+/g, '-')
-      // Remove leading/trailing hyphens
       .replace(/^-+|-+$/g, '');
 
     const tagHtml = `

@@ -591,9 +591,9 @@ a {
   vertical-align: middle;
   display: inline-block;
   margin: fp(fr(16), fr(28));
-  max-width: calc(70% - #{fp(fr(32), fr(64))});
   height: auto;
-  width: 100%;
+  max-width: 100%;
+  min-width: 25%;
 }
 
 .align-center {
@@ -945,22 +945,23 @@ a {
 /* -------------------- Quote -------------------- */
 blockquote {
   position: relative;
-  padding: 0 0 space(md) space(lg);
+  padding: 0 space(md) space(md) space(lg);
   font-family: 'davidlight';
   line-height: 1.5;
   text-indent: fr(42);
   @include fluid-space(margin-top, 16, 32);
-  @include fluid-space(margin-bottom, 16, 32);
+  margin-bottom: 0px;
+  //@include fluid-space(margin-bottom, 16, 32);
 
   p {
-    margin-bottom: fr(10) !important;
+    margin-bottom: 0 !important;
   }
 
   &::before {
     content: var(--quote-image, url(../img/quote.svg));
     position: absolute;
     top: fr(-5);
-    left: fr(-4);
+    left: fr(-20);
     width: fr(39);
     height: fr(29);
   }
@@ -1595,19 +1596,19 @@ blockquote {
 /* -------------------- Email register drawer -------------------- */
 .emailregister {
   position: fixed;
-  top: calc(100% - 145px);
+  bottom: 0;
   left: calc(0% - 285px);
-  color: white;
-  padding: fr(10) fr(30) fr(10) fr(10);
-  font-family: 'davidlight';
-  font-size: fs(12);
+  color: #fff;
+  padding: .625rem 1.875rem .625rem .625rem;
+  font-family: davidlight;
+  font-size: clamp(.6875rem, .6875rem + .0008012821 * (100vw - 36rem), .8125rem);
   text-transform: uppercase;
-  width: fr(325);
-  height: fr(145);
+  width: 20.3125rem;
+  height: fit-content;
   z-index: 100;
-  background: $color-primary;
+  background: #ff3901;
   transition: transform .6s ease;
-  border-radius: r(0) r(25) 0 0;
+  border-radius: 0 25px 0 0;
 
   &:hover,
   &:active {
@@ -3104,7 +3105,6 @@ div.keeptogether {
 
 article {
   margin-bottom: fr(96);
-  max-width: 64ch;
 }
 
 /* News bits */
@@ -3169,4 +3169,13 @@ article {
   .ohnerr {
     border-radius: r(25) fr(50) 0 0;
   }
+}
+
+#catform {
+  margin-right: 14px;
+}
+
+#catform p {
+  margin: 0;
+  margin-bottom: 0 !important;
 }
