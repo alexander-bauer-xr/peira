@@ -1,6 +1,6 @@
 {
-  "_env-WaYviwCo.js": {
-    "file": "assets/env-WaYviwCo.js",
+  "_env-uTksMTrK.js": {
+    "file": "assets/env-uTksMTrK.js",
     "name": "env"
   },
   "resources/css/app.css": {
@@ -25,14 +25,14 @@
     "src": "resources/css/fonts/David-04-Medium.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-CsypTr9B.js",
+    "file": "assets/app-CH83IpPn.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
       "resources/js/components/menu.js",
       "resources/js/helpers/insertTransparentVideo.js",
-      "_env-WaYviwCo.js"
+      "_env-uTksMTrK.js"
     ]
   },
   "resources/js/components/gallery.js": {
@@ -42,22 +42,22 @@
     "isEntry": true
   },
   "resources/js/components/menu.js": {
-    "file": "assets/menu-DAXEwNx4.js",
+    "file": "assets/menu-B29pMAaJ.js",
     "name": "menu",
     "src": "resources/js/components/menu.js",
     "isEntry": true,
     "imports": [
       "resources/js/helpers/insertTransparentVideo.js",
-      "_env-WaYviwCo.js"
+      "_env-uTksMTrK.js"
     ]
   },
   "resources/js/components/newsletter.js": {
-    "file": "assets/newsletter-D-0UGamC.js",
+    "file": "assets/newsletter-CspnQBPr.js",
     "name": "newsletter",
     "src": "resources/js/components/newsletter.js",
     "isEntry": true,
     "imports": [
-      "_env-WaYviwCo.js"
+      "_env-uTksMTrK.js"
     ]
   },
   "resources/js/components/row-gallery.js": {
@@ -67,12 +67,12 @@
     "isEntry": true
   },
   "resources/js/components/similar-projects.js": {
-    "file": "assets/similar-projects-BQUzJIkw.js",
+    "file": "assets/similar-projects-DcazWHE4.js",
     "name": "similar-projects",
     "src": "resources/js/components/similar-projects.js",
     "isEntry": true,
     "imports": [
-      "_env-WaYviwCo.js"
+      "_env-uTksMTrK.js"
     ]
   },
   "resources/js/components/subinfo-simple.js": {
@@ -94,12 +94,12 @@
     "isEntry": true
   },
   "resources/js/helpers/filterProjects.js": {
-    "file": "assets/filterProjects-B6gppZ1L.js",
+    "file": "assets/filterProjects-kNS_ZT0A.js",
     "name": "filterProjects",
     "src": "resources/js/helpers/filterProjects.js",
     "isEntry": true,
     "imports": [
-      "_env-WaYviwCo.js"
+      "_env-uTksMTrK.js"
     ]
   },
   "resources/js/helpers/insertTransparentVideo.js": {
@@ -109,18 +109,18 @@
     "isEntry": true
   },
   "resources/js/pages/home.js": {
-    "file": "assets/home-B0Qy1t4V.js",
+    "file": "assets/home-B8UU9U-G.js",
     "name": "home",
     "src": "resources/js/pages/home.js",
     "isEntry": true,
     "imports": [
       "resources/js/components/newsletter.js",
       "resources/js/helpers/insertTransparentVideo.js",
-      "_env-WaYviwCo.js"
+      "_env-uTksMTrK.js"
     ]
   },
   "resources/js/pages/project.js": {
-    "file": "assets/project-DHeLjTeP.js",
+    "file": "assets/project-DU_wSmim.js",
     "name": "project",
     "src": "resources/js/pages/project.js",
     "isEntry": true,
@@ -129,7 +129,7 @@
       "resources/js/components/gallery.js",
       "resources/js/components/subinfo.js",
       "resources/js/components/termineToggle.js",
-      "_env-WaYviwCo.js"
+      "_env-uTksMTrK.js"
     ]
   },
   "resources/js/pages/rows.js": {
