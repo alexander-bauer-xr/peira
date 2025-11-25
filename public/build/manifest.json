@@ -67,7 +67,7 @@
     "isEntry": true
   },
   "resources/js/components/similar-projects.js": {
-    "file": "assets/similar-projects-DcazWHE4.js",
+    "file": "assets/similar-projects-M1TFPIGC.js",
     "name": "similar-projects",
     "src": "resources/js/components/similar-projects.js",
     "isEntry": true,
@@ -94,7 +94,7 @@
     "isEntry": true
   },
   "resources/js/helpers/filterProjects.js": {
-    "file": "assets/filterProjects-kNS_ZT0A.js",
+    "file": "assets/filterProjects-DuIXEXrl.js",
     "name": "filterProjects",
     "src": "resources/js/helpers/filterProjects.js",
     "isEntry": true,
@@ -120,7 +120,7 @@
     ]
   },
   "resources/js/pages/project.js": {
-    "file": "assets/project-DU_wSmim.js",
+    "file": "assets/project-C-m5GPVx.js",
     "name": "project",
     "src": "resources/js/pages/project.js",
     "isEntry": true,

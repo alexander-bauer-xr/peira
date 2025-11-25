@@ -95,6 +95,8 @@ export default async function initSimilarProjects() {
                     .replace(/ö/g, 'o')
                     .replace(/ü/g, 'u')
                     .replace(/ß/g, 'ss')
+                    // Remove apostrophes
+                    .replace(/'/g, '')
                     // Replace any other non-alphanumeric characters with hyphen
                     .replace(/[^a-z0-9]+/g, '-')
                     // Remove leading/trailing hyphens
