@@ -14,7 +14,14 @@ class DrupalApiService
     public function __construct()
     {
         $this->drupalBase = rtrim(config('services.drupal.base_url', config('app.url')), '/');
-        $this->baseUrl = $this->drupalBase ? "{$this->drupalBase}/api" : '/api';
+        
+        if (empty($this->drupalBase)) {
+            throw new \RuntimeException(
+                'Drupal base URL is not configured. Please set DRUPAL_URL in your .env file.'
+            );
+        }
+        
+        $this->baseUrl = "{$this->drupalBase}/api";
     }
 
     /**
@@ -138,7 +145,20 @@ class DrupalApiService
     {
         return Cache::remember('drupal.csrf.token', now()->addMinutes(30), function () {
             $tokenUrl = "{$this->drupalBase}/session/token";
-            return Http::get($tokenUrl)->body();
+            $response = Http::timeout(10)->get($tokenUrl);
+            
+            if (!$response->successful()) {
+                Log::error('Failed to get Drupal CSRF token', [
+                    'url' => $tokenUrl,
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                throw new \RuntimeException(
+                    "Failed to get CSRF token from Drupal: {$response->status()}"
+                );
+            }
+            
+            return $response->body();
         });
     }
 
@@ -165,7 +185,7 @@ class DrupalApiService
 
         return Cache::remember($cacheKey, now()->addMinutes($minutes), function () use ($endpoint, $authenticated) {
             $client = $authenticated ? $this->authenticatedRequest() : Http::acceptJson();
-            $response = $client->get("{$this->baseUrl}/{$endpoint}");
+            $response = $client->timeout(30)->get("{$this->baseUrl}/{$endpoint}");
 
             if (!$response->successful()) {
                 \Log::error('Drupal API request failed', [
