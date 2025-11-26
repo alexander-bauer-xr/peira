@@ -6,12 +6,16 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RowController;
 use App\Http\Controllers\NewsArchiveController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ImageProxyController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\CookiePreferencesController;
 
 Route::get('/{locale?}', [HomeController::class, 'index'])
     ->where('locale', 'de|en')
     ->name('home');
+
+Route::get('/image-proxy', [ImageProxyController::class, 'show'])
+    ->name('image.proxy');
 
 Route::prefix('{locale}')
     ->where(['locale' => 'de|en'])

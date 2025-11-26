@@ -25,9 +25,9 @@ class DrupalApiService
     }
 
     /**
-     * Prefix relative image style URIs with the Drupal base URL so derivatives
-     * (including token-protected variants) are requested from Drupal instead
-     * of the Laravel host.
+     * Proxy image style URIs through Laravel's image proxy endpoint.
+     * This allows Laravel to request derivatives from Drupal's API endpoint
+     * which generates them on-demand if they don't exist.
      */
     protected function absolutizeImageStyles(array $file): array
     {
@@ -39,13 +39,17 @@ class DrupalApiService
 
         $file['data']['attributes']['image_style_uri'] = collect($styles)
             ->map(function ($url) {
-                if (!is_string($url) || str_starts_with($url, 'http')) {
+                if (!is_string($url)) {
                     return $url;
                 }
 
-                return str_starts_with($url, '/')
-                    ? "{$this->drupalBase}{$url}"
-                    : $url;
+                // Make the URL absolute if it's relative
+                $absoluteUrl = str_starts_with($url, 'http')
+                    ? $url
+                    : (str_starts_with($url, '/') ? "{$this->drupalBase}{$url}" : $url);
+
+                // Proxy through Laravel
+                return url('/image-proxy') . '?url=' . urlencode($absoluteUrl);
             })
             ->all();
 
