@@ -164,7 +164,7 @@ class DrupalApiService
         $cacheKey = $key ?? "api.{$endpoint}.{$locale}";
 
         return Cache::remember($cacheKey, now()->addMinutes($minutes), function () use ($endpoint, $authenticated) {
-            $client = $authenticated ? $this->authenticatedRequest() : Http::asJson();
+            $client = $authenticated ? $this->authenticatedRequest() : Http::acceptJson();
             $response = $client->get("{$this->baseUrl}/{$endpoint}");
 
             if (!$response->successful()) {
