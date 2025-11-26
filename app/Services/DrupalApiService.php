@@ -17,6 +17,34 @@ class DrupalApiService
         $this->baseUrl = $this->drupalBase ? "{$this->drupalBase}/api" : '/api';
     }
 
+    /**
+     * Prefix relative image style URIs with the Drupal base URL so derivatives
+     * (including token-protected variants) are requested from Drupal instead
+     * of the Laravel host.
+     */
+    protected function absolutizeImageStyles(array $file): array
+    {
+        $styles = data_get($file, 'data.attributes.image_style_uri');
+
+        if (!is_array($styles)) {
+            return $file;
+        }
+
+        $file['data']['attributes']['image_style_uri'] = collect($styles)
+            ->map(function ($url) {
+                if (!is_string($url) || str_starts_with($url, 'http')) {
+                    return $url;
+                }
+
+                return str_starts_with($url, '/')
+                    ? "{$this->drupalBase}{$url}"
+                    : $url;
+            })
+            ->all();
+
+        return $file;
+    }
+
     protected function getCsrfToken(): string
     {
         return Cache::remember('drupal.csrf.token', now()->addMinutes(30), function () {
@@ -160,6 +188,8 @@ class DrupalApiService
 
     public function getFileByUuid(string $uuid): array
     {
-        return $this->cachedRequest("json/file/file/{$uuid}", null, 10, true);
+        $file = $this->cachedRequest("json/file/file/{$uuid}", null, 10, true);
+
+        return $this->absolutizeImageStyles($file);
     }
 }
