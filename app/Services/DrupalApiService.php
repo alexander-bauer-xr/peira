@@ -321,12 +321,11 @@ class DrupalApiService
             $endpoint .= "?consumerId={$consumerId}";
         }
         
-        // Cache for 10 minutes - itok validation is disabled on Drupal side
+        // Cache for 10 minutes
         $file = $this->cachedRequest($endpoint, $cacheKey, 10, true);
         $file = $this->absolutizeImageStyles($file);
         
-        // Strip itok parameters - requires $settings['image_allow_insecure_derivatives'] = TRUE in Drupal
-        $file = $this->stripItokParams($file);
+        // Keep itok parameters - they are required for Drupal to generate derivatives on first request
         
         // Log the image style URIs for debugging
         if (config('app.debug')) {
