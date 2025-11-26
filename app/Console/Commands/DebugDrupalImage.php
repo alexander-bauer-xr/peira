@@ -23,6 +23,12 @@ class DebugDrupalImage extends Command
 
         $this->info("Fetching file data for UUID: {$uuid}");
         $this->info("Drupal URL: " . config('services.drupal.base_url'));
+        $consumerId = config('services.drupal.consumer_id');
+        if ($consumerId) {
+            $this->info("Consumer ID: {$consumerId}");
+        } else {
+            $this->warn("Consumer ID: NOT CONFIGURED - Set DRUPAL_CONSUMER_ID in .env for correct itok tokens");
+        }
         $this->newLine();
 
         try {

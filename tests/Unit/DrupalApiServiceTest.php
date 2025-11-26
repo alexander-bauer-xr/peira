@@ -22,6 +22,7 @@ class DrupalApiServiceTest extends TestCase
             'services.drupal.base_url' => 'https://drupal.example',
             'services.drupal.username' => 'apiuser',
             'services.drupal.password' => 'secret',
+            'services.drupal.consumer_id' => 'test-consumer-uuid',
         ]);
 
         Http::fake([

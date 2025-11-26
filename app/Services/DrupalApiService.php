@@ -166,6 +166,7 @@ class DrupalApiService
     {
         $username = config('services.drupal.username');
         $password = config('services.drupal.password');
+        $consumerId = config('services.drupal.consumer_id');
 
         if (!$username || !$password) {
             throw new \RuntimeException(
@@ -173,9 +174,16 @@ class DrupalApiService
             );
         }
 
-        return Http::withHeaders([
+        $headers = [
             'X-CSRF-Token' => $this->getCsrfToken(),
-        ])->withBasicAuth($username, $password);
+        ];
+        
+        // Add Consumer ID header if configured - required for correct itok tokens
+        if ($consumerId) {
+            $headers['X-Consumer-ID'] = $consumerId;
+        }
+
+        return Http::withHeaders($headers)->withBasicAuth($username, $password);
     }
 
     protected function cachedRequest(string $endpoint, ?string $key = null, int $minutes = 10, bool $authenticated = false): array
@@ -297,15 +305,24 @@ class DrupalApiService
 
     public function getFileByUuid(string $uuid, bool $refreshTokens = false): array
     {
-        $cacheKey = "api.json/file/file/{$uuid}." . app()->getLocale();
+        $consumerId = config('services.drupal.consumer_id');
+        $locale = app()->getLocale();
+        $cacheKey = "api.json/file/file/{$uuid}.{$locale}";
         
         // If refreshTokens is true, clear the cache to get fresh data
         if ($refreshTokens) {
             Cache::forget($cacheKey);
         }
         
+        // Build endpoint with consumerId query parameter for maximum compatibility
+        // Some Drupal configurations prefer query param over header
+        $endpoint = "json/file/file/{$uuid}";
+        if ($consumerId) {
+            $endpoint .= "?consumerId={$consumerId}";
+        }
+        
         // Cache for only 2 minutes since itok tokens have short expiration
-        $file = $this->cachedRequest("json/file/file/{$uuid}", $cacheKey, 2, true);
+        $file = $this->cachedRequest($endpoint, $cacheKey, 2, true);
         $file = $this->absolutizeImageStyles($file);
         
         // Optional: Strip itok parameters if Drupal is configured to allow insecure derivatives
