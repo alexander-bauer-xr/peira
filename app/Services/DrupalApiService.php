@@ -304,7 +304,8 @@ class DrupalApiService
             Cache::forget($cacheKey);
         }
         
-        $file = $this->cachedRequest("json/file/file/{$uuid}", $cacheKey, 10, true);
+        // Cache for only 2 minutes since itok tokens have short expiration
+        $file = $this->cachedRequest("json/file/file/{$uuid}", $cacheKey, 2, true);
         $file = $this->absolutizeImageStyles($file);
         
         // Optional: Strip itok parameters if Drupal is configured to allow insecure derivatives
