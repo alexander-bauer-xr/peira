@@ -45,6 +45,95 @@ class DrupalApiService
         return $file;
     }
 
+    /**
+     * Request fresh image style URLs with correct itok tokens from Drupal.
+     * This method fetches the image derivative URLs directly from Drupal's image style endpoint,
+     * ensuring each URL has the correct itok security token.
+     */
+    protected function refreshImageStyleTokens(string $uuid, array $styles): array
+    {
+        if (empty($styles)) {
+            return [];
+        }
+
+        $refreshed = [];
+        
+        foreach ($styles as $styleName => $url) {
+            try {
+                // Request the image style derivative URL from Drupal
+                // This will generate a fresh itok token
+                $response = $this->authenticatedRequest()
+                    ->get("{$this->baseUrl}/json/file/file/{$uuid}");
+                
+                if ($response->successful()) {
+                    $freshData = $response->json();
+                    $freshStyles = data_get($freshData, 'data.attributes.image_style_uri', []);
+                    
+                    if (isset($freshStyles[$styleName])) {
+                        $refreshed[$styleName] = $freshStyles[$styleName];
+                    } else {
+                        $refreshed[$styleName] = $url;
+                    }
+                } else {
+                    Log::warning('Failed to refresh itok for style', [
+                        'uuid' => $uuid,
+                        'style' => $styleName,
+                        'status' => $response->status()
+                    ]);
+                    $refreshed[$styleName] = $url;
+                }
+            } catch (\Exception $e) {
+                Log::error('Error refreshing image style token', [
+                    'uuid' => $uuid,
+                    'style' => $styleName,
+                    'error' => $e->getMessage()
+                ]);
+                $refreshed[$styleName] = $url;
+            }
+        }
+        
+        return $refreshed;
+    }
+
+    /**
+     * Strip itok parameters from image URLs.
+     * Use this ONLY if Drupal is configured with $settings['image_allow_insecure_derivatives'] = TRUE
+     * 
+     * @param array $file
+     * @return array
+     */
+    protected function stripItokParams(array $file): array
+    {
+        $styles = data_get($file, 'data.attributes.image_style_uri');
+
+        if (!is_array($styles)) {
+            return $file;
+        }
+
+        $file['data']['attributes']['image_style_uri'] = collect($styles)
+            ->map(function ($url) {
+                if (!is_string($url)) {
+                    return $url;
+                }
+                
+                // Remove itok parameter
+                $url = preg_replace('/([?&])itok=[^&]*(&?)/', '$1', $url);
+                
+                // Clean up trailing ? or &
+                $url = rtrim($url, '?&');
+                
+                // If only ? remains after cleaning, remove it
+                if (str_ends_with($url, '?')) {
+                    $url = substr($url, 0, -1);
+                }
+                
+                return $url;
+            })
+            ->all();
+
+        return $file;
+    }
+
     protected function getCsrfToken(): string
     {
         return Cache::remember('drupal.csrf.token', now()->addMinutes(30), function () {
@@ -186,10 +275,42 @@ class DrupalApiService
         return $this->cachedRequest("projekte?nid={$nid}", "api.projekte.nid.{$nid}");
     }
 
-    public function getFileByUuid(string $uuid): array
+    public function getFileByUuid(string $uuid, bool $refreshTokens = false): array
     {
-        $file = $this->cachedRequest("json/file/file/{$uuid}", null, 10, true);
-
-        return $this->absolutizeImageStyles($file);
+        $cacheKey = "api.json/file/file/{$uuid}." . app()->getLocale();
+        
+        // If refreshTokens is true, clear the cache to get fresh data
+        if ($refreshTokens) {
+            Cache::forget($cacheKey);
+        }
+        
+        $file = $this->cachedRequest("json/file/file/{$uuid}", $cacheKey, 10, true);
+        $file = $this->absolutizeImageStyles($file);
+        
+        // Optional: Strip itok parameters if Drupal is configured to allow insecure derivatives
+        // Uncomment the line below ONLY if you have set $settings['image_allow_insecure_derivatives'] = TRUE in Drupal
+        // $file = $this->stripItokParams($file);
+        
+        // Log the image style URIs for debugging
+        if (config('app.debug')) {
+            $styles = data_get($file, 'data.attributes.image_style_uri', []);
+            Log::debug('Drupal image styles fetched', [
+                'uuid' => $uuid,
+                'styles' => array_map(function($url) {
+                    if (!is_string($url)) {
+                        return ['url' => $url, 'has_itok' => false, 'itok' => null];
+                    }
+                    // Log whether itok is present
+                    $hasItok = str_contains($url, 'itok=');
+                    return [
+                        'url' => $url,
+                        'has_itok' => $hasItok,
+                        'itok' => $hasItok ? (preg_match('/[?&]itok=([^&]+)/', $url, $m) ? $m[1] : null) : null
+                    ];
+                }, $styles)
+            ]);
+        }
+        
+        return $file;
     }
 }
