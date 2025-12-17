@@ -1944,14 +1944,17 @@ blockquote {
 }
 
 .bios .round-image-container {
-  width: fr(240);
-  height: fr(240);
+  width: 100%;
+  height: auto;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: fr(10);
+  aspect-ratio: 1/1;
+  max-width: fr(240);
+  max-height: fr(240);
 }
 
 .bios .round-image-container img {
