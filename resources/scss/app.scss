@@ -1925,6 +1925,12 @@ blockquote {
   flex-direction: row;
   width: calc(100% + #{fr(300)});
   gap: space(md);
+
+  @media (max-width: 990px) {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
 }
 
 .bios .biotext {
@@ -1932,6 +1938,9 @@ blockquote {
   flex-direction: column;
   width: calc(100% - #{fr(300)});
   gap: fr(16);
+  @media (max-width: 990px) {
+    width: 100%;
+  }
 }
 
 .bios .round-image-container {

@@ -19,7 +19,6 @@ class NewsArchiveController extends Controller
             ->map(fn($n) => NewsItem::fromDrupal($n))
             ->filter(function (NewsItem $n) use ($locale) {
                 if ($locale === 'en') {
-                    // Check if English fields exist
                     return !empty($n->titleEn) && !empty($n->bodyHtmlEn);
                 }
                 return $n->lang === 'de';
